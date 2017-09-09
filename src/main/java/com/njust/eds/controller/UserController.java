@@ -35,8 +35,8 @@ import java.util.Map;
  * @author tomato
  * @create 2017-09-05 下午6:07
  */
-@RequestMapping("/user")
 @Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
