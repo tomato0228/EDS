@@ -2,6 +2,7 @@ package com.njust.eds.controller;
 
 
 import com.njust.eds.model.File;
+import com.njust.eds.model.FileBucket;
 import com.njust.eds.model.Filedata;
 import com.njust.eds.model.User;
 import com.njust.eds.service.FileService;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.njust.eds.model.FileBucket;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,13 +60,18 @@ public class UserController {
         return "user/register";
     }
 
+    @RequestMapping("/tologin")
+    public String tologin() {
+        return "user/login";
+    }
+
     @ResponseBody
     @RequestMapping("/register")
     public String register(ModelMap map, HttpServletRequest request) throws Exception {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        Date time= new java.sql.Date(new java.util.Date().getTime());
+        Date time = new java.sql.Date(new java.util.Date().getTime());
         User user = new User();
         user.setUserName(userName);
         user.setUserPassword(password);
@@ -239,7 +244,8 @@ public class UserController {
         }
         return resultMap;
     }
-    @RequestMapping(value = { "/add-document-{userId}" }, method = RequestMethod.POST)
+
+    @RequestMapping(value = {"/add-document-{userId}"}, method = RequestMethod.POST)
     public String uploadDocument(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable int userId) throws IOException {
 
         if (result.hasErrors()) {
@@ -260,14 +266,14 @@ public class UserController {
 
             saveFile(fileBucket, user);
 
-            return "redirect:/add-document-"+userId;
+            return "redirect:/add-document-" + userId;
         }
     }
 
-    private void saveFile(FileBucket fileBucket, User user) throws IOException{
+    private void saveFile(FileBucket fileBucket, User user) throws IOException {
 
         File file = new File();
-        Filedata filedata =new Filedata();
+        Filedata filedata = new Filedata();
 
         MultipartFile multipartFile = fileBucket.getFile();
 
@@ -275,7 +281,7 @@ public class UserController {
         file.setFileAbstrcat(fileBucket.getDescription());
         file.setFileType(multipartFile.getContentType());
         fileSerice.addFile(file);
-        filedata.setFileId( fileSerice.findFileByFileName(multipartFile.getOriginalFilename()).getFileId());
+        filedata.setFileId(fileSerice.findFileByFileName(multipartFile.getOriginalFilename()).getFileId());
         filedata.setFileData(multipartFile.getBytes());
         filedataService.saveFiledata(filedata);
         file.setFileUserId(user.getUserId());
