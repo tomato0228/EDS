@@ -20,6 +20,18 @@ public class File {
     private Integer fileViewtimes;
     private Integer filePrinttimes;
     private Integer fileDownloadtimes;
+    private String fileType;
+
+    private User user;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
     @Id
     @Column(name = "File_ID", nullable = false)
@@ -130,6 +142,11 @@ public class File {
     public void setFilePrinttimes(Integer filePrinttimes) {
         this.filePrinttimes = filePrinttimes;
     }
+
+    @Basic
+    @Column(name = "File_Type", nullable = true)
+    public String getFileType() { return fileType; }
+    public void setFileType(String fileType) {this.fileType = fileType; }
 
     @Basic
     @Column(name = "File_Downloadtimes", nullable = true)

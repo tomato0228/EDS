@@ -14,6 +14,8 @@ public interface FileDao {
 
     public List<File> findFile(List<Object> params, String hql);
 
+    public List<File> findFileByUserId(int userId);
+
     public void updateFile(File file);
 
     public File findFileByFileName(String fileName);
