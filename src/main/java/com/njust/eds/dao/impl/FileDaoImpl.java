@@ -2,7 +2,9 @@ package com.njust.eds.dao.impl;
 
 import com.njust.eds.dao.FileDao;
 import com.njust.eds.model.File;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,7 +23,12 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
         File file = (File) query.uniqueResult();
         return file;
     }
-
+    public List<File> findFileByUserId(int userId){
+        String hql = "from File where fileUserId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, userId);
+        return query.list();
+    }
     @SuppressWarnings("unchecked")
     public List<File> findFile(List<Object> params, String hql) {
         Query query = getSession().createQuery(hql);

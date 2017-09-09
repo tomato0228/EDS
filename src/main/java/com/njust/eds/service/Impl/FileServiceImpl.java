@@ -28,6 +28,10 @@ public class FileServiceImpl implements FileService {
         return fileDao.findFileById(id);
     }
 
+    public List<File> findFileByUserId(int userId){
+        return fileDao.findFileByUserId(userId);
+    }
+
     public List<File> findFiles(Map<String, Object> map) {
         StringBuffer hql = new StringBuffer("from Filelimit where 1=1 ");
         List<Object> params = new LinkedList<Object>();

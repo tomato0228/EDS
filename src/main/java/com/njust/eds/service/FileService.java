@@ -15,6 +15,8 @@ public interface FileService {
 
     public List<File> findFiles(Map<String, Object> map);
 
+    public List<File> findFileByUserId(int userId);
+
     public void updateFile(File file);
 
     public void saveFile(File file);
