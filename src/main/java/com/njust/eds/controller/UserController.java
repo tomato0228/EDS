@@ -120,9 +120,9 @@ public class UserController {
             validateRes = "链接无效";
         } else {
             Map<String, Object> queryMap = new HashMap<String, Object>();
-            queryMap.put("email", email);
-            queryMap.put("validateSerCode", validateSerCode);
-            queryMap.put("userNameEncodes", userNameEncodes);
+            queryMap.put("userEmail", email);
+            queryMap.put("userValidateSerCode", validateSerCode);
+            queryMap.put("userUserNameEncodes", userNameEncodes);
 
             List<User> userList = userService.findUsers(queryMap);
             if (userList != null && userList.size() > 0) {
@@ -226,6 +226,5 @@ public class UserController {
         }
         return resultMap;
     }
-
 }
 

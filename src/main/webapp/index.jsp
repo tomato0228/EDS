@@ -21,7 +21,7 @@
                     $('#errorTip').html("用户名或密码不能为空!");
                     return false;
                 }
-                $('#errorTip').html("2131");
+                $('#errorTip').html("");
 
                 $.post(serverUrl+'/user/login',{
                     userName:userName,
