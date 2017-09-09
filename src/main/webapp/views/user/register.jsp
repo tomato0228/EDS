@@ -6,81 +6,113 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
+    <link rel="stylesheet" href="${ctx}/resources/css/platform-1.css">
+    <link rel="stylesheet" href="${ctx}/resources/js/easyform/easyform.css">
+    <link rel="stylesheet" href="${ctx}/resources/css/tab.css">
     <script type="text/javascript" src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/resources/js/easyform/easyform.js"></script>
     <title>用户注册</title>
 
     <script type="text/javascript">
 
-        $(function(){
-            var serverUrl=$('#serverUrl').val();
+        $(document).ready(function () {
+            var v = $('#reg-form').easyform();
 
-            $('#regBtn').click(function(){
-                var userName = $('#userName').val();
-                var password = $('#password').val();
-                var email = $('#email').val();
-                if (userName == null || password == null || email==null || trim(userName) == "" || trim(password) == "" || trim(email) == "") {
-                    $('#errorTip').html("用户名或密码或邮箱不能为空!");
+            $('#demo-form').easyform();
+
+            v.is_submit = false;
+
+            v.error = function (ef, i, r) {
+                //console.log("Error事件：" + i.id + "对象的值不符合" + r + "规则");
+            };
+
+            v.success = function (ef) {
+                //console.log("成功");
+            };
+
+            v.complete = function (ef) {
+                console.log("完成");
+            };
+
+            $('#tip-test1').easytip();
+            $('#tip-test2').easytip();
+            $('#tip-test3').easytip();
+            $('#tip-test4').easytip();
+        });
+
+        function ajax_demo(p) {
+            var serverUrl = $('#serverUrl').val();
+            var userName = $('#userName').val();
+            var password = $('#password').val();
+            var email = $('#email').val();
+            if (userName == null || password == null || email == null || trim(userName) == "" || trim(password) == "" || trim(email) == "") {
+                return false;
+            }
+            $.post(serverUrl + '/user/checkUserName', {userName: userName}, function (requestData) {
+                if (requestData == 'isExist') {
+                    $("#userName").trigger("easyform-ajax", false);
                     return false;
                 }
-                $('#errorTip').html("");
-
-                $.post(serverUrl+'/user/checkUserName',{userName:userName},function(requestData){
-                    if(requestData=='isExist'){
-                        $('#errorTip').html("该用户名已经被占用!");
-                        return false;
-                    }
-
-                    $('#errorTip').html("");
-                    $.post(serverUrl+'/user/register',{
-                        userName:userName,
-                        password:password,
-                        email:email
-
-                    },function(requestData){
-                        alert('注册成功!请登录您的邮箱进行验证');
-
-                    });
+                $.post(serverUrl + '/user/register', {
+                    userName: userName,
+                    password: password,
+                    email: email
+                }, function (requestData) {
+                    alert('注册成功!请登录您的邮箱进行验证');
                 });
-
             });
-        });
+        }
 
         //去掉最后的空格
         function trim(str) {
             return str.replace(/(^\s+)|(\s+$)/g, "");
         }
-
     </script>
-
 </head>
 <body>
-<input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}" />
+<input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
 <div align="center" style="padding-top: 50px;">
-    <form>
-        <table>
-            <tr>
-                <td>用户名：</td>
-                <td><input type="text" id="userName" name="userName" /></td>
-            </tr>
-            <tr>
-                <td>密码：</td>
-                <td><input type="password" id="password" name="password" /></td>
-            </tr>
-            <tr>
-                <td>邮箱：</td>
-                <td><input type="text" id="email" name="email" /></td>
-            </tr>
-            <tr>
-                <td><input type="button" value="注册" id="regBtn"/></td>
-                <td><input type="reset" value="重置" /></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td id="errorInfo" style="color: #5fff58;"></td>
-            </tr>
-        </table>
-        <div id="errorTip"></div>
-    </form>
+    <div class="header">
+        <a class="link title-ani" data-letters="用户注册">用户注册</a>
+        <br>
+    </div>
+    <div class="form-div">
+        <form id="reg-form">
+            <table>
+                <tr>
+                    <td>用户名</td>
+                    <td><input name="userName" type="text" id="userName"
+                               data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
+                               data-message="用户名必须为4—16位的英文字母或数字"
+                               data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名已存在!">
+                    </td>
+                </tr>
+                <tr>
+                    <td>密码</td>
+                    <td><input name="password" type="password" id="password" data-easyform="length:6 16;"
+                               data-message="密码必须为6—16位"
+                               data-easytip="class:easy-blue;"></td>
+                </tr>
+                <tr>
+                    <td>确认密码</td>
+                    <td><input name="password2" type="password" id="password2"
+                               data-easyform="length:6 16;equal:#password;"
+                               data-message="两次密码输入要一致" data-easytip="class:easy-blue;"></td>
+                </tr>
+                <tr>
+                    <td>email</td>
+                    <td><input name="email" type="text" id="email" data-easyform="email;real-time;"
+                               data-message="Email格式要正确"
+                               data-easytip="class:easy-blue;"></td>
+                </tr>
+            </table>
+            <div class="buttons" style="margin-top: 50px;">
+                <input value="注 册" type="submit" style="margin-right:20px; margin-top:20px;">
+                <input value="我有账号，我要登录" type="button" style="margin-right:45px; margin-top:20px;">
+            </div>
+            <br class="clear">
+        </form>
+    </div>
 </div>
 </body>
 </html>
