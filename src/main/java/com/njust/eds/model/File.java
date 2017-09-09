@@ -22,17 +22,6 @@ public class File {
     private Integer fileDownloadtimes;
     private String fileType;
 
-    private User user;
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-
     @Id
     @Column(name = "File_ID", nullable = false)
     public int getFileId() {
@@ -144,7 +133,7 @@ public class File {
     }
 
     @Basic
-    @Column(name = "File_Type", nullable = true)
+    @Column(name = "File_Type", nullable = true, length = 20)
     public String getFileType() { return fileType; }
     public void setFileType(String fileType) {this.fileType = fileType; }
 

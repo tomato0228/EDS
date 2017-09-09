@@ -278,7 +278,7 @@ public class UserController {
         filedata.setFileId( fileSerice.findFileByFileName(multipartFile.getOriginalFilename()).getFileId());
         filedata.setFileData(multipartFile.getBytes());
         filedataService.saveFiledata(filedata);
-        file.setUser(user);
+        file.setFileUserId(user.getUserId());
 
     }
 }
