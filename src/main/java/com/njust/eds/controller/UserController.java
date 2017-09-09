@@ -1,13 +1,12 @@
 package com.njust.eds.controller;
 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.njust.eds.model.User;
+import com.njust.eds.service.UserService;
+import com.njust.eds.utils.DateUtils;
+import com.njust.eds.utils.JavaMailUtils;
+import com.njust.eds.utils.SystemUtils;
+import com.njust.eds.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,12 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.njust.eds.model.User;
-import com.njust.eds.service.UserService;
-import com.njust.eds.utils.DateUtils;
-import com.njust.eds.utils.JavaMailUtils;
-import com.njust.eds.utils.SystemUtils;
-import com.njust.eds.utils.UUIDUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -188,7 +186,7 @@ public class UserController {
                     SystemUtils.getProjectURLPath(request) + "/user/validateInfo?email=" + currUser.getUserEmail() + "&validateSerCode=" + serialCode + "&userNameEncodes=" + String.valueOf(userNameEncodes) + "";
 
             //发送邮件
-            JavaMailUtils.sendEmail("smtp.qq.com", "发件人qq邮箱", "授权码", "发件人qq邮箱",
+            JavaMailUtils.sendEmail("smtp.qq.com", "1036758468@qq.com", "qxukduhrlyxfbbbi", "1036758468@qq.com",
                     new String[]{
                             currUser.getUserEmail()
                     }, "验证信息-用于找回密码", "请点击下面的安全链接,用于找回密码<br><a href='" + validateStr + "'>找回密码</a>", "text/html;charset=utf-8");
