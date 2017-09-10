@@ -1,7 +1,5 @@
 package com.njust.eds.model;
 
-import com.njust.eds.utils.MD5Util;
-
 import javax.persistence.*;
 
 @Entity
@@ -42,7 +40,7 @@ public class Admin {
     }
 
     public void setAdminPassword(String adminPassword) {
-        this.adminPassword = MD5Util.getMD5(adminPassword);
+        this.adminPassword = adminPassword;
     }
 
     @Basic

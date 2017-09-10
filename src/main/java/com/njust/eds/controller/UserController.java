@@ -8,10 +8,7 @@ import com.njust.eds.model.User;
 import com.njust.eds.service.FileService;
 import com.njust.eds.service.FiledataService;
 import com.njust.eds.service.UserService;
-import com.njust.eds.utils.DateUtils;
-import com.njust.eds.utils.JavaMailUtils;
-import com.njust.eds.utils.SystemUtils;
-import com.njust.eds.utils.UUIDUtils;
+import com.njust.eds.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -69,7 +66,7 @@ public class UserController {
     @RequestMapping("/register")
     public String register(ModelMap map, HttpServletRequest request) throws Exception {
         String userName = request.getParameter("userName");
-        String password = request.getParameter("password");
+        String password = MD5Util.getMD5(request.getParameter("password"));
         String email = request.getParameter("email");
         Date time = new java.sql.Date(new java.util.Date().getTime());
         User user = new User();
@@ -111,7 +108,7 @@ public class UserController {
         if (user == null) {
             resultMap.put("updateRes", "no");
         } else {
-            String password = request.getParameter("password");
+            String password = MD5Util.getMD5(request.getParameter("password"));
             user.setUserPassword(password);
             userService.updateUser(user);
 
@@ -184,7 +181,6 @@ public class UserController {
     @RequestMapping("/findPassword")
     public Map<String, Object> findPassword(ModelMap map, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-
         User currUser = userService.findUserPassword(request.getParameter("userName"), request.getParameter("email"));
         if (currUser != null) {
             //生成序列码、过期日期、用户名字节编码串、未验证:更新currUser
@@ -224,6 +220,7 @@ public class UserController {
     @RequestMapping("/index/{id}")
     public String index(ModelMap map, @PathVariable Integer id) {
         System.out.println(userService.getUserById(id));
+        System.out.println("userService.getUserById(id)的值是：---"+ userService.getUserById(id) + "，当前方法=UserController.index()");
         map.put("loginUser", userService.getUserById(id));
         return "user/index";
     }
@@ -232,9 +229,10 @@ public class UserController {
     @RequestMapping("/login")
     public Map<String, Object> userLogin(ModelMap map, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        String password = MD5Util.getMD5(request.getParameter("password"));
         User user = new User();
         user.setUserName(request.getParameter("userName"));
-        user.setUserPassword(request.getParameter("password"));
+        user.setUserPassword(password);
         User currentUser = userService.queryUser(user);
         if (currentUser != null) {
             resultMap.put("id", currentUser.getUserId());
@@ -288,4 +286,3 @@ public class UserController {
 
     }
 }
-

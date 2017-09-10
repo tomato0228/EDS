@@ -1,7 +1,5 @@
 package com.njust.eds.model;
 
-import com.njust.eds.utils.MD5Util;
-
 import javax.persistence.*;
 import java.util.Date;
 

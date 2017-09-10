@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="${ctx}/resources/css/main.css"/>
     <script type="text/javascript" src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/easyform/easyform.js"></script>
-    <title>用户注册</title>
+    <title>EDS—用户登录</title>
     <script type="text/javascript">
         $(document).ready(function () {
             var v = $('#reg-form').easyform();
@@ -95,7 +95,7 @@
                             <tr>
                                 <td>密码</td>
                                 <td><input name="password" type="password" id="password"
-                                           data-easyform="length:6 16;;ajax:ajax_demo(1);"
+                                           data-easyform="length:6 16;ajax:ajax_demo(1);"
                                            data-message="密码必须为6—16位"
                                            data-easytip="class:easy-blue;" data-message-ajax="用户名或密码错误!"></td>
                             </tr>
@@ -112,7 +112,8 @@
         </header>
         <!-- Footer -->
         <footer id="footer">
-            <span class="copyright">&copy; Limit. three silly: <a href="#">About User</a>.</span>
+            <span class="copyright"><a href="${ctx}/admin/tologin">Admin</a>.</span>
+            <!--<span class="copyright">&copy; Limit. three silly: <a href="#">About User</a>.</span>-->
         </footer>
     </div>
 </div>

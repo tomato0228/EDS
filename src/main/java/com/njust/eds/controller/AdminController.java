@@ -2,6 +2,7 @@ package com.njust.eds.controller;
 
 import com.njust.eds.model.Admin;
 import com.njust.eds.service.AdminService;
+import com.njust.eds.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,8 +26,8 @@ public class AdminController {
     private AdminService adminService;
 
     @ResponseBody
-    @RequestMapping("/checkUserName")
-    public String checkUserName(HttpServletRequest request) {
+    @RequestMapping("/checkAdminName")
+    public String checkAdminName(HttpServletRequest request) {
         String adminName = request.getParameter("adminName");
         Admin admin = adminService.findAdminByAdminName(adminName);
         if (admin != null) {
@@ -42,11 +43,12 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping("/login")
-    public Map<String, Object> userLogin(ModelMap map, HttpServletRequest request) throws Exception {
+    public Map<String, Object> admin(ModelMap map, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Admin admin = new Admin();
-        admin.setAdminName(request.getParameter("userName"));
-        admin.setAdminPassword(request.getParameter("password"));
+        String password = MD5Util.getMD5(request.getParameter("password"));
+        admin.setAdminName(request.getParameter("adminName"));
+        admin.setAdminPassword(password);
         Admin currentAdmin = adminService.queryAdmin(admin);
         if (currentAdmin != null) {
             resultMap.put("id", currentAdmin.getAdminId());
@@ -60,7 +62,7 @@ public class AdminController {
     @RequestMapping("/index/{id}")
     public String index(ModelMap map, @PathVariable Integer id) {
         System.out.println(adminService.getAdminById(id));
-        map.put("loginAmin", adminService.getAdminById(id));
+        map.put("loginAdmin", adminService.getAdminById(id));
         return "admin/index";
     }
 }
