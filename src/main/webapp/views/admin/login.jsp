@@ -52,7 +52,7 @@
                 password: password
             }, function (requestData) {
                 if (requestData.res == 'yes') {
-                    window.location.href = serverUrl + '/admin/index/' + parseInt(requestData.id);
+                    window.location.href = serverUrl + '/admin/SystemInfo';
                 } else {
                     $("#adminName").trigger("easyform-ajax", false);
                     $("#password").trigger("easyform-ajax", false);

@@ -6,11 +6,11 @@ import com.njust.eds.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +20,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/admin")
+//@SessionAttributes("LoginAdminID")
 public class AdminController {
 
     @Autowired
@@ -41,6 +42,48 @@ public class AdminController {
         return "admin/login";
     }
 
+    @RequestMapping("/logout")
+    public String tologout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("loginAdmin");
+        return "admin/login";
+    }
+
+    @RequestMapping("/FileControl")
+    public String FileControl() {
+        return "admin/fileControl";
+    }
+
+    @RequestMapping("/UserControl")
+    public String UserControl() {
+        return "admin/userControl";
+    }
+
+    @RequestMapping("/MessageControl")
+    public String MessageControl() {
+        return "admin/messageControl";
+    }
+
+    @RequestMapping("/PersonalSettings")
+    public String PersonalSettings() {
+        return "admin/personalSettings";
+    }
+
+    @RequestMapping("/SystemInfo")
+    public String SystemInfo() {
+        return "admin/systemInfo";
+    }
+
+    @RequestMapping("/SecretLeveControl")
+    public String SecretLeveControl() {
+        return "admin/secretLeveControl";
+    }
+
+    @RequestMapping("/AdminControl")
+    public String AdminControl() {
+        return "admin/adminControl";
+    }
+
     @ResponseBody
     @RequestMapping("/login")
     public Map<String, Object> admin(ModelMap map, HttpServletRequest request) throws Exception {
@@ -51,18 +94,20 @@ public class AdminController {
         admin.setAdminPassword(password);
         Admin currentAdmin = adminService.queryAdmin(admin);
         if (currentAdmin != null) {
-            resultMap.put("id", currentAdmin.getAdminId());
+            resultMap.put("LoginAdminID", currentAdmin.getAdminId());
             resultMap.put("res", "yes");
+            HttpSession session = request.getSession();
+            session.setAttribute("loginAdmin",currentAdmin);
         } else {
             resultMap.put("res", "no");
         }
         return resultMap;
     }
-
-    @RequestMapping("/index/{id}")
-    public String index(ModelMap map, @PathVariable Integer id) {
-        System.out.println(adminService.getAdminById(id));
-        map.put("loginAdmin", adminService.getAdminById(id));
-        return "admin/index";
-    }
+//
+//    @RequestMapping("/index/{id}")
+//    public String index(ModelMap map, @PathVariable Integer id) {
+//        System.out.println(adminService.getAdminById(id));
+//        map.put("loginAdmin", adminService.getAdminById(id));
+//        return "admin/index";
+//    }
 }
