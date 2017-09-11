@@ -163,7 +163,6 @@
     <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.admin.js"></script>
-
     <%
     } else {
     %>
