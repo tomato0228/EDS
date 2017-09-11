@@ -103,6 +103,8 @@
                         <div class="buttons" style="margin-top: 50px;">
                             <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px;">
                             <input value="注 册" type="button" style="margin-right:45px; margin-top:20px;"
+                                   onclick="window.location.href='${ctx}/user/toRegister'"><br>
+                            <input value="忘记密码" type="button" style="margin-right:45px; margin-top:20px;"
                                    onclick="window.location.href='${ctx}/user/toRegister'">
                         </div>
                         <br class="clear">

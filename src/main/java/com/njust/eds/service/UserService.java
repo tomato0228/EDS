@@ -22,4 +22,6 @@ public interface UserService {
     public void saveUser(User user);
 
     public User findUserByUserName(String userName);
+    public List<User> getAllUser();
+
 }

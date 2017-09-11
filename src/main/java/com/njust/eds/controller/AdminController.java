@@ -1,7 +1,9 @@
 package com.njust.eds.controller;
 
 import com.njust.eds.model.Admin;
+import com.njust.eds.model.User;
 import com.njust.eds.service.AdminService;
+import com.njust.eds.service.UserService;
 import com.njust.eds.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +28,8 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
 
     @ResponseBody
     @RequestMapping("/checkAdminName")
@@ -55,7 +60,9 @@ public class AdminController {
     }
 
     @RequestMapping("/UserControl")
-    public String UserControl() {
+    public String  UserControl(ModelMap map) {
+        List<User> list=userService.getAllUser();
+        map.addAttribute("UserList",list);
         return "admin/userControl";
     }
 
@@ -71,7 +78,7 @@ public class AdminController {
 
     @RequestMapping("/SystemInfo")
     public String SystemInfo() {
-        return "admin/systemInfo";
+        return "admin/index";
     }
 
     @RequestMapping("/SecretLeveControl")
@@ -97,7 +104,7 @@ public class AdminController {
             resultMap.put("LoginAdminID", currentAdmin.getAdminId());
             resultMap.put("res", "yes");
             HttpSession session = request.getSession();
-            session.setAttribute("loginAdmin",currentAdmin);
+            session.setAttribute("loginAdmin", currentAdmin);
         } else {
             resultMap.put("res", "no");
         }
