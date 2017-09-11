@@ -33,7 +33,6 @@
                     console.log(requestData.res);
                     if(requestData.res=='yes'){
                         alert('用于找回密码的验证信息已发送到您的邮箱,请您前往邮箱进行验证!');
-
                     }else{
                         alert('您填写的用户名与邮箱不匹配,请填写准确以用于找回密码!');
                     }

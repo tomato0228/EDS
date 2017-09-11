@@ -97,7 +97,7 @@ public class AdminController {
             resultMap.put("LoginAdminID", currentAdmin.getAdminId());
             resultMap.put("res", "yes");
             HttpSession session = request.getSession();
-            session.setAttribute("loginAdmin",currentAdmin);
+            session.setAttribute("loginAdmin", currentAdmin);
         } else {
             resultMap.put("res", "no");
         }
