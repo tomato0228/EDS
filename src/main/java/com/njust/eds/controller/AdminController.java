@@ -1,8 +1,10 @@
 package com.njust.eds.controller;
 
 import com.njust.eds.model.Admin;
+import com.njust.eds.model.File;
 import com.njust.eds.model.User;
 import com.njust.eds.service.AdminService;
+import com.njust.eds.service.FileService;
 import com.njust.eds.service.UserService;
 import com.njust.eds.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     @ResponseBody
     @RequestMapping("/checkAdminName")
@@ -55,7 +59,10 @@ public class AdminController {
     }
 
     @RequestMapping("/FileControl")
-    public String FileControl() {
+    public String FileControl(ModelMap map) {
+
+        List<List<File>> list=fileService.findUserFiles();
+        map.addAttribute("Userfiles",list);
         return "admin/fileControl";
     }
 
@@ -110,11 +117,5 @@ public class AdminController {
         }
         return resultMap;
     }
-//
-//    @RequestMapping("/index/{id}")
-//    public String index(ModelMap map, @PathVariable Integer id) {
-//        System.out.println(adminService.getAdminById(id));
-//        map.put("loginAdmin", adminService.getAdminById(id));
-//        return "admin/index";
-//    }
+
 }

@@ -19,4 +19,6 @@ public interface FileDao {
     public void updateFile(File file);
 
     public File findFileByFileName(String fileName);
+
+    public List<List<File>>findUserFiles();
 }

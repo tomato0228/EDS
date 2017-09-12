@@ -15,6 +15,7 @@ public interface UserDao {
     public User findUserPassword(String userName,String email);
 
     public List<User> findUser(List<Object> params, String hql);
+
     public List<User> getAllUser();
 
     public void updateUser(User user);

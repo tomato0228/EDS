@@ -22,8 +22,70 @@
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/css/H-ui.css"/>
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/css/H-ui.admin.css"/>
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/fonts/font-awesome.min.css"/>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="assets/css/codemirror.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="font/css/font-awesome.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/typeahead-bs2.min.js"></script>
+    <script src="assets/js/jquery.dataTables.min.js"></script>
+    <script src="assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="assets/layer/layer.js" type="text/javascript"></script>
+    <script src="assets/laydate/laydate.js" type="text/javascript"></script>
     <script src="${ctx}/resources/js/jquery.min.js"></script>
     <script src="${ctx}/resources/js/bootstrap.min.js"></script>
+    <script src="${ctx}/resources/new/js/jquery-1.9.1.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/bootstrap.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/typeahead-bs2.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/jquery.dataTables.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="${ctx}/resources/new/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="${ctx}/resources/new/assets/laydate/laydate.js" type="text/javascript"></script>
+    <script src="${ctx}/resources/new/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="${ctx}/resources/new/assets/laydate/laydate.js" type="text/javascript"></script>
+    <script>
+        jQuery(function ($) {
+            var oTable1 = $('#sample-table').dataTable({
+                //"aaSorting": [[1, "desc"]],//默认第几个排序
+                "bStateSave": true,//状态保存
+                "aoColumnDefs": [
+                    //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                    {"orderable": false, "aTargets": [0, 2, 3, 6]}// 制定列不参与排序
+                ]
+            });
+            $('table th input:checkbox').on('click', function () {
+                var that = this;
+                $(this).closest('table').find('tr > td:first-child input:checkbox')
+                    .each(function () {
+                        this.checked = that.checked;
+                        $(this).closest('tr').toggleClass('selected');
+                    });
+
+            });
+        });
+        //面包屑返回值
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.iframeAuto(index);
+        $('.Refund_detailed').on('click', function () {
+            var cname = $(this).attr("title");
+            var chref = $(this).attr("href");
+            var cnames = parent.$('.Current_page').html();
+            var herf = parent.$("#iframe").attr("src");
+            parent.$('#parentIframe').html(cname);
+            parent.$('#iframe').attr("src", chref).ready();
+            parent.$('#parentIframe').css("display", "inline-block");
+            parent.$('.Current_page').attr({"name": herf, "href": "javascript:void(0)"}).css({
+                "color": "#4c8fbd",
+                "cursor": "pointer"
+            });
+            parent.layer.close(index);
+        });
+    </script>
     <script>
         $(function () {
             $(".meun-item").click(function () {
@@ -166,7 +228,7 @@
     <span class="l"><a href="javascript:;" onClick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
     <a href="javascript:;" onClick="user_add('550','','添加用户','user-add.html')" class="btn btn-primary radius"><i
             class="icon-plus"></i> 添加用户</a></span>
-                    <span class="r">共有数据：<strong>88</strong> 条</span>
+                    <span class="r">共有数据：<strong>${UserList.size()}</strong> 条</span>
                 </div>
                 <table class="table table-border table-bordered table-hover table-bg table-sort">
                     <thead>
@@ -194,7 +256,7 @@
                             <td>${item.userId}</td>
                             <td><img src="${ctx}/resources/UserPicture/${item.userId}.jpg" width="40px" height="40px"/> </td>
                             <td><u style="cursor:pointer" class="text-primary"
-                                   onclick="user_show('${item.userId}','800','800','${item.userName}的详细信息','user-show.html')">${item.userName}</u></td>
+                                   onclick="user_show('${item.userId}','800','800','${item.userName}的详细信息','${ctx}/views/admin/user-show.jsp')">${item.userName}</u></td>
                             <td><c:choose>
                                 <c:when test = "${item.userSex==1}">女</c:when>
                                 <c:when test = "${item.userSex==2}">男</c:when>

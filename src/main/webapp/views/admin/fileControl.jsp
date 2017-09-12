@@ -148,15 +148,101 @@
     <div id="rightContent">
         <a class="toggle-btn" id="nimei">
             <i class="glyphicon glyphicon-align-justify"></i>
-        </a><!-- Tab panes -->
+        </a>
+        <!-- Tab panes -->
         <div class="tab-content">
             <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 文件管理
                 <a class="btn btn-success radius r mr-20"
                    style="line-height:1.6em;margin-top:3px"
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
+            <div class="pd-20">
+                <div class="text-c"> 日期范围：
+                    <input type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
+                           id="datemin"
+                           class="input-text Wdate" style="width:120px;">
+                    -
+                    <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
+                           id="datemax"
+                           class="input-text Wdate" style="width:120px;">
+                    <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
+                    <button type="submit" class="btn btn-success" id="1" name=""><i class="icon-search"></i> 搜文件
+                    </button>
+
+                </div>
+                <div class="cl pd-5 bg-1 bk-gray mt-20">
+    <span class="l"><a href="javascript:;" onClick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    <a href="javascript:;" onClick="user_add('550','','添加文件','user-add.html')" class="btn btn-primary radius"><i
+            class="icon-plus"></i> 添加文件</a></span>
+                    <span class="r">共有数据：<strong>${UserList.size()}</strong> 条</span>
+                </div>
+                <table class="table table-border table-bordered table-hover table-bg table-sort">
+                    <thead>
+                    <tr class="text-c">
+                        <th width="25"><input type="checkbox" name="" value=""></th>
+                        <th width="80">用户名</th>
+                        <th width="100">文件名</th>
+                        <th width="40">文件大小</th>
+                        <th width="40">查看次数</th>
+                        <th width="90">下载次数</th>
+                        <th width="150">文件类型</th>
+                        <th width="300">文件摘要</th>
+                        <th width="130">上传时间</th>
+                        <th width="70">状态</th>
+                        <th width="100">操作</th>
+                    </tr>
+                    </thead>
+
+
+                    <tbody>
+                    <c:forEach items="${Userfiles}" var="Useritem" >
+
+
+                           <c:forEach items="${Useritem}" var="Fileitem">
+                               <tr class="text-c">
+                               <td><input type="checkbox" value="1" name=""></td>
+                               <td>${Fileitem.fileUserId}</td>
+                            <td><u style="cursor:pointer" class="text-primary"
+                                   onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')">${Fileitem.fileName}</u></td>
+                            <td>${Fileitem.fileSize}</td>
+                            <td>${Fileitem.fileViewtimes}</td>
+                            <td>${Fileitem.fileDownloadtimes}</td>
+                            <td class="text-l">${Fileitem.fileType}</td>
+                            <td>${Fileitem.fileAbstrcat}</td>
+                            <td class="user-status"><span class="label label-success">
+                                ${Fileitem.fileLoadTime}
+                            </span>
+                            </td>
+                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="user_stop(this,'10001')"
+                                                            href="javascript:;" title="停用"><i
+                                    class="icon-hand-down"></i></a> <a
+                                    title="编辑" href="javascript:;" onClick="user_edit('4','550','','编辑','user-add.html')"
+                                    class="ml-5"
+                                    style="text-decoration:none"><i class="icon-edit"></i></a> <a
+                                    style="text-decoration:none"
+                                    class="ml-5"
+                                    onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
+                                    href="javascript:;"
+                                    title="修改密码"><i
+                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="user_del(this,'1')"
+                                                                 class="ml-5" style="text-decoration:none"><i
+                                    class="icon-trash"></i></a></td>
+                               </tr>
+
+                        </c:forEach>
+
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <div id="pageNav" class="pageNav"></div>
+            </div>
+
         </div>
     </div>
+
+
+
+
     <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.admin.js"></script>

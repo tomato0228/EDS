@@ -38,7 +38,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
     private FileService fileSerice;
+    @Autowired
     private FiledataService filedataService;
 
     @ResponseBody
