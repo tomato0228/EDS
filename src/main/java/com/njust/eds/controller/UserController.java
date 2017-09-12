@@ -1,9 +1,6 @@
 package com.njust.eds.controller;
 
 
-import com.njust.eds.model.File;
-import com.njust.eds.model.FileBucket;
-import com.njust.eds.model.Filedata;
 import com.njust.eds.model.User;
 import com.njust.eds.service.FileService;
 import com.njust.eds.service.FiledataService;
@@ -12,16 +9,11 @@ import com.njust.eds.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +30,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
     private FileService fileSerice;
+    @Autowired
     private FiledataService filedataService;
 
     @ResponseBody
@@ -243,46 +237,5 @@ public class UserController {
         return resultMap;
     }
 
-    @RequestMapping(value = {"/add-document-{userId}"}, method = RequestMethod.POST)
-    public String uploadDocument(@Valid FileBucket fileBucket, BindingResult result, ModelMap model, @PathVariable int userId) throws IOException {
 
-        if (result.hasErrors()) {
-            System.out.println("validation errors");
-            User user = userService.getUserById(userId);
-            model.addAttribute("user", user);
-
-            List<File> file = fileSerice.findFileByUserId(userId);
-            model.addAttribute("file", file);
-
-            return "managefiles";
-        } else {
-
-            System.out.println("Fetching file");
-
-            User user = userService.getUserById(userId);
-            model.addAttribute("user", user);
-
-            saveFile(fileBucket, user);
-
-            return "redirect:/add-document-" + userId;
-        }
-    }
-
-    private void saveFile(FileBucket fileBucket, User user) throws IOException {
-
-        File file = new File();
-        Filedata filedata = new Filedata();
-
-        MultipartFile multipartFile = fileBucket.getFile();
-
-        file.setFileName(multipartFile.getOriginalFilename());
-        file.setFileAbstrcat(fileBucket.getDescription());
-        file.setFileType(multipartFile.getContentType());
-        fileSerice.addFile(file);
-        filedata.setFileId(fileSerice.findFileByFileName(multipartFile.getOriginalFilename()).getFileId());
-        filedata.setFileData(multipartFile.getBytes());
-        filedataService.saveFiledata(filedata);
-        file.setFileUserId(user.getUserId());
-
-    }
 }
