@@ -214,7 +214,7 @@ public class UserController {
     @RequestMapping("/index/{id}")
     public String index(ModelMap map, @PathVariable Integer id) {
         System.out.println(userService.getUserById(id));
-        System.out.println("userService.getUserById(id)的值是：---"+ userService.getUserById(id) + "，当前方法=UserController.index()");
+        System.out.println("userService.getUserById(id)的值是：---" + userService.getUserById(id) + "，当前方法=UserController.index()");
         map.put("loginUser", userService.getUserById(id));
         return "user/index";
     }
