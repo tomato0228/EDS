@@ -1,7 +1,11 @@
 package com.njust.eds.controller;
 
 import com.njust.eds.model.Admin;
+import com.njust.eds.model.File;
+import com.njust.eds.model.User;
 import com.njust.eds.service.AdminService;
+import com.njust.eds.service.FileService;
+import com.njust.eds.service.UserService;
 import com.njust.eds.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +30,10 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     @ResponseBody
     @RequestMapping("/checkAdminName")
@@ -50,12 +59,17 @@ public class AdminController {
     }
 
     @RequestMapping("/FileControl")
-    public String FileControl() {
+    public String FileControl(ModelMap map) {
+
+        List<List<File>> list=fileService.findUserFiles();
+        map.addAttribute("Userfiles",list);
         return "admin/fileControl";
     }
 
     @RequestMapping("/UserControl")
-    public String UserControl() {
+    public String  UserControl(ModelMap map) {
+        List<User> list=userService.getAllUser();
+        map.addAttribute("UserList",list);
         return "admin/userControl";
     }
 
@@ -71,7 +85,7 @@ public class AdminController {
 
     @RequestMapping("/SystemInfo")
     public String SystemInfo() {
-        return "admin/systemInfo";
+        return "admin/index";
     }
 
     @RequestMapping("/SecretLeveControl")
@@ -103,11 +117,5 @@ public class AdminController {
         }
         return resultMap;
     }
-//
-//    @RequestMapping("/index/{id}")
-//    public String index(ModelMap map, @PathVariable Integer id) {
-//        System.out.println(adminService.getAdminById(id));
-//        map.put("loginAdmin", adminService.getAdminById(id));
-//        return "admin/index";
-//    }
+
 }

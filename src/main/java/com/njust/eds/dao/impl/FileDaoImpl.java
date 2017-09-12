@@ -1,16 +1,21 @@
 package com.njust.eds.dao.impl;
 
 import com.njust.eds.dao.FileDao;
+import com.njust.eds.dao.UserDao;
 import com.njust.eds.model.File;
-import org.hibernate.Criteria;
+import com.njust.eds.model.User;
 import org.hibernate.Query;
-import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class FileDaoImpl extends BaseDaoImpl implements FileDao {
+
+   @Autowired
+    private UserDao userDao;
 
     public void saveFile(File file) {
         getSession().save(file);
@@ -53,5 +58,16 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
 
     public File queryFile(File file) {
         return null;
+    }
+
+    public List<List<File>>findUserFiles(){
+
+        List<List<File>> userfiles=new ArrayList<List<File>>();
+        List<User> userlist=userDao.getAllUser();
+        for( User user:userlist) {
+            List<File> filelist = findFileByUserId(user.getUserId());
+            userfiles.add(filelist);
+        }
+        return userfiles;
     }
 }

@@ -1,5 +1,6 @@
 package com.njust.eds.controller;
 
+
 import com.njust.eds.model.File;
 import com.njust.eds.model.FileBucket;
 import com.njust.eds.model.Filedata;
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * @author tomato
@@ -33,9 +38,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private FileService fileService;
-    @Autowired
+    private FileService fileSerice;
     private FiledataService filedataService;
 
     @ResponseBody
@@ -217,7 +220,7 @@ public class UserController {
     @RequestMapping("/index/{id}")
     public String index(ModelMap map, @PathVariable Integer id) {
         System.out.println(userService.getUserById(id));
-        System.out.println("userService.getUserById(id)的值是：---" + userService.getUserById(id) + "，当前方法=UserController.index()");
+        System.out.println("userService.getUserById(id)的值是：---"+ userService.getUserById(id) + "，当前方法=UserController.index()");
         map.put("loginUser", userService.getUserById(id));
         return "user/index";
     }
@@ -248,7 +251,7 @@ public class UserController {
             User user = userService.getUserById(userId);
             model.addAttribute("user", user);
 
-            List<File> file = fileService.findFileByUserId(userId);
+            List<File> file = fileSerice.findFileByUserId(userId);
             model.addAttribute("file", file);
 
             return "managefiles";
@@ -275,52 +278,11 @@ public class UserController {
         file.setFileName(multipartFile.getOriginalFilename());
         file.setFileAbstrcat(fileBucket.getDescription());
         file.setFileType(multipartFile.getContentType());
-        fileService.addFile(file);
-        filedata.setFileId(fileService.findFileByFileName(multipartFile.getOriginalFilename()).getFileId());
+        fileSerice.addFile(file);
+        filedata.setFileId(fileSerice.findFileByFileName(multipartFile.getOriginalFilename()).getFileId());
         filedata.setFileData(multipartFile.getBytes());
         filedataService.saveFiledata(filedata);
         file.setFileUserId(user.getUserId());
 
-    }
-
-    /**
-     * 处理文件上传
-     *
-     * @param file
-     * @throws IOException
-     */
-    @RequestMapping(value = "/mvcTest8-{userId}", method = RequestMethod.POST)
-    public String upload(@RequestPart(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
-        int userId = 4;
-        System.out.println("11122的值是：---" + 111 + "，当前方法=UserController.mvcTest8()");
-        System.out.println("file的值是：---" + file.isEmpty() + "，当前方法=UserController.mvcTest8()");
-        if (!file.isEmpty()) {
-            File newfile = new File();
-            newfile.setFileName(file.getOriginalFilename());
-            System.out.println("file.getOriginalFilename()的值是：---" + file.getOriginalFilename() + "，当前方法=UserController.upload()");
-            newfile.setFileSize(String.valueOf(file.getSize()));
-            newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
-            newfile.setFileUserId(userId);
-            //newfile.setFileSecretLevel(Integer.parseInt(request.getParameter("FileSecretLevel")));
-            newfile.setFileSecretLevel(1);
-            //newfile.setFileAbstrcat(request.getParameter("description"));
-            String key = AESUtil.KeyCreate(128);
-            System.out.println("key的值是：---" + key + "，当前方法=UserController.upload()");
-            newfile.setFileSecretKey(key);
-            newfile.setFileType(file.getContentType());
-            fileService.addFile(newfile);
-            Filedata filedata = new Filedata();
-            newfile = fileService.findFileByFileName(file.getOriginalFilename());
-            System.out.println("newfile的值是：---" + newfile.getFileName() + "，当前方法=UserController.upload()");
-            filedata.setFileId(newfile.getFileId());
-            try {
-                filedata.setFileData(AESUtil.aesEncryptToBytes(AESUtil.base64Encode(file.getBytes()), key));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            filedataService.saveFiledata(filedata);
-            System.out.println("22222的值是：---" + 22222 + "，当前方法=UserController.mvcTest8()");
-        }
-        return "user/index";
     }
 }

@@ -73,4 +73,10 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         query.setParameter(0, userName);
         return (User) query.uniqueResult();
     }
+    public List<User> getAllUser(){
+
+        String hql = "from User ";
+        Query query = getSession().createQuery(hql);
+        return query.list();
+    }
 }

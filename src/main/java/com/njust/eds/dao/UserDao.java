@@ -16,6 +16,8 @@ public interface UserDao {
 
     public List<User> findUser(List<Object> params, String hql);
 
+    public List<User> getAllUser();
+
     public void updateUser(User user);
 
     public User findUserByUserName(String userName);

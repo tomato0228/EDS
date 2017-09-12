@@ -94,4 +94,8 @@ public class FileServiceImpl implements FileService {
     public File findFileByFileName(String fileName) {
         return fileDao.findFileByFileName(fileName);
     }
+
+    public List<List<File>>findUserFiles(){
+        return fileDao.findUserFiles();
+    }
 }
