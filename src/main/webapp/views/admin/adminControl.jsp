@@ -33,7 +33,7 @@
                 itmeObj.each(function () {
                     var items = $(this).attr("src");
                     items = items.replace("_grey.png", ".png");
-                    items = items.replace(".png", "_grey.png")
+                    items = items.replace(".png", "_grey.png");
                     $(this).attr("src", items);
                 });
                 var attrObj = $(this).find("img").attr("src");

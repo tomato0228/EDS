@@ -79,4 +79,7 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="pointCut"/>
     </aop:config>
 
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 </beans>

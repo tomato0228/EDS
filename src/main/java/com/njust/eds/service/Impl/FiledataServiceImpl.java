@@ -2,13 +2,16 @@ package com.njust.eds.service.Impl;
 
 import com.njust.eds.dao.FiledataDao;
 import com.njust.eds.model.Filedata;
+import com.njust.eds.service.FiledataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author tomato
  * @create 2017-09-08 下午10:39
  */
-public class FiledataServiceImpl implements FiledataDao {
+@Service("Filedata")
+public class FiledataServiceImpl implements FiledataService {
 
     @Autowired
     private FiledataDao filedataDao;
@@ -17,7 +20,11 @@ public class FiledataServiceImpl implements FiledataDao {
         filedataDao.saveFiledata(filedata);
     }
 
-    public Filedata findFiledataById(Integer id) {
-        return filedataDao.findFiledataById(id);
+    public Filedata getFiledataById(Integer id) {
+        return null;
     }
+
+    //public Filedata findFiledataById(Integer id) {
+    //    return filedataDao.findFiledataById(id);
+    //}
 }

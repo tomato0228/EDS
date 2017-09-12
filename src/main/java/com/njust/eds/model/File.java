@@ -1,7 +1,6 @@
 package com.njust.eds.model;
 
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -16,7 +15,7 @@ public class File {
     private Integer fileShare;
     private int fileSecretLevel;
     private String fileAbstrcat;
-    private byte[] fileSecretKey;
+    private String fileSecretKey;
     private Integer fileViewtimes;
     private Integer filePrinttimes;
     private Integer fileDownloadtimes;
@@ -103,12 +102,12 @@ public class File {
     }
 
     @Basic
-    @Column(name = "File_SecretKey", nullable = true)
-    public byte[] getFileSecretKey() {
+    @Column(name = "File_SecretKey", nullable = true, length = 255)
+    public String getFileSecretKey() {
         return fileSecretKey;
     }
 
-    public void setFileSecretKey(byte[] fileSecretKey) {
+    public void setFileSecretKey(String fileSecretKey) {
         this.fileSecretKey = fileSecretKey;
     }
 
@@ -133,7 +132,7 @@ public class File {
     }
 
     @Basic
-    @Column(name = "File_Type", nullable = true, length = 20)
+    @Column(name = "File_Type", nullable = true, length = 255)
     public String getFileType() { return fileType; }
     public void setFileType(String fileType) {this.fileType = fileType; }
 
@@ -150,45 +149,43 @@ public class File {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof File)) return false;
 
         File file = (File) o;
 
         if (fileId != file.fileId) return false;
         if (fileUserId != file.fileUserId) return false;
         if (fileSecretLevel != file.fileSecretLevel) return false;
-        if (fileName != null ? !fileName.equals(file.fileName) : file.fileName != null) return false;
-        if (fileSize != null ? !fileSize.equals(file.fileSize) : file.fileSize != null) return false;
-        if (fileLoadTime != null ? !fileLoadTime.equals(file.fileLoadTime) : file.fileLoadTime != null)
-            return false;
-        if (fileShare != null ? !fileShare.equals(file.fileShare) : file.fileShare != null) return false;
-        if (fileAbstrcat != null ? !fileAbstrcat.equals(file.fileAbstrcat) : file.fileAbstrcat != null)
-            return false;
-        if (!Arrays.equals(fileSecretKey, file.fileSecretKey)) return false;
+        if (!fileName.equals(file.fileName)) return false;
+        if (!fileSize.equals(file.fileSize)) return false;
+        if (!fileLoadTime.equals(file.fileLoadTime)) return false;
+        if (!fileShare.equals(file.fileShare)) return false;
+        if (!fileAbstrcat.equals(file.fileAbstrcat)) return false;
+        if (!fileSecretKey.equals(file.fileSecretKey)) return false;
         if (fileViewtimes != null ? !fileViewtimes.equals(file.fileViewtimes) : file.fileViewtimes != null)
             return false;
         if (filePrinttimes != null ? !filePrinttimes.equals(file.filePrinttimes) : file.filePrinttimes != null)
             return false;
         if (fileDownloadtimes != null ? !fileDownloadtimes.equals(file.fileDownloadtimes) : file.fileDownloadtimes != null)
             return false;
-
-        return true;
+        return fileType.equals(file.fileType);
     }
 
     @Override
     public int hashCode() {
         int result = fileId;
-        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
-        result = 31 * result + (fileSize != null ? fileSize.hashCode() : 0);
-        result = 31 * result + (fileLoadTime != null ? fileLoadTime.hashCode() : 0);
+        result = 31 * result + fileName.hashCode();
+        result = 31 * result + fileSize.hashCode();
+        result = 31 * result + fileLoadTime.hashCode();
         result = 31 * result + fileUserId;
-        result = 31 * result + (fileShare != null ? fileShare.hashCode() : 0);
+        result = 31 * result + fileShare.hashCode();
         result = 31 * result + fileSecretLevel;
-        result = 31 * result + (fileAbstrcat != null ? fileAbstrcat.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(fileSecretKey);
+        result = 31 * result + fileAbstrcat.hashCode();
+        result = 31 * result + fileSecretKey.hashCode();
         result = 31 * result + (fileViewtimes != null ? fileViewtimes.hashCode() : 0);
         result = 31 * result + (filePrinttimes != null ? filePrinttimes.hashCode() : 0);
         result = 31 * result + (fileDownloadtimes != null ? fileDownloadtimes.hashCode() : 0);
+        result = 31 * result + fileType.hashCode();
         return result;
     }
 }

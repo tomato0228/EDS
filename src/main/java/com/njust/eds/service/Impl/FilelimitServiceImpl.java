@@ -4,6 +4,7 @@ import com.njust.eds.dao.FilelimitDao;
 import com.njust.eds.model.Filelimit;
 import com.njust.eds.service.FilelimitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Map;
  * @author tomato
  * @create 2017-09-08 下午10:22
  */
+@Service("Filelimit")
 public class FilelimitServiceImpl implements FilelimitService {
 
     @Autowired
