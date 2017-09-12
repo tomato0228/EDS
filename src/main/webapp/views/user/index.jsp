@@ -14,10 +14,9 @@
 点击此处以管理你的文件<a href="<c:url value='user/add-document-${user.id}' />">Click here to upload/manage your documents</a>
 <h1>hello task !!</h1>
 
-<form action="${pageContext.request.contextPath}/user/mvcTest8-4" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/user/upload/4" method="post" enctype="multipart/form-data">
     <input type="file" name="file" />
     <input type="submit" value="Submit" />
 </form>
-
 </body>
 </html>

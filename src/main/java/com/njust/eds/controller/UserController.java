@@ -1,6 +1,8 @@
 package com.njust.eds.controller;
 
 
+import com.njust.eds.model.File;
+import com.njust.eds.model.Filedata;
 import com.njust.eds.model.User;
 import com.njust.eds.service.FileService;
 import com.njust.eds.service.FiledataService;
@@ -9,9 +11,8 @@ import com.njust.eds.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.njust.eds.utils.AESUtil.*;
 
 /**
  * @author tomato
@@ -237,5 +239,28 @@ public class UserController {
         return resultMap;
     }
 
-
+    @RequestMapping(value = "upload/{userId}", method = RequestMethod.POST)
+    public String upload(@PathVariable int userId, @RequestPart(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
+        if (!file.isEmpty()) {
+            File newfile = new File();
+            Filedata filedata = new Filedata();
+            newfile.setFileName(file.getOriginalFilename());
+            newfile.setFileSize(String.valueOf(file.getSize()));
+            newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
+            newfile.setFileUserId(userId);
+            newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ? request.getParameter("fileSecretLevel") : "1"));
+            newfile.setFileAbstrcat((request.getParameter("abstrcat")!=null)? request.getParameter("abstrcat") : "");
+            newfile.setFileType(file.getContentType());
+            String key = KeyCreate(128);
+            newfile.setFileSecretKey(key);
+            fileSerice.addFile(newfile);
+            System.out.println("的值是：---"+ newfile.getFileId() + "，当前方法=UserController.upload()");
+            newfile = fileSerice.findFileByFileName(newfile.getFileName());
+            System.out.println("的值是：---"+ newfile.getFileId() + "，当前方法=UserController.upload()");
+            filedata.setFileId(newfile.getFileId());
+            filedata.setFileData(aesEncryptToBytes(base64Encode(file.getBytes()), key));
+            filedataService.saveFiledata(filedata);
+        }
+        return "user/index";
+    }
 }
