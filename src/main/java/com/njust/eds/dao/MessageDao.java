@@ -25,6 +25,9 @@ public interface MessageDao {
 
     public Message findMessageByRecevierId(Integer id);
 
+    public List<Message> findMessagesByRecevierId(Integer id);
+
+
     public Message findMessageByRecevierName(String recevierName);
 
     public Message findMessageByisRead(int Read);

@@ -26,6 +26,7 @@ public class User {
     private String userPictureUrl;
     private String userProfile;
 
+
     @Id
     @Column(name = "User_ID", nullable = false)
     public int getUserId() {

@@ -63,4 +63,13 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
         query.setParameter(0, adminName);
         return (Admin) query.uniqueResult();
     }
+
+    public String findAdminnameById(int id)
+    {
+        String hql = "from Admin where adminId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, id);
+        Admin admin=(Admin)query.uniqueResult();
+        return admin.getAdminName();
+    }
 }

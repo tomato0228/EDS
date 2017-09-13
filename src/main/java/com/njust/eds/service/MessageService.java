@@ -29,4 +29,6 @@ public interface MessageService {
     public Message findMessageByRecevierName(String recevierName);
 
     public Message findMessageByisRead(int Read);
+
+    public List<Message> findMessagesByRecevierId(Integer id);
 }

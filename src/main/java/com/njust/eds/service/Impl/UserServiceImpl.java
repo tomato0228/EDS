@@ -121,4 +121,11 @@ public class UserServiceImpl implements UserService {
         return userDao.getAllUser();
     }
 
+    public String findUsernameBuId(int id) {
+        return userDao.findUsernameBuId(id);
+    }
+    public void deletUser(User user){
+        userDao.deletUser(user);
+    }
+
 }

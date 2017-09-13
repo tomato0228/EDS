@@ -108,10 +108,11 @@ function user_start(obj,id){
 	});
 }
 /*用户-删除*/
-function user_del(obj,id){
+function user_del(obj,userid){
 	layer.confirm('确认要删除吗？',function(index){
 		$(obj).parents("tr").remove();
 		layer.msg('已删除!',1);
+        window.location.href = '/admin/DeleteUser/' + userid;
 	});
 }
 /*------------资讯管理----------------*/

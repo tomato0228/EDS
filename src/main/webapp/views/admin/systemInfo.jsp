@@ -83,6 +83,7 @@
 <body>
 <%
     Admin admin = (Admin) session.getAttribute("loginAdmin");
+
     if (admin != null) {
 %>
 <div id="wrap">
@@ -101,6 +102,7 @@
         <div class="meun-title ">普通管理</div>
         <%
             int Power = admin.getAdminPower();
+            int adminid=admin.getAdminId();
             if (Power == 3 || Power == 1) {
         %>
         <div id="wj" class="meun-item" onclick="window.location.href='${ctx}/admin/FileControl'"><img

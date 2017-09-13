@@ -17,4 +17,6 @@ public interface AdminDao {
     public void updateAdmin(Admin admin);
 
     public Admin findAdminByAdminName(String adminName);
+
+    public String findAdminnameById(int id);
 }

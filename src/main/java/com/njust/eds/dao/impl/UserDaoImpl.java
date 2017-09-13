@@ -79,4 +79,15 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         Query query = getSession().createQuery(hql);
         return query.list();
     }
+    public String findUsernameBuId(int id){
+        String hql = "from User where userId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, id);
+        User user=(User)query.uniqueResult();
+        return user.getUserName();
+
+    }
+    public void deletUser(User user){
+        getSession().delete(user);
+    }
 }

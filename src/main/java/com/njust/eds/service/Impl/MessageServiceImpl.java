@@ -3,6 +3,7 @@ package com.njust.eds.service.Impl;
 import com.njust.eds.dao.MessageDao;
 import com.njust.eds.model.Message;
 import com.njust.eds.service.MessageService;
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,5 +77,9 @@ public class MessageServiceImpl implements MessageService {
 
     public Message findMessageByisRead(int Read) {
         return messageDao.findMessageByisRead(Read);
+    }
+
+    public List<Message> findMessagesByRecevierId(Integer id) {
+        return messageDao.findMessagesByRecevierId(id);
     }
 }

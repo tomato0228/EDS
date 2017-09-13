@@ -195,13 +195,13 @@
 
 
                     <tbody>
-                    <c:forEach items="${Userfiles}" var="Useritem" >
+                    <c:forEach items="${Userfiles}" var="Useritem"  varStatus="loop">
 
 
                            <c:forEach items="${Useritem}" var="Fileitem">
                                <tr class="text-c">
                                <td><input type="checkbox" value="1" name=""></td>
-                               <td>${Fileitem.fileUserId}</td>
+                               <td>${Namelist[loop.count-1]}</td>
                             <td><u style="cursor:pointer" class="text-primary"
                                    onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')">${Fileitem.fileName}</u></td>
                             <td>${Fileitem.fileSize}</td>
