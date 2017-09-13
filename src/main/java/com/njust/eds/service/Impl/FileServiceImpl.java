@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
         return fileDao.findFileById(id);
     }
 
-    public List<File> findFileByUserId(int userId){
+    public List<File> findFileByUserId(int userId) {
         return fileDao.findFileByUserId(userId);
     }
 
@@ -95,7 +95,7 @@ public class FileServiceImpl implements FileService {
         return fileDao.findFileByFileName(fileName);
     }
 
-    public List<List<File>>findUserFiles(){
+    public List<List<File>> findUserFiles() {
         return fileDao.findUserFiles();
     }
 }

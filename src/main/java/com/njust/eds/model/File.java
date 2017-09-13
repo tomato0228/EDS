@@ -32,7 +32,7 @@ public class File {
     }
 
     @Basic
-    @Column(name = "File_Name", nullable = false, length = 255)
+    @Column(name = "File_Name", nullable = false, length = 1000)
     public String getFileName() {
         return fileName;
     }

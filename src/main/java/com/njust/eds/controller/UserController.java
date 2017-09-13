@@ -9,16 +9,17 @@ import com.njust.eds.service.FiledataService;
 import com.njust.eds.service.UserService;
 import com.njust.eds.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.njust.eds.utils.AESUtil.*;
 
@@ -32,8 +33,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
-    private FileService fileSerice;
+    private FileService fileService;
+
     @Autowired
     private FiledataService filedataService;
 
@@ -240,27 +243,56 @@ public class UserController {
     }
 
     @RequestMapping(value = "upload/{userId}", method = RequestMethod.POST)
-    public String upload(@PathVariable int userId, @RequestPart(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
+    public String upload(@PathVariable int userId, @RequestPart(value = "file", required = false)
+            MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
         if (!file.isEmpty()) {
             File newfile = new File();
             Filedata filedata = new Filedata();
-            newfile.setFileName(file.getOriginalFilename());
+            //获取文件后缀名
+            String filename = file.getOriginalFilename();
+            String prefix = filename.substring(filename.lastIndexOf(".") + 1);
+            //修改后的文件名
+            String fileUUIDname = filename.substring(0, filename.lastIndexOf(".") - 1) + UUID.randomUUID().toString();
+            //修改后的文件名(带后缀)
+            String NewFileName = fileUUIDname + "." + prefix;
+            newfile.setFileName(NewFileName);
             newfile.setFileSize(String.valueOf(file.getSize()));
             newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
             newfile.setFileUserId(userId);
-            newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ? request.getParameter("fileSecretLevel") : "1"));
-            newfile.setFileAbstrcat((request.getParameter("abstrcat")!=null)? request.getParameter("abstrcat") : "");
+            newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ?
+                    request.getParameter("fileSecretLevel") : "1"));
+            newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
+                    request.getParameter("abstrcat") : "");
             newfile.setFileType(file.getContentType());
             String key = KeyCreate(128);
             newfile.setFileSecretKey(key);
-            fileSerice.addFile(newfile);
-            System.out.println("的值是：---"+ newfile.getFileId() + "，当前方法=UserController.upload()");
-            newfile = fileSerice.findFileByFileName(newfile.getFileName());
-            System.out.println("的值是：---"+ newfile.getFileId() + "，当前方法=UserController.upload()");
+            fileService.addFile(newfile);
+            newfile = fileService.findFileByFileName(newfile.getFileName());
             filedata.setFileId(newfile.getFileId());
             filedata.setFileData(aesEncryptToBytes(base64Encode(file.getBytes()), key));
             filedataService.saveFiledata(filedata);
         }
         return "user/index";
+    }
+
+    @RequestMapping(value = "/download/{fileId}")
+    public ResponseEntity<byte[]> download(HttpServletRequest request,
+                                           @PathVariable("fileId") int fileId) throws Exception {
+        Filedata filedata = filedataService.getFiledataById(17);
+        if (filedata != null) {
+            File file = fileService.getFileById(filedata.getFileId());
+            String key = file.getFileSecretKey();
+            byte[] UNAESFILE = base64Decode(aesDecryptByBytes(filedata.getFileData(), key));
+            String filename = file.getFileName();
+            HttpHeaders headers = new HttpHeaders();
+            //下载显示的文件名，解决中文名称乱码问题
+            String downloadFielName = new String(filename.getBytes("UTF-8"), "iso-8859-1");
+            //通知浏览器以attachment（下载方式）打开图片
+            headers.setContentDispositionFormData("attachment", downloadFielName);
+            //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
+        }
+        return null;
     }
 }
