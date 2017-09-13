@@ -63,4 +63,9 @@ public class AdminServiceImpl implements AdminService {
     public Admin findAdminByAdminName(String adminName) {
         return adminDao.findAdminByAdminName(adminName);
     }
+
+    public String findAdminnameById(int id){return adminDao.findAdminnameById(id);}
+
+
+
 }

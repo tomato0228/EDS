@@ -2,19 +2,24 @@ package com.njust.eds.controller;
 
 import com.njust.eds.model.Admin;
 import com.njust.eds.model.File;
+import com.njust.eds.model.Message;
 import com.njust.eds.model.User;
 import com.njust.eds.service.AdminService;
 import com.njust.eds.service.FileService;
+import com.njust.eds.service.MessageService;
 import com.njust.eds.service.UserService;
 import com.njust.eds.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.PrivateKey;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +41,9 @@ public class AdminController {
 
     @Autowired
     private FileService fileService;
+    @Autowired
+    private MessageService messageService;
+
 
     @ResponseBody
     @RequestMapping("/checkAdminName")
@@ -64,7 +72,25 @@ public class AdminController {
     public String FileControl(ModelMap map) {
 
         List<List<File>> list = fileService.findUserFiles();
-        map.addAttribute("Userfiles", list);
+        List<String> namelist=new ArrayList<String>();
+         for(List<File> filelist:list)
+         {
+             if(filelist.size()!=0)
+                 namelist.add(userService.findUsernameBuId(filelist.get(0).getFileUserId()));
+                else
+                    continue;
+         }
+
+        List<List<File>> List=new ArrayList<List<File>>();
+         for(List<File> filelist:list)
+         {
+             if(filelist.size()!=0)
+             List.add(filelist);
+             else
+                 continue;
+         }
+         map.addAttribute("Userfiles",List);
+         map.addAttribute("Namelist",namelist);
         return "admin/fileControl";
     }
 
@@ -76,7 +102,18 @@ public class AdminController {
     }
 
     @RequestMapping("/MessageControl")
-    public String MessageControl() {
+    public String MessageControl(ModelMap map, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        int id=((Admin)session.getAttribute("loginAdmin")).getAdminId();
+        List<Message> messagelist=messageService.findMessagesByRecevierId(id);
+        List<String> name=new ArrayList<String>();
+        for (Message message:messagelist)
+        { int senderid=message.getMsgSender();
+            if (senderid<10000)
+                name.add(adminService.findAdminnameById(senderid));
+        }
+        map.addAttribute("Namelist",name);
+        map.addAttribute("Messagelist",messagelist);
         return "admin/messageControl";
     }
 
@@ -87,7 +124,7 @@ public class AdminController {
 
     @RequestMapping("/SystemInfo")
     public String SystemInfo() {
-        return "admin/index";
+        return "admin/systemInfo";
     }
 
     @RequestMapping("/SecretLeveControl")
@@ -100,6 +137,11 @@ public class AdminController {
         return "admin/adminControl";
     }
 
+    @RequestMapping(value = "/DeleteUser/{userid}")
+    public String DeleteUser(@PathVariable int userid){
+        userService.deletUser(userService.getUserById(userid));
+        return "admin/userControl";
+    }
     @ResponseBody
     @RequestMapping("/login")
     public Map<String, Object> admin(ModelMap map, HttpServletRequest request) throws Exception {
@@ -114,6 +156,7 @@ public class AdminController {
             resultMap.put("res", "yes");
             HttpSession session = request.getSession();
             session.setAttribute("loginAdmin", currentAdmin);
+
         } else {
             resultMap.put("res", "no");
         }

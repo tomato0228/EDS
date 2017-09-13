@@ -156,6 +156,14 @@
                    style="line-height:1.6em;margin-top:3px"
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
+
+
+
+
+
+
+
+
         </div>
     </div>
     <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>

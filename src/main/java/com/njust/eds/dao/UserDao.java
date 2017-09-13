@@ -21,4 +21,8 @@ public interface UserDao {
     public void updateUser(User user);
 
     public User findUserByUserName(String userName);
+
+    public String findUsernameBuId(int id);
+
+    public void deletUser(User user);
 }

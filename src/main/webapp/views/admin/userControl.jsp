@@ -252,7 +252,7 @@
                     <c:forEach items="${UserList}" var="item" >
 
                         <tr class="text-c">
-                            <td><input type="checkbox" value="1" name=""></td>
+                            <td><input type="checkbox" value="1" name="${item.userId}"></td>
                             <td>${item.userId}</td>
                             <td><img src="${ctx}/resources/UserPicture/${item.userId}.jpg" width="40px" height="40px"/> </td>
                             <td><u style="cursor:pointer" class="text-primary"
@@ -284,7 +284,7 @@
                                     onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
                                     href="javascript:;"
                                     title="修改密码"><i
-                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="user_del(this,'1')"
+                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="user_del(this,${item.userId})"
                                                                  class="ml-5" style="text-decoration:none"><i
                                     class="icon-trash"></i></a></td>
                         </tr>

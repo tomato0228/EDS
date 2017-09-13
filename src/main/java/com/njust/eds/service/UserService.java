@@ -25,4 +25,7 @@ public interface UserService {
 
     public List<User> getAllUser();
 
+    public String findUsernameBuId(int id);
+
+    public void deletUser(User user);
 }

@@ -96,4 +96,10 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         query.setParameter(0, Read);
         return (Message) query.uniqueResult();
     }
+    public List<Message> findMessagesByRecevierId(Integer id){
+        String hql = "from Message  where msgReceiver=?";
+        Query query =getSession().createQuery(hql);
+        query.setParameter(0,id);
+        return query.list();
+    }
 }

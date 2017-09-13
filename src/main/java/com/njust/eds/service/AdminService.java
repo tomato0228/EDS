@@ -20,4 +20,6 @@ public interface AdminService {
     public void saveAdmin(Admin admin);
 
     public Admin findAdminByAdminName(String adminName);
+
+    public String findAdminnameById(int id);
 }
