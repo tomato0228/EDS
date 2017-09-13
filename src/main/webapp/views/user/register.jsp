@@ -85,7 +85,7 @@
                         <form id="reg-form">
                             <table>
                                 <tr>
-                                    <td>用户名</td>
+                                    <td><div style="font-size: 1.2em">用户名</div></td>
                                     <td><input name="userName" type="text" id="userName"
                                                data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
                                                data-message="用户名必须为4—16位的英文字母或数字"
@@ -93,28 +93,28 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>密码</td>
+                                    <td><div style="font-size: 1.2em">密码</div></td>
                                     <td><input name="password" type="password" id="password"
                                                data-easyform="length:6 16;"
                                                data-message="密码必须为6—16位"
                                                data-easytip="class:easy-blue;"></td>
                                 </tr>
                                 <tr>
-                                    <td>确认密码</td>
+                                    <td><div style="font-size: 1.2em">确认密码</div></td>
                                     <td><input name="password2" type="password" id="password2"
                                                data-easyform="length:6 16;equal:#password;"
                                                data-message="两次密码输入要一致" data-easytip="class:easy-blue;"></td>
                                 </tr>
                                 <tr>
-                                    <td>email</td>
+                                    <td><div style="font-size: 1.2em">email</div></td>
                                     <td><input name="email" type="text" id="email" data-easyform="email;real-time;"
                                                data-message="Email格式要正确"
                                                data-easytip="class:easy-blue;"></td>
                                 </tr>
                             </table>
                             <div class="buttons" style="margin-top: 50px;">
-                                <input value="注 册" type="submit" style="margin-right:20px; margin-top:20px;">
-                                <input value="登 录" type="button" style="margin-right:80px; margin-top:20px;"
+                                <input value="注 册" type="submit" style="margin-right:20px; margin-top:20px; font-size: 1.5em">
+                                <input value="登 录" type="button" style="margin-right:80px; margin-top:20px; font-size: 1.5em"
                                        onclick="window.location.href='${ctx}/user/tologin'">
                             </div>
                             <br class="clear">

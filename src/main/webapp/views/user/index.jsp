@@ -19,15 +19,15 @@
     <title>EDS</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="${ctx}/resources/css/bootstrap.css" rel="stylesheet">
+    <link href="${ctx}/resources/css/userbootstrap.css" rel="stylesheet">
     <!--external css-->
-    <link href="${ctx}/resources/fonts/font-awesome.css" rel="stylesheet" />
+    <link href="${ctx}/resources/fonts/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="${ctx}/resources/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/resources/js/gritter/css/jquery.gritter.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/lineicons/style.css">
 
     <!-- Custom styles for this template -->
-    <link href="${ctx}/resources/css/style.css" rel="stylesheet">
+    <link href="${ctx}/resources/css/userstyle.css" rel="stylesheet">
     <link href="${ctx}/resources/css/style-responsive.css" rel="stylesheet">
 
     <script src="${ctx}/resources/js/chart-master/Chart.js"></script>
@@ -41,7 +41,7 @@
 
 <body>
 
-<section id="container" >
+<section id="container">
     <!-- **********************************************************************************************************************************************************
     TOP BAR CONTENT & NOTIFICATIONS
     *********************************************************************************************************************************************************** -->
@@ -51,24 +51,24 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>EDS</b></a>
+        <a href="#" class="logo"><b>EDS</b></a>
         <!--logo end-->
         <div class="nav notify-row" id="top_menu">
             <!--  通知 start -->
             <ul class="nav top-menu">
                 <!-- 文件评论 start -->
                 <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.jsp#">
                         <i class="fa fa-tasks"></i>
                         <span class="badge bg-theme">4</span>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">You have 4 pending tasks</p>
+                            <p class="green">你有 4 条新评论</p>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <div class="task-info">
                                     <div class="desc">DashGum Admin Panel</div>
                                     <div class="percent">40%</div>
@@ -82,7 +82,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <div class="task-info">
                                     <div class="desc">Database Update</div>
                                     <div class="percent">60%</div>
@@ -96,7 +96,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <div class="task-info">
                                     <div class="desc">Product Development</div>
                                     <div class="percent">80%</div>
@@ -110,7 +110,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <div class="task-info">
                                     <div class="desc">Payments Sent</div>
                                     <div class="percent">70%</div>
@@ -124,24 +124,24 @@
                             </a>
                         </li>
                         <li class="external">
-                            <a href="#">See All Tasks</a>
+                            <a href="#">查看所有评论</a>
                         </li>
                     </ul>
                 </li>
                 <!-- 文件评论 end -->
                 <!-- inbox dropdown start-->
                 <li id="header_inbox_bar" class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.jsp#">
                         <i class="fa fa-envelope-o"></i>
                         <span class="badge bg-theme">5</span>
                     </a>
                     <ul class="dropdown-menu extended inbox">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">You have 5 new messages</p>
+                            <p class="green">你有 5 条新消息</p>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-zac.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Zac Snider</span>
@@ -153,7 +153,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-divya.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Divya Manian</span>
@@ -165,7 +165,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-danro.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Dan Rogers</span>
@@ -177,7 +177,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">
+                            <a href="index.jsp#">
                                 <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-sherman.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Dj Sherman</span>
@@ -189,7 +189,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="index.html#">See all messages</a>
+                            <a href="index.jsp#">查看所有消息</a>
                         </li>
                     </ul>
                 </li>
@@ -199,7 +199,7 @@
         </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="login.html">Logout</a></li>
+                <li><a class="logout" href="login.html">注 销</a></li>
             </ul>
         </div>
     </header>
@@ -215,84 +215,86 @@
             <ul class="sidebar-menu" id="nav-accordion">
 
                 <!--头像-->
-                <p class="centered"><a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle"
+                <p class="centered"><a href="profile.html"><img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle"
                                                                 width="60"></a></p>
                 <!--用户名-->
                 <h5 class="centered">Marcel Newman</h5>
 
                 <!--主页-->
                 <li class="mt">
-                    <a class="active" href="index.html">
-                        <i class="fa fa-dashboard"></i>
-                        <span>Dashboard</span>
+                    <a class="active" href="#">
+                        <i class="fa fa-home"></i>
+                        <span>主  页</span>
                     </a>
                 </li>
                 <!--消息-->
                 <li class="sub-menu">
                     <a href="javascript:;">
-                        <i class="fa fa-book"></i>
-                        <span>Extra Pages</span>
+                        <i class="fa fa-comments-o"></i>
+                        <span>我的消息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="blank.html">Blank Page</a></li>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="lock_screen.html">Lock Screen</a></li>
+                        <li><a href="blank.html">新建消息</a></li>
+                        <li><a href="login.html">未读消息</a></li>
+                        <li><a href="lock_screen.html">所有消息</a></li>
                     </ul>
                 </li>
                 <!--文件-->
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-th"></i>
-                        <span>Data Tables</span>
+                        <span>我的文件</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="basic_table.html">Basic Table</a></li>
-                        <li><a href="responsive_table.html">Responsive Table</a></li>
+                        <li><a href="responsive_table.html">新建文件</a></li>
+                        <li><a href="basic_table.html">近期文件</a></li>
+                        <li><a href="basic_table.html">共享文件</a></li>
+                        <li><a href="basic_table.html">私人文件</a></li>
                     </ul>
                 </li>
                 <!--文件评论-->
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-tasks"></i>
-                        <span>Forms</span>
+                        <span>文件评论</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="form_component.html">Form Components</a></li>
+                        <li><a href="form_component.html">未读评论</a></li>
+                        <li><a href="form_component.html">所有评论</a></li>
                     </ul>
                 </li>
                 <!--个人信息-->
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class=" fa fa-bar-chart-o"></i>
-                        <span>Charts</span>
+                        <span>个人信息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="morris.html">Morris</a></li>
-                        <li><a href="chartjs.html">Chartjs</a></li>
+                        <li><a href="morris.html">信息查看</a></li>
+                        <li><a href="panels.html">个人简介</a></li>
                     </ul>
                 </li>
                 <!--系统信息-->
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-desktop"></i>
-                        <span>UI Elements</span>
+                        <span>系统信息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="general.html">General</a></li>
-                        <li><a href="buttons.html">Buttons</a></li>
-                        <li><a href="panels.html">Panels</a></li>
+                        <li><a href="general.html">系统介绍</a></li>
+                        <li><a href="buttons.html">作者介绍</a></li>
                     </ul>
                 </li>
                 <!--设置-->
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-cogs"></i>
-                        <span>Components</span>
+                        <span>设  置</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="calendar.html">Calendar</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="todo_list.html">Todo List</a></li>
+                        <li><a href="calendar.html">密码修改</a></li>
+                        <li><a href="gallery.html">头像修改</a></li>
+                        <li><a href="todo_list.html">信息修改</a></li>
                     </ul>
                 </li>
             </ul>
@@ -314,38 +316,38 @@
                     <div class="row mtbox">
                         <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
                             <div class="box1">
-                                <span class="li_heart"></span>
+                                <span class="li_eye"></span>
                                 <h3>933</h3>
                             </div>
-                            <p>933 People liked your page the last 24hs. Whoohoo!</p>
+                            <p>共记 933 次查看你的共享文档.</p>
                         </div>
                         <div class="col-md-2 col-sm-2 box0">
                             <div class="box1">
                                 <span class="li_cloud"></span>
                                 <h3>+48</h3>
                             </div>
-                            <p>48 New files were added in your cloud storage.</p>
+                            <p>你上传了 48 个共享文档.</p>
                         </div>
                         <div class="col-md-2 col-sm-2 box0">
                             <div class="box1">
                                 <span class="li_stack"></span>
                                 <h3>23</h3>
                             </div>
-                            <p>You have 23 unread messages in your inbox.</p>
+                            <p>你总共有 23 个私人文件.</p>
                         </div>
                         <div class="col-md-2 col-sm-2 box0">
                             <div class="box1">
-                                <span class="li_news"></span>
+                                <span class="li_note"></span>
                                 <h3>+10</h3>
                             </div>
-                            <p>More than 10 news were added in your reader.</p>
+                            <p>你共享的文件有 10 条评论.</p>
                         </div>
                         <div class="col-md-2 col-sm-2 box0">
                             <div class="box1">
                                 <span class="li_data"></span>
                                 <h3>OK!</h3>
                             </div>
-                            <p>Your server is working perfectly. Relax & enjoy.</p>
+                            <p>你还没有获得认证，请及时完善个人信息</p>
                         </div>
 
                     </div><!-- /row mt -->
@@ -368,16 +370,17 @@
                                     var doughnutData = [
                                         {
                                             value: 70,
-                                            color:"#68dff0"
+                                            color: "#68dff0"
                                         },
                                         {
-                                            value : 30,
-                                            color : "#fdfdfd"
+                                            value: 30,
+                                            color: "#fdfdfd"
                                         }
                                     ];
                                     var myDoughnut = new Chart(document.getElementById("serverstatus01").getContext("2d")).Doughnut(doughnutData);
                                 </script>
-                            </div><! --/grey-panel -->
+                            </div>
+                            <! --/grey-panel -->
                         </div><!-- /col-md-4-->
 
 
@@ -404,7 +407,10 @@
                                 <div class="white-header">
                                     <h5>TOP USER</h5>
                                 </div>
-                                <p><img src="${ctx}/resources/img/ui-zac.jpg" class="img-circle" width="80"></p>
+                                <div class="row">
+
+                                </div>
+                                <p><img src="${ctx}/resources/img/ui-zac.jpg" class="img-circle" width="100"></p>
                                 <p><b>Zac Snider</b></p>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -435,11 +441,11 @@
                                     var doughnutData = [
                                         {
                                             value: 60,
-                                            color:"#68dff0"
+                                            color: "#68dff0"
                                         },
                                         {
-                                            value : 40,
-                                            color : "#444c57"
+                                            value: 40,
+                                            color: "#444c57"
                                         }
                                     ];
                                     var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
@@ -453,7 +459,8 @@
                                         <h5>60% Used</h5>
                                     </div>
                                 </footer>
-                            </div><! -- /darkblue panel -->
+                            </div>
+                            <! -- /darkblue panel -->
                         </div><!-- /col-md-4 -->
 
 
@@ -475,7 +482,11 @@
                                     <h5>REVENUE</h5>
                                 </div>
                                 <div class="chart mt">
-                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
+                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75"
+                                         data-width="90%" data-line-width="1" data-line-color="#fff"
+                                         data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff"
+                                         data-spot-radius="4"
+                                         data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
                                 </div>
                                 <p class="mt"><b>$ 17,980</b><br/>Month Income</p>
                             </div>
@@ -499,31 +510,45 @@
                             </ul>
                             <div class="bar">
                                 <div class="title">JAN</div>
-                                <div class="value tooltips" data-original-title="8.500" data-toggle="tooltip" data-placement="top">85%</div>
+                                <div class="value tooltips" data-original-title="8.500" data-toggle="tooltip"
+                                     data-placement="top">85%
+                                </div>
                             </div>
                             <div class="bar ">
                                 <div class="title">FEB</div>
-                                <div class="value tooltips" data-original-title="5.000" data-toggle="tooltip" data-placement="top">50%</div>
+                                <div class="value tooltips" data-original-title="5.000" data-toggle="tooltip"
+                                     data-placement="top">50%
+                                </div>
                             </div>
                             <div class="bar ">
                                 <div class="title">MAR</div>
-                                <div class="value tooltips" data-original-title="6.000" data-toggle="tooltip" data-placement="top">60%</div>
+                                <div class="value tooltips" data-original-title="6.000" data-toggle="tooltip"
+                                     data-placement="top">60%
+                                </div>
                             </div>
                             <div class="bar ">
                                 <div class="title">APR</div>
-                                <div class="value tooltips" data-original-title="4.500" data-toggle="tooltip" data-placement="top">45%</div>
+                                <div class="value tooltips" data-original-title="4.500" data-toggle="tooltip"
+                                     data-placement="top">45%
+                                </div>
                             </div>
                             <div class="bar">
                                 <div class="title">MAY</div>
-                                <div class="value tooltips" data-original-title="3.200" data-toggle="tooltip" data-placement="top">32%</div>
+                                <div class="value tooltips" data-original-title="3.200" data-toggle="tooltip"
+                                     data-placement="top">32%
+                                </div>
                             </div>
                             <div class="bar ">
                                 <div class="title">JUN</div>
-                                <div class="value tooltips" data-original-title="6.200" data-toggle="tooltip" data-placement="top">62%</div>
+                                <div class="value tooltips" data-original-title="6.200" data-toggle="tooltip"
+                                     data-placement="top">62%
+                                </div>
                             </div>
                             <div class="bar">
                                 <div class="title">JUL</div>
-                                <div class="value tooltips" data-original-title="7.500" data-toggle="tooltip" data-placement="top">75%</div>
+                                <div class="value tooltips" data-original-title="7.500" data-toggle="tooltip"
+                                     data-placement="top">75%
+                                </div>
                             </div>
                         </div>
                         <!--custom chart end-->
@@ -538,7 +563,7 @@
 
                 <div class="col-lg-3 ds">
                     <!--COMPLETED ACTIONS DONUTS CHART-->
-                    <h3>NOTIFICATIONS</h3>
+                    <h3>最近评论</h3>
 
                     <!-- First Action -->
                     <div class="desc">
@@ -546,7 +571,9 @@
                             <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
                         </div>
                         <div class="details">
-                            <p><muted>2 Minutes Ago</muted><br/>
+                            <p>
+                                <muted>2 Minutes Ago</muted>
+                                <br/>
                                 <a href="#">James Brown</a> subscribed to your newsletter.<br/>
                             </p>
                         </div>
@@ -557,7 +584,9 @@
                             <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
                         </div>
                         <div class="details">
-                            <p><muted>3 Hours Ago</muted><br/>
+                            <p>
+                                <muted>3 Hours Ago</muted>
+                                <br/>
                                 <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
                             </p>
                         </div>
@@ -568,7 +597,9 @@
                             <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
                         </div>
                         <div class="details">
-                            <p><muted>7 Hours Ago</muted><br/>
+                            <p>
+                                <muted>7 Hours Ago</muted>
+                                <br/>
                                 <a href="#">Brandon Page</a> purchased a year subscription.<br/>
                             </p>
                         </div>
@@ -579,7 +610,9 @@
                             <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
                         </div>
                         <div class="details">
-                            <p><muted>11 Hours Ago</muted><br/>
+                            <p>
+                                <muted>11 Hours Ago</muted>
+                                <br/>
                                 <a href="#">Mark Twain</a> commented your post.<br/>
                             </p>
                         </div>
@@ -590,18 +623,21 @@
                             <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
                         </div>
                         <div class="details">
-                            <p><muted>18 Hours Ago</muted><br/>
+                            <p>
+                                <muted>18 Hours Ago</muted>
+                                <br/>
                                 <a href="#">Daniel Pratt</a> purchased a wallet in your store.<br/>
                             </p>
                         </div>
                     </div>
 
                     <!-- USERS ONLINE SECTION -->
-                    <h3>TEAM MEMBERS</h3>
+                    <h3>最近消息</h3>
                     <!-- First Member -->
                     <div class="desc">
                         <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-divya.jpg" width="35px" height="35px" align="">
+                            <img class="img-circle" src="${ctx}/resources/img/ui-divya.jpg" width="35px" height="35px"
+                                 align="">
                         </div>
                         <div class="details">
                             <p><a href="#">DIVYA MANIAN</a><br/>
@@ -612,7 +648,8 @@
                     <!-- Second Member -->
                     <div class="desc">
                         <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-sherman.jpg" width="35px" height="35px" align="">
+                            <img class="img-circle" src="${ctx}/resources/img/ui-sherman.jpg" width="35px" height="35px"
+                                 align="">
                         </div>
                         <div class="details">
                             <p><a href="#">DJ SHERMAN</a><br/>
@@ -623,7 +660,8 @@
                     <!-- Third Member -->
                     <div class="desc">
                         <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-danro.jpg" width="35px" height="35px" align="">
+                            <img class="img-circle" src="${ctx}/resources/img/ui-danro.jpg" width="35px" height="35px"
+                                 align="">
                         </div>
                         <div class="details">
                             <p><a href="#">DAN ROGERS</a><br/>
@@ -634,7 +672,8 @@
                     <!-- Fourth Member -->
                     <div class="desc">
                         <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-zac.jpg" width="35px" height="35px" align="">
+                            <img class="img-circle" src="${ctx}/resources/img/ui-zac.jpg" width="35px" height="35px"
+                                 align="">
                         </div>
                         <div class="details">
                             <p><a href="#">Zac Sniders</a><br/>
@@ -645,7 +684,8 @@
                     <!-- Fifth Member -->
                     <div class="desc">
                         <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-sam.jpg" width="35px" height="35px" align="">
+                            <img class="img-circle" src="${ctx}/resources/img/ui-sam.jpg" width="35px" height="35px"
+                                 align="">
                         </div>
                         <div class="details">
                             <p><a href="#">Marcel Newman</a><br/>
@@ -654,11 +694,12 @@
                         </div>
                     </div>
 
-                    <!-- CALENDAR-->
+                    <!-- 日历-->
                     <div id="calendar" class="mb">
                         <div class="panel green-panel no-margin">
                             <div class="panel-body">
-                                <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                                <div id="date-popover" class="popover top"
+                                     style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
                                     <div class="arrow"></div>
                                     <h3 class="popover-title" style="disadding: none;"></h3>
                                     <div id="date-popover-content" class="popover-content"></div>
@@ -666,10 +707,11 @@
                                 <div id="my-calendar"></div>
                             </div>
                         </div>
-                    </div><!-- / calendar -->
+                    </div><!-- / 日历 -->
 
                 </div><!-- /col-lg-3 -->
-            </div><! --/row -->
+            </div>
+            <! --/row -->
         </section>
     </section>
 
@@ -678,7 +720,7 @@
     <footer class="site-footer">
         <div class="text-center">
             2014 - Alvarez.is
-            <a href="index.html#" class="go-top">
+            <a href="index.jsp#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>
         </div>
@@ -688,8 +730,8 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="${ctx}/resources/js/jquery.js"></script>
-<script src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
-<script src="${ctx}/resources/js/bootstrap.min.js"></script>
+<script src="${ctx}/resources/js/jquery-1.8.3.min.js"></script>
+<script src="${ctx}/resources/js/userbootstrap.min.js"></script>
 <script class="include" type="text/javascript" src="${ctx}/resources/js/jquery.dcjqaccordion.2.7.js"></script>
 <script src="${ctx}/resources/js/jquery.scrollTo.min.js"></script>
 <script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
@@ -710,13 +752,13 @@
     $(document).ready(function () {
         var unique_id = $.gritter.add({
             // (string | mandatory) the heading of the notification
-            title: 'Welcome to Dashgum!',
+            title: '欢迎来到 EDS!',
             // (string | mandatory) the text inside the notification
-            text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo. Free version for <a href="http://blacktie.co" target="_blank" style="color:#ffd777">BlackTie.co</a>.',
+            text: '这里有最安全的加密算法，保证你的文件不会被非授权用户获取到，超强的双重加密与日志系统将时时刻刻保证你的文档安全，若喜欢，欢迎<a href="#" target="_blank" style="color:#ffd777">捐赠作者</a>.',
             // (string | optional) the image to display on the left
             image: '${ctx}/resources/img/ui-sam.jpg',
             // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: true,
+            sticky: false,
             // (int | optional) the time you want it to be alive for before fading out
             time: '',
             // (string | optional) the class name you want to apply to that specific message
@@ -748,7 +790,7 @@
             },
             legend: [
                 {type: "text", label: "Special event", badge: "00"},
-                {type: "block", label: "Regular event", }
+                {type: "block", label: "Regular event",}
             ]
         });
     });

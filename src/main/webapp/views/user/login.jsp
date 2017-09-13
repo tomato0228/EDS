@@ -85,7 +85,7 @@
                     <form id="reg-form">
                         <table>
                             <tr>
-                                <td>用户名</td>
+                                <td><div style="font-size: 1.3em">用户名</div></td>
                                 <td><input name="userName" type="text" id="userName"
                                            data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
                                            data-message="用户名必须为4—16位的英文字母或数字"
@@ -93,18 +93,18 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>密码</td>
+                                <td><div style="font-size: 1.3em">密码</div></td>
                                 <td><input name="password" type="password" id="password"
-                                           data-easyform="length:6 16;ajax:ajax_demo(1);"
+                                           data-easyform="length:6 16;"
                                            data-message="密码必须为6—16位"
                                            data-easytip="class:easy-blue;" data-message-ajax="用户名或密码错误!"></td>
                             </tr>
                         </table>
                         <div class="buttons" style="margin-top: 50px;">
-                            <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px;">
-                            <input value="注 册" type="button" style="margin-right:45px; margin-top:20px;"
+                            <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px; font-size: 1em">
+                            <input value="注 册" type="button" style="margin-right:45px; margin-top:20px; font-size: 1em"
                                    onclick="window.location.href='${ctx}/user/toRegister'"><br>
-                            <span class="copyright"><a href="${ctx}/admin/tologin">ForgetPassword</a>.</span>
+                            <span class="copyright"><a href="${ctx}/user/forgetPassword">ForgetPassword</a>.</span>
                         </div>
                         <br class="clear">
                     </form>

@@ -14,7 +14,7 @@
 }
 
 .demo-2 .large-header {
-	background-image: url('../img/demo-2-bg.jpg');
+	background-image: url('../img/forgetPassword.jpg');
 	background-position: center bottom;
 }
 
@@ -48,7 +48,7 @@
 .demo-2 .main-title {
 	font-family: 'Clicker Script', cursive;
 	font-weight: normal;
-	font-size: 8em;
+	font-size: 5em;
 	padding-left: 10px;
 	text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
