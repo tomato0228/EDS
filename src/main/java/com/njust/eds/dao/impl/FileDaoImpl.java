@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class FileDaoImpl extends BaseDaoImpl implements FileDao {
 
-   @Autowired
+    @Autowired
     private UserDao userDao;
 
     public void saveFile(File file) {
@@ -28,12 +28,14 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
         File file = (File) query.uniqueResult();
         return file;
     }
-    public List<File> findFileByUserId(int userId){
+
+    public List<File> findFileByUserId(int userId) {
         String hql = "from File where fileUserId=?";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, userId);
         return query.list();
     }
+
     @SuppressWarnings("unchecked")
     public List<File> findFile(List<Object> params, String hql) {
         Query query = getSession().createQuery(hql);
@@ -60,11 +62,11 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
         return null;
     }
 
-    public List<List<File>>findUserFiles(){
+    public List<List<File>> findUserFiles() {
 
-        List<List<File>> userfiles=new ArrayList<List<File>>();
-        List<User> userlist=userDao.getAllUser();
-        for( User user:userlist) {
+        List<List<File>> userfiles = new ArrayList<List<File>>();
+        List<User> userlist = userDao.getAllUser();
+        for (User user : userlist) {
             List<File> filelist = findFileByUserId(user.getUserId());
             userfiles.add(filelist);
         }

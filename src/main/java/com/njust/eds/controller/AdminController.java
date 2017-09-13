@@ -30,8 +30,10 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private FileService fileService;
 
@@ -61,15 +63,15 @@ public class AdminController {
     @RequestMapping("/FileControl")
     public String FileControl(ModelMap map) {
 
-        List<List<File>> list=fileService.findUserFiles();
-        map.addAttribute("Userfiles",list);
+        List<List<File>> list = fileService.findUserFiles();
+        map.addAttribute("Userfiles", list);
         return "admin/fileControl";
     }
 
     @RequestMapping("/UserControl")
-    public String  UserControl(ModelMap map) {
-        List<User> list=userService.getAllUser();
-        map.addAttribute("UserList",list);
+    public String UserControl(ModelMap map) {
+        List<User> list = userService.getAllUser();
+        map.addAttribute("UserList", list);
         return "admin/userControl";
     }
 

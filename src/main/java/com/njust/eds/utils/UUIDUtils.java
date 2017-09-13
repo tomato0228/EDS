@@ -17,6 +17,4 @@ public class UUIDUtils {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
-
-
 }

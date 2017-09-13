@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.njust.eds.utils.AESUtil.*;
 
@@ -252,7 +255,7 @@ public class UserController {
             String filename = file.getOriginalFilename();
             String prefix = filename.substring(filename.lastIndexOf(".") + 1);
             //修改后的文件名
-            String fileUUIDname = filename.substring(0, filename.lastIndexOf(".") - 1) + UUID.randomUUID().toString();
+            String fileUUIDname = filename.substring(0, filename.lastIndexOf(".") - 1) + UUIDUtils.getUUID();
             //修改后的文件名(带后缀)
             String NewFileName = fileUUIDname + "." + prefix;
             newfile.setFileName(NewFileName);
@@ -264,7 +267,7 @@ public class UserController {
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
             newfile.setFileType(file.getContentType());
-            String key = KeyCreate(128);
+            String key = KeyCreate(128) + UUIDUtils.getUUID();
             newfile.setFileSecretKey(key);
             fileService.addFile(newfile);
             newfile = fileService.findFileByFileName(newfile.getFileName());

@@ -23,8 +23,4 @@ public class FiledataServiceImpl implements FiledataService {
     public Filedata getFiledataById(Integer id) {
         return filedataDao.findFiledataById(id);
     }
-
-    //public Filedata findFiledataById(Integer id) {
-    //    return filedataDao.findFiledataById(id);
-    //}
 }
