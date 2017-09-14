@@ -1,0 +1,157 @@
+.ibox-left {
+    width: 50%;
+    float: left;
+}
+
+.ibox-right {
+    width: 50%;
+    float: left;
+}
+
+.avatar-view {
+    display: block;
+    /*居中 start*/
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    /*居中  end*/
+    width: 180px;
+    height: 180px;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.avatar-view img {
+    width: 100%;
+}
+
+.avatar-body {
+    height: 400px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.title {
+    line-height: 1.6;
+    font-size: 16px;
+    text-align: center;
+}
+
+.avatar-upload {
+    overflow: hidden;
+}
+
+.avatar-upload label {
+    display: block;
+    float: left;
+    clear: left;
+    width: 100px;
+}
+
+.avatar-upload input {
+    float: left;
+    display: block;
+}
+
+.avater-alert {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.avatar-wrapper {
+    height: 300px;
+    width: 300px;
+    margin-top: 15px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, .25);
+    background-color: #fcfcfc;
+    overflow: hidden;
+}
+
+.avatar-wrapper img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+
+.avatar-preview {
+    margin: 15px auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.avatar-preview:hover {
+    border-color: #ccf;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+}
+
+.avatar-preview img {
+    width: 100%;
+}
+
+.file-type {
+    position: absolute;
+    top: 113px;
+    left: 33px;
+    padding: 0 15px;
+    width: 261px;
+    line-height: 1.4;
+    font-size: 16px;
+    color: #A8A8A3;
+    text-align: center;
+}
+
+.file-type em {
+    color: #2BA245;
+}
+
+.preview-mx {
+    height: 130px;
+    width: 130px;
+    margin: 10px auto;
+}
+.preview-md {
+    height: 80px;
+    width: 80px;
+    margin: 20px auto;
+}
+.preview-ml {
+    height: 40px;
+    width: 40px;
+    margin: 20px auto;
+}
+
+@media (min-width: 992px) {
+    .avatar-preview {
+        float: none;
+    }
+}
+
+.avatar-btns {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.avatar-btns .btn-group {
+    margin-right: 5px;
+}
+
+.loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: .75;
+    filter: alpha(opacity=75);
+    z-index: 20140628;
+}

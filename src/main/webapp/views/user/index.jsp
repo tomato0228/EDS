@@ -5,16 +5,13 @@
   Time: 上午10:30
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
-    <meta name="description" content="">
-    <meta name="author" content="Tomato">
 
     <title>EDS</title>
 
@@ -215,8 +212,18 @@
             <ul class="sidebar-menu" id="nav-accordion">
 
                 <!--头像-->
-                <p class="centered"><a href="profile.html"><img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle"
-                                                                width="60"></a></p>
+                <p class="centered">
+                    <a href="#" onclick="window.location.href = '${ctx}/user/userPicture'">
+                        <c:choose>
+                            <c:when test="${sessionScope.loginUser.userPictureUrl} == null">
+                                <img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle" width="60">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${sessionScope.loginUser.userPictureUrl}" class="img-circle" width="60">
+                            </c:otherwise>
+                        </c:choose>
+                    </a>
+                </p>
                 <!--用户名-->
                 <h5 class="centered">Marcel Newman</h5>
 
@@ -293,7 +300,7 @@
                     </a>
                     <ul class="sub">
                         <li><a href="calendar.html">密码修改</a></li>
-                        <li><a href="gallery.html">头像修改</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
                         <li><a href="todo_list.html">信息修改</a></li>
                     </ul>
                 </li>

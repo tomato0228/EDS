@@ -1,13 +1,16 @@
 package com.njust.eds.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.njust.eds.model.File;
 import com.njust.eds.model.Filedata;
 import com.njust.eds.model.User;
+import com.njust.eds.service.CommentService;
 import com.njust.eds.service.FileService;
 import com.njust.eds.service.FiledataService;
 import com.njust.eds.service.UserService;
 import com.njust.eds.utils.*;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,10 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static com.njust.eds.utils.AESUtil.*;
 
@@ -43,6 +49,9 @@ public class UserController {
     @Autowired
     private FiledataService filedataService;
 
+    @Autowired
+    private CommentService commentService;
+
     @ResponseBody
     @RequestMapping("/checkUserName")
     public String checkUserName(HttpServletRequest request) {
@@ -56,12 +65,17 @@ public class UserController {
 
     @RequestMapping("/toRegister")
     public String toRegister() {
-        return "user/register";
+        return "user/userPicture";
     }
 
     @RequestMapping("/tologin")
     public String tologin() {
         return "user/login";
+    }
+
+    @RequestMapping("/userPicture")
+    public String userPicture() {
+        return "user/userPicture";
     }
 
     @ResponseBody
@@ -219,12 +233,9 @@ public class UserController {
         return "user/forgetPassword";
     }
 
-    @RequestMapping("/index/{id}")
-    public String index(ModelMap map, @PathVariable Integer id) {
-        System.out.println(userService.getUserById(id));
-        System.out.println("userService.getUserById(id)的值是：---" + userService.getUserById(id) + "，当前方法=UserController.index()");
-        map.put("loginUser", userService.getUserById(id));
-        return "user/index";
+    @RequestMapping("/index")
+    public String index() {
+        return "user/tool";
     }
 
     @ResponseBody
@@ -237,13 +248,21 @@ public class UserController {
         user.setUserPassword(password);
         User currentUser = userService.queryUser(user);
         if (currentUser != null) {
-            resultMap.put("id", currentUser.getUserId());
+            request.getSession().setAttribute("loginUser",currentUser);
             resultMap.put("res", "yes");
         } else {
             resultMap.put("res", "no");
         }
         return resultMap;
     }
+
+    @RequestMapping("/logout")
+    public String tologout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("loginUser");
+        return "user/login";
+    }
+
 
     @RequestMapping(value = "upload/{userId}", method = RequestMethod.POST)
     public String upload(@PathVariable int userId, @RequestPart(value = "file", required = false)
@@ -267,7 +286,7 @@ public class UserController {
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
             newfile.setFileType(file.getContentType());
-            String key = KeyCreate(128) + UUIDUtils.getUUID();
+            String key = KeyCreate(16);
             newfile.setFileSecretKey(key);
             fileService.addFile(newfile);
             newfile = fileService.findFileByFileName(newfile.getFileName());
@@ -278,7 +297,7 @@ public class UserController {
         return "user/index";
     }
 
-    @RequestMapping(value = "/download/{fileId}")
+    @RequestMapping(value = "/download/{fileId}", method = RequestMethod.POST)
     public ResponseEntity<byte[]> download(HttpServletRequest request,
                                            @PathVariable("fileId") int fileId) throws Exception {
         Filedata filedata = filedataService.getFiledataById(17);
@@ -298,5 +317,52 @@ public class UserController {
         }
         return null;
     }
+
+    @ResponseBody
+    @RequestMapping("uploadUserImg")
+    public AjaxResult uploadUserImg(@RequestParam(value = "avatar_file", required = false) MultipartFile file,
+                                    @RequestParam("avatar_data") String avatar_data, HttpServletRequest request)
+            throws IOException {
+        //获得裁剪数据
+        GraphicData graphicData = JSONObject.parseObject(avatar_data, GraphicData.class);
+        //获得文件名
+        String fileName = file.getOriginalFilename();
+        //获取扩展名
+        String extension = fileName.substring(fileName.lastIndexOf("."));
+        //检测允许上传的文件类型
+        if (!Pattern.matches("\\.(jpg|jpeg|png|gif)$", extension)) {
+            return new AjaxResult(false, "文件类型不允许");
+        }
+        //根据日期生成保存路径
+        String folderPath = "/resources/img/userPicture/";// + CommonUtils.getDateStr() + "/";
+        String realFolderPath = request.getServletContext().getRealPath(folderPath);
+        java.io.File savedPath = new java.io.File(realFolderPath);
+        //路径不存在则创建
+        if (!savedPath.exists()) {
+            savedPath.mkdir();
+        }
+        //设置裁剪后的突破大小
+        int width = 360;
+        int height = 360;
+        User user = (User) request.getSession().getAttribute("loginUser");
+        String savedFileName = user.getUserId() + ".png";
+        java.io.File savedFile = new java.io.File(realFolderPath, savedFileName);
+        //裁剪图片并保存
+        Thumbnails.of(file.getInputStream()).sourceRegion(graphicData.getX(), graphicData.getY(), graphicData.getW(),
+                graphicData.getH()).size(width, height).outputFormat("png").toFile(savedFile);
+        //保存新的url到session
+        request.getSession().setAttribute("url", folderPath + savedFileName);
+        user.setUserPictureUrl(folderPath + savedFileName);
+        userService.updateUser(user);
+        return new AjaxResult(true, "图片上传成功", folderPath + savedFileName);
+    }
+
+    public void FindFileComments( HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        //commentService.findComment()
+       List<File> files = fileService.findFileByUserId(((User)request.getSession().getAttribute("loginUser")).getUserId());
+
+    }
+
 
 }

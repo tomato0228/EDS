@@ -17,7 +17,8 @@
 </head>
 <body>
 登录成功
-当前用户: ${loginUser.userName}
+当前用户: ${sessionScope.loginUser.userName}
+${sessionScope.loginUser.userId}
 点击此处以管理你的文件<a href="<c:url value='user/add-document-${loginUser.userId}' />">Click here to upload/manage your documents</a>
 <h1>hello task !!</h1>
 
