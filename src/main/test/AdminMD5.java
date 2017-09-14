@@ -35,9 +35,4 @@ public class AdminMD5 {
         System.out.println(System.currentTimeMillis() / 1000);
     }
 
-    public static void main(String[] args) {
-
-         AdminMD5 adminMD5=new AdminMD5();
-        System.out.println(adminMD5.findMd5());
-    }
 }
