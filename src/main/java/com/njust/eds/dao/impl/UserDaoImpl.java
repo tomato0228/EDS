@@ -90,4 +90,18 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     public void deletUser(User user){
         getSession().delete(user);
     }
+
+    public void start(int id){
+        String hql="update User  set userIsAccepted=1 where userId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, id);
+        query.executeUpdate();
+    }
+
+    public void stop(int id){
+        String hql="update User  set userIsAccepted=0 where userId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, id);
+        query.executeUpdate();
+    }
 }

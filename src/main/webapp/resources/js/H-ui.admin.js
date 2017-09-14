@@ -90,29 +90,66 @@ function user_edit_save(obj,id){
 }
 
 /*用户-停用*/
-function user_stop(obj,id){
+function user_stop(obj,fileid){
 	layer.confirm('确认要停用吗？',function(index){
-		$(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="user_start(this,\'10001\')" href="javascript:;" title="启用"><i class="icon-hand-up"></i></a>');
-		$(obj).parents("tr").find(".user-status").html('<span class="label">已停用</span>');
+		$(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="已下载"><i class="icon-hand-up"></i></a>');
 		$(obj).remove();
-		layer.msg('已停用!',1);
+		layer.msg('已下载!',1);
+        $.post('/admin/download',
+            {
+                fileid:fileid
+            },function (requestdata) {
+
+            }
+        );
 	});
 }
 /*用户-启用*/
-function user_start(obj,id){
+function user_start(obj,userid){
 	layer.confirm('确认要启用吗？',function(index){
-		$(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="user_stop(this,\'10001\')" href="javascript:;" title="停用"><i class="icon-hand-down"></i></a>');
+		$(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="停用"><i class="icon-hand-down"></i></a>');
 		$(obj).parents("tr").find(".user-status").html('<span class="label label-success">已启用</span>');
 		$(obj).remove();
 		layer.msg('已启用!',1);
+        $.post('/admin/StartUser',
+            {
+                userid:userid
+            },function (requestdata) {
+
+
+
+            }
+        );
 	});
+}
+/*文件-下载*/
+function file_download(obj,fileid){
+    layer.confirm('确认要下载此文件吗？',function(index){
+        $(obj).parents("tr").find(".user-status").html('<span class="label">已下载</span>');
+        layer.msg('已下载!',1);
+        $.post('/admin/download',
+            {
+                fileid:fileid
+            },function (requestdata) {
+
+            }
+        );
+    });
 }
 /*用户-删除*/
 function user_del(obj,userid){
 	layer.confirm('确认要删除吗？',function(index){
 		$(obj).parents("tr").remove();
 		layer.msg('已删除!',1);
-        window.location.href = '/admin/DeleteUser/' + userid;
+		$.post('/admin/DeleteUser',
+			{
+				userid:userid
+			},function (requestdata) {
+
+                window.location.reload();
+            }
+		);
+
 	});
 }
 /*------------资讯管理----------------*/

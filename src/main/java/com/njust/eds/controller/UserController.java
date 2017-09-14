@@ -224,7 +224,7 @@ public class UserController {
         System.out.println(userService.getUserById(id));
         System.out.println("userService.getUserById(id)的值是：---" + userService.getUserById(id) + "，当前方法=UserController.index()");
         map.put("loginUser", userService.getUserById(id));
-        return "user/index";
+        return "user/tool";
     }
 
     @ResponseBody
@@ -267,7 +267,7 @@ public class UserController {
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
             newfile.setFileType(file.getContentType());
-            String key = KeyCreate(128) + UUIDUtils.getUUID();
+            String key = KeyCreate(16);
             newfile.setFileSecretKey(key);
             fileService.addFile(newfile);
             newfile = fileService.findFileByFileName(newfile.getFileName());

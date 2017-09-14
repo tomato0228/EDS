@@ -28,4 +28,8 @@ public interface UserService {
     public String findUsernameBuId(int id);
 
     public void deletUser(User user);
+
+    public void start(int id);
+
+    public void stop(int id);
 }

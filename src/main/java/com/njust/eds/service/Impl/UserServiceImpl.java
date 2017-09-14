@@ -128,4 +128,13 @@ public class UserServiceImpl implements UserService {
         userDao.deletUser(user);
     }
 
+    public void start(int id){
+        userDao.start(id);
+
+    }
+
+    public void stop(int id){
+        userDao.stop(id);
+    }
+
 }

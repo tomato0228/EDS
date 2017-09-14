@@ -269,13 +269,20 @@
                             <td>${item.userCreateTime}</td>
                             <td class="user-status"><span class="label label-success"><c:choose>
                                 <c:when test = "${item.userIsAccepted==0}">未认证</c:when>
-                                <c:when test = "${item.userSex==1}">已认证</c:when>
+                                <c:when test = "${item.userIsAccepted==1}">已认证</c:when>
                             </c:choose>
                             </span>
                             </td>
-                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="user_stop(this,'10001')"
-                                                            href="javascript:;" title="停用"><i
-                                    class="icon-hand-down"></i></a> <a
+                            <td class="f-14 user-manage">
+                                <c:choose>
+                                    <c:when test="${item.userIsAccepted==0}">
+                               <a style="text-decoration:none" onClick="user_start(this,${item.userId})"
+                                                  href="javascript:;" title="认证"><i
+                                    class="icon-hand-down"></i></a></c:when>
+                                <c:when test="${item.userIsAccepted==1}">
+                                    <a style="text-decoration:none" onClick="user_stop(this,${item.userId})"
+                                       href="javascript:;" title="取消认证"><i
+                                            class="icon-hand-down"></i></a></c:when> </c:choose><a
                                     title="编辑" href="javascript:;" onClick="user_edit('4','550','','编辑','user-add.html')"
                                     class="ml-5"
                                     style="text-decoration:none"><i class="icon-edit"></i></a> <a

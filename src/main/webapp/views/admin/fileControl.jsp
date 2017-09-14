@@ -22,8 +22,70 @@
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/css/H-ui.css"/>
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/css/H-ui.admin.css"/>
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/fonts/font-awesome.min.css"/>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link href="assets/css/codemirror.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/ace.min.css"/>
+    <link rel="stylesheet" href="font/css/font-awesome.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css"/>
+    <![endif]-->
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/typeahead-bs2.min.js"></script>
+    <script src="assets/js/jquery.dataTables.min.js"></script>
+    <script src="assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="assets/layer/layer.js" type="text/javascript"></script>
+    <script src="assets/laydate/laydate.js" type="text/javascript"></script>
     <script src="${ctx}/resources/js/jquery.min.js"></script>
     <script src="${ctx}/resources/js/bootstrap.min.js"></script>
+    <script src="${ctx}/resources/new/js/jquery-1.9.1.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/bootstrap.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/typeahead-bs2.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/jquery.dataTables.min.js"></script>
+    <script src="${ctx}/resources/new/assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="${ctx}/resources/new/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="${ctx}/resources/new/assets/laydate/laydate.js" type="text/javascript"></script>
+    <script src="${ctx}/resources/new/assets/layer/layer.js" type="text/javascript"></script>
+    <script src="${ctx}/resources/new/assets/laydate/laydate.js" type="text/javascript"></script>
+    <script>
+        jQuery(function ($) {
+            var oTable1 = $('#sample-table').dataTable({
+                //"aaSorting": [[1, "desc"]],//默认第几个排序
+                "bStateSave": true,//状态保存
+                "aoColumnDefs": [
+                    //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                    {"orderable": false, "aTargets": [0, 2, 3, 6]}// 制定列不参与排序
+                ]
+            });
+            $('table th input:checkbox').on('click', function () {
+                var that = this;
+                $(this).closest('table').find('tr > td:first-child input:checkbox')
+                    .each(function () {
+                        this.checked = that.checked;
+                        $(this).closest('tr').toggleClass('selected');
+                    });
+
+            });
+        });
+        //面包屑返回值
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.iframeAuto(index);
+        $('.Refund_detailed').on('click', function () {
+            var cname = $(this).attr("title");
+            var chref = $(this).attr("href");
+            var cnames = parent.$('.Current_page').html();
+            var herf = parent.$("#iframe").attr("src");
+            parent.$('#parentIframe').html(cname);
+            parent.$('#iframe').attr("src", chref).ready();
+            parent.$('#parentIframe').css("display", "inline-block");
+            parent.$('.Current_page').attr({"name": herf, "href": "javascript:void(0)"}).css({
+                "color": "#4c8fbd",
+                "cursor": "pointer"
+            });
+            parent.layer.close(index);
+        });
+    </script>
     <script>
         $(function () {
             $(".meun-item").click(function () {
@@ -33,11 +95,10 @@
                 itmeObj.each(function () {
                     var items = $(this).attr("src");
                     items = items.replace("_grey.png", ".png");
-                    items = items.replace(".png", "_grey.png")
+                    items = items.replace(".png", "_grey.png");
                     $(this).attr("src", items);
                 });
                 var attrObj = $(this).find("img").attr("src");
-                ;
                 attrObj = attrObj.replace("_grey.png", ".png");
                 $(this).find("img").attr("src", attrObj);
             });
@@ -66,15 +127,8 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/css/flat-ui.min.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/css/jquery.nouislider.css">
     <title>EDS文件管理系统</title>
-    <script>
-        $(function () {
-            $('.meun-item').click(function () {
-                $(this).addClass('meun-item-active').siblings('li').removeClass('meun-item-active');
-            })
-        })
-    </script>
-    <script type="text/javascript">
 
+    <script type="text/javascript">
         function logoutEDS() {
             window.location.href = "${ctx}/admin/logout";
         }
@@ -188,7 +242,7 @@
                         <th width="150">文件类型</th>
                         <th width="300">文件摘要</th>
                         <th width="130">上传时间</th>
-                        <th width="70">状态</th>
+                        <th width="70">文件密级</th>
                         <th width="100">操作</th>
                     </tr>
                     </thead>
@@ -209,13 +263,26 @@
                             <td>${Fileitem.fileDownloadtimes}</td>
                             <td class="text-l">${Fileitem.fileType}</td>
                             <td>${Fileitem.fileAbstrcat}</td>
+                            <td>${Fileitem.fileLoadTime}</td>
                             <td class="user-status"><span class="label label-success">
-                                ${Fileitem.fileLoadTime}
+                                <c:choose>
+                                    <c:when test="${Fileitem.fileSecretLevel==1}">普通</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==2}">内部</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==3}">C级</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==3}">B级</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==3}">A级</c:when>
+                                </c:choose>
                             </span>
                             </td>
-                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="user_stop(this,'10001')"
-                                                            href="javascript:;" title="停用"><i
-                                    class="icon-hand-down"></i></a> <a
+
+                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="file_download(this,${Fileitem.fileId})"
+                                                            href="javascript:;" title="认证"><i
+                                    class="icon-hand-down"></i></a>
+
+
+
+
+                                <a
                                     title="编辑" href="javascript:;" onClick="user_edit('4','550','','编辑','user-add.html')"
                                     class="ml-5"
                                     style="text-decoration:none"><i class="icon-edit"></i></a> <a
@@ -244,9 +311,37 @@
 
 
     <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctx}/resources/layer/layer.min.js"></script>
+    <script type="text/javascript" src="${ctx}/resources/js/pagenav.cn.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.js"></script>
+    <script type="text/javascript" src="${ctx}/resources/js/WdatePicker.js"></script>
+    <script type="text/javascript" src="${ctx}/resources/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.admin.js"></script>
-
+    <script type="text/javascript">
+        window.onload = (function () {
+            // optional set
+            pageNav.pre = "&lt;上一页";
+            pageNav.next = "下一页&gt;";
+            // p,当前页码,pn,总页面
+            pageNav.fn = function (p, pn) {
+                $("#pageinfo").text("当前页:" + p + " 总页: " + pn);
+            };
+            //重写分页状态,跳到第三页,总页33页
+            pageNav.go(1, 13);
+        });
+        $('.table-sort').dataTable({
+            "lengthMenu": false,//显示数量选择
+            "bFilter": false,//过滤功能
+            "bPaginate": false,//翻页信息
+            "bInfo": false,//数量信息
+            "aaSorting": [[1, "desc"]],//默认第几个排序
+            "bStateSave": true,//状态保存
+            "aoColumnDefs": [
+                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+            ]
+        });
+    </script>
     <%
     } else {
     %>

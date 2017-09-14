@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: tomato
   Date: 2017/9/11
-  Time: 上午11:44
+  Time: 上午11:27
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="com.njust.eds.model.Admin" %>
@@ -83,6 +83,7 @@
 <body>
 <%
     Admin admin = (Admin) session.getAttribute("loginAdmin");
+
     if (admin != null) {
 %>
 <div id="wrap">
@@ -101,6 +102,7 @@
         <div class="meun-title ">普通管理</div>
         <%
             int Power = admin.getAdminPower();
+            int adminid=admin.getAdminId();
             if (Power == 3 || Power == 1) {
         %>
         <div id="wj" class="meun-item" onclick="window.location.href='${ctx}/admin/FileControl'"><img
@@ -119,11 +121,11 @@
         <div id="xx" class="meun-item" onclick="window.location.href='${ctx}/admin/MessageControl'"><img
                 src="${ctx}/resources/images/icon_user_grey.png">消息管理
         </div>
-        <div id="gr" class="meun-item meun-item-active"><img
+        <div id="gr" class="meun-item" onclick="window.location.href='${ctx}/admin/PersonalSettings'"><img
                 src="${ctx}/resources/images/icon_change_grey.png">个人设置
         </div>
         <div class="meun-title">系统管理</div>
-        <div id="xt" class="meun-item" onclick="window.location.href='${ctx}/admin/SystemInfo'"><img
+        <div id="xt" class="meun-item meun-item-active"><img
                 src="${ctx}/resources/images/icon_house_grey.png">系统信息
         </div>
 
@@ -144,18 +146,54 @@
             }
         %>
     </div>
-    <!-- 右侧栏目块 -->
     <div id="rightContent">
         <a class="toggle-btn" id="nimei">
             <i class="glyphicon glyphicon-align-justify"></i>
         </a>
         <!-- Tab panes -->
         <div class="tab-content">
-            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 个人设置
+            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 系统信息
                 <a class="btn btn-success radius r mr-20"
                    style="line-height:1.6em;margin-top:3px"
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
+            <div class="cl pd-20" style=" background-color:#5bacb6">
+                <img class="avatar avatar-XL l" src="${ctx}/resources/images/logo.png">
+                <dl style="margin-left:80px; color:#fff">
+                    <dt><span class="f-18">我的信息</span> <span class="pl-10 f-12">余额：40</span></dt>
+                    <dd class="pt-10 f-12" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
+                </dl>
+            </div>
+            <div class="pd-20">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th class="text-r" width="80">性别：</th>
+                        <td>男</td>
+                    </tr>
+                    <tr>
+                        <th class="text-r">手机：</th>
+                        <td>13000000000</td>
+                    </tr>
+                    <tr>
+                        <th class="text-r">邮箱：</th>
+                        <td>admin@mail.com</td>
+                    </tr>
+                    <tr>
+                        <th class="text-r">地址：</th>
+                        <td>北京市 海淀区</td>
+                    </tr>
+                    <tr>
+                        <th class="text-r">注册时间：</th>
+                        <td>2014.12.20</td>
+                    </tr>
+                    <tr>
+                        <th class="text-r">积分：</th>
+                        <td>330</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
