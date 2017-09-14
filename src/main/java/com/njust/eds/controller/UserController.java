@@ -65,7 +65,7 @@ public class UserController {
 
     @RequestMapping("/toRegister")
     public String toRegister() {
-        return "user/userPicture";
+        return "user/register";
     }
 
     @RequestMapping("/tologin")
