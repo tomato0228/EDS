@@ -15,3 +15,4 @@ src/main/webapp/resources/.DS_Store
 src/main/webapp/resources/css/.DS_Store
 src/main/webapp/resources/js/.DS_Store
 target/
+!/target/eds/resources/img/userPicture/
