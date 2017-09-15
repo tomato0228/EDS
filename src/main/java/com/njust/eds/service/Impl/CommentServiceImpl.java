@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public List<Comment> findComment(Map<String, Object> map) {
-        StringBuffer hql = new StringBuffer("from Log where 1=1 ");
+        StringBuffer hql = new StringBuffer("from Comment where 1=1 ");
         List<Object> params = new LinkedList<Object>();
 
         if (map.get("comSender") != null) {

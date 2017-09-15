@@ -22,8 +22,8 @@
         <div id="crop-avatar">
             <div class="avatar-view" title="点击修改头像">
                 <c:choose>
-                    <c:when test="${sessionScope.url!=null}">
-                        <img src="${sessionScope.url}"
+                    <c:when test="${sessionScope.loginUser.userPictureUrl !=null}">
+                        <img src="${sessionScope.loginUser.userPictureUrl}"
                              alt="用户头像">
                     </c:when>
                     <c:otherwise>

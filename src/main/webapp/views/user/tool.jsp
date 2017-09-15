@@ -23,7 +23,7 @@ ${sessionScope.loginUser.userId}
 <h1>hello task !!</h1>
 
 <h2>文件上传</h2>
-<form action="${pageContext.request.contextPath}/user/upload/${loginUser.userId}" enctype="multipart/form-data" method="post">
+<form action="${pageContext.request.contextPath}/user/uploadFile" enctype="multipart/form-data" method="post">
     <table>
         <tr>
             <td>文件描述:</td>

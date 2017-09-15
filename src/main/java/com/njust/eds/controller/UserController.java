@@ -2,13 +2,8 @@ package com.njust.eds.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.njust.eds.model.File;
-import com.njust.eds.model.Filedata;
-import com.njust.eds.model.User;
-import com.njust.eds.service.CommentService;
-import com.njust.eds.service.FileService;
-import com.njust.eds.service.FiledataService;
-import com.njust.eds.service.UserService;
+import com.njust.eds.model.*;
+import com.njust.eds.service.*;
 import com.njust.eds.utils.*;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.njust.eds.utils.AESUtil.*;
@@ -51,6 +43,9 @@ public class UserController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private MessageService messageService;
 
     @ResponseBody
     @RequestMapping("/checkUserName")
@@ -76,6 +71,11 @@ public class UserController {
     @RequestMapping("/userPicture")
     public String userPicture() {
         return "user/userPicture";
+    }
+
+    @RequestMapping("/changeUserInfo")
+    public String changeUserInfo() {
+        return "user/changeUserInfo";
     }
 
     @ResponseBody
@@ -234,8 +234,10 @@ public class UserController {
     }
 
     @RequestMapping("/index")
-    public String index() {
-        return "user/tool";
+    public String index(HttpServletRequest request) {
+        FindNotReadFileComments(request);
+        FindNotReadMessages(request);
+        return "user/index";
     }
 
     @ResponseBody
@@ -248,7 +250,7 @@ public class UserController {
         user.setUserPassword(password);
         User currentUser = userService.queryUser(user);
         if (currentUser != null) {
-            request.getSession().setAttribute("loginUser",currentUser);
+            request.getSession().setAttribute("loginUser", currentUser);
             resultMap.put("res", "yes");
         } else {
             resultMap.put("res", "no");
@@ -264,9 +266,9 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "upload/{userId}", method = RequestMethod.POST)
-    public String upload(@PathVariable int userId, @RequestPart(value = "file", required = false)
-            MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
+    @RequestMapping(value = "uploadFile", method = RequestMethod.POST)
+    public String uploadFile(@RequestPart(value = "file", required = false)
+                                     MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
         if (!file.isEmpty()) {
             File newfile = new File();
             Filedata filedata = new Filedata();
@@ -280,7 +282,7 @@ public class UserController {
             newfile.setFileName(NewFileName);
             newfile.setFileSize(String.valueOf(file.getSize()));
             newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
-            newfile.setFileUserId(userId);
+            newfile.setFileUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
             newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ?
                     request.getParameter("fileSecretLevel") : "1"));
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
@@ -357,12 +359,42 @@ public class UserController {
         return new AjaxResult(true, "图片上传成功", folderPath + savedFileName);
     }
 
-    public void FindFileComments( HttpServletRequest request){
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+    //该用户未读文件评论
+    private void FindNotReadFileComments(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
         //commentService.findComment()
-       List<File> files = fileService.findFileByUserId(((User)request.getSession().getAttribute("loginUser")).getUserId());
-
+        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Comment> comments = new ArrayList<Comment>();
+        List<Comment> commentList = new ArrayList<Comment>();
+        List<User> users = new ArrayList<User>();
+        for (File f : files) {
+            map.put("comRecevier", f.getFileId());
+            commentList = commentService.findComment(map);
+            for (Comment c : commentList) {
+                if (c.getIsRead() == 0) {
+                    users.add(userService.getUserById(c.getComSender()));
+                    comments.add(c);
+                }
+            }
+        }
+        request.getSession().setAttribute("notReadFileComments", comments);
+        request.getSession().setAttribute("notReadFileCommentsSender", users);
     }
 
+    //该用户未读消息
+    private void FindNotReadMessages(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Message> messages = messageService.findMessagesByRecevierId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Message> messageList = new ArrayList<Message>();
+        List<User> users = new ArrayList<User>();
+        for (Message message : messages) {
+            if (message.getIsRead() == 0) {
+                users.add(userService.getUserById(message.getMsgSender()));
+                messageList.add(message);
+            }
+        }
+        request.getSession().setAttribute("notReadMessages", messageList);
+        request.getSession().setAttribute("notReadMessagesSender", users);
+    }
 
 }

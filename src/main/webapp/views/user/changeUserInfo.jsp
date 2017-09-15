@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: tomato
-  Date: 2017/9/14
-  Time: 下午4:38
+  Date: 2017/9/16
+  Time: 上午2:14
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -232,12 +232,12 @@
                         </li>
                         <!--个人信息-->
                         <li class="sub-menu">
-                            <a class="active" href="javascript:;">
+                            <a href="javascript:;">
                                 <i class=" fa fa-bar-chart-o"></i>
                                 <span>个人信息</span>
                             </a>
                             <ul class="sub">
-                                <li class="active"><a href="#">信息查看</a></li>
+                                <li><a href="#">信息查看</a></li>
                                 <li><a href="#">个人简介</a></li>
                             </ul>
                         </li>
@@ -254,14 +254,14 @@
                         </li>
                         <!--设置-->
                         <li class="sub-menu">
-                            <a href="javascript:;">
+                            <a class="active" href="javascript:;">
                                 <i class="fa fa-cogs"></i>
                                 <span>设  置</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="#">密码修改</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a></li>
+                                <li class="active"><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a></li>
                             </ul>
                         </li>
                     </ul>

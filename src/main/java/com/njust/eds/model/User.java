@@ -268,4 +268,28 @@ public class User {
         result = 31 * result + (userProfile != null ? userProfile.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userPassword='" + userPassword + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userRealname='" + userRealname + '\'' +
+                ", userSex=" + userSex +
+                ", userEmail='" + userEmail + '\'' +
+                ", userTel='" + userTel + '\'' +
+                ", userCompany='" + userCompany + '\'' +
+                ", userBirthday=" + userBirthday +
+                ", userSecretLevel=" + userSecretLevel +
+                ", userCreateTime=" + userCreateTime +
+                ", userIsAccepted=" + userIsAccepted +
+                ", userValidateSerCode='" + userValidateSerCode + '\'' +
+                ", userValidateOverDate=" + userValidateOverDate +
+                ", userUserNameEncodes='" + userUserNameEncodes + '\'' +
+                ", userIsEmailValidated=" + userIsEmailValidated +
+                ", userPictureUrl='" + userPictureUrl + '\'' +
+                ", userProfile='" + userProfile + '\'' +
+                '}';
+    }
 }

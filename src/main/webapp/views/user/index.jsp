@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
 <html>
 <head>
@@ -57,12 +59,12 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.jsp#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">4</span>
+                        <span class="badge bg-theme">${fn:length(sessionScope.notReadFileComments)}</span>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">你有 4 条新评论</p>
+                            <p class="green">你有 ${fn:length(sessionScope.notReadFileComments)} 条新评论</p>
                         </li>
                         <li>
                             <a href="index.jsp#">
@@ -130,19 +132,22 @@
                 <li id="header_inbox_bar" class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.jsp#">
                         <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-theme">5</span>
+                        <span class="badge bg-theme">${fn:length(sessionScope.notReadMessages)}</span>
                     </a>
                     <ul class="dropdown-menu extended inbox">
                         <div class="notify-arrow notify-arrow-green"></div>
                         <li>
-                            <p class="green">你有 5 条新消息</p>
+                            <p class="green">你有 ${fn:length(sessionScope.notReadMessages)} 条新消息</p>
                         </li>
                         <li>
                             <a href="index.jsp#">
                                 <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-zac.jpg"></span>
                                 <span class="subject">
                                     <span class="from">Zac Snider</span>
-                                    <span class="time">Just now</span>
+                                    <span class="time">
+                                        <jsp:useBean id="Timestamp" class="java.util.Date"/>
+                                        <fmt:formatDate value="${Timestamp}" type="time" timeStyle="medium"/>
+                                    </span>
                                     </span>
                                 <span class="message">
                                         Hi mate, how is everything?
@@ -196,7 +201,7 @@
         </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="login.html">注 销</a></li>
+                <li><a class="logout" href="#" onclick="window.location.href='${ctx}/user/logout'">注  销</a></li>
             </ul>
         </div>
     </header>
@@ -225,7 +230,7 @@
                     </a>
                 </p>
                 <!--用户名-->
-                <h5 class="centered">Marcel Newman</h5>
+                <h5 class="centered">${sessionScope.loginUser.userName}</h5>
 
                 <!--主页-->
                 <li class="mt">
@@ -763,7 +768,7 @@
             // (string | mandatory) the text inside the notification
             text: '这里有最安全的加密算法，保证你的文件不会被非授权用户获取到，超强的双重加密与日志系统将时时刻刻保证你的文档安全，若喜欢，欢迎<a href="#" target="_blank" style="color:#ffd777">捐赠作者</a>.',
             // (string | optional) the image to display on the left
-            image: '${ctx}/resources/img/ui-sam.jpg',
+            image: '${sessionScope.loginUser.userPictureUrl}',
             // (bool | optional) if you want it to fade out on its own or just sit there
             sticky: false,
             // (int | optional) the time you want it to be alive for before fading out
