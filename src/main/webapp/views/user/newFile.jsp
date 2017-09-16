@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: tomato
   Date: 2017/9/16
-  Time: 上午2:24
+  Time: 上午9:39
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -30,7 +30,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body>
 
@@ -41,10 +40,63 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
+            <h3><i class="fa fa-angle-right"></i>新建文件</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <p>Place your content here.</p>
+                    <%--<p>Place your content here.</p>--%>
+                    <form action="${pageContext.request.contextPath}/user/uploadFile" enctype="multipart/form-data"
+                          method="post">
+                        <table>
+                            <tr>
+                                <td>请选择文件:</td>
+                                <td><input type="file" name="file" class="btn btn-round btn-default"></td>
+                            </tr>
+                            <tr>
+                                <td>文件描述:</td>
+                                <td><textarea rows="10" cols="80" class="form-control"></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>文件秘级</td>
+                                <td>
+                                    <select multiple class="form-control ">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>是否共享</td>
+                                <td>
+                                    <div class="col-sm-6 text-center">
+                                        <div class="switch switch-square"
+                                             data-on-label="<i class=' fa fa-check'></i>"
+                                             data-off-label="<i class='fa fa-times'></i>">
+                                            <input type="checkbox"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>共享设置</td>
+                                <td>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+
+                                </td>
+                                <td align="center"><input type="submit" value="上传" class="btn btn-round btn-primary">
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </form>
                 </div>
             </div>
 
@@ -81,6 +133,9 @@
 
 <!--script for this page-->
 
+<!--custom switch-->
+<script src="${ctx}/resources/js/bootstrap-switch.js"></script>
+
 <script>
     //custom select box
 
@@ -89,7 +144,7 @@
     });
 
 </script>
+
 </body>
 </html>
-
 

@@ -258,7 +258,7 @@
                         <span>我的文件</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="responsive_table.html">新建文件</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
                         <li><a href="basic_table.html">近期文件</a></li>
                         <li><a href="basic_table.html">共享文件</a></li>
                         <li><a href="basic_table.html">私人文件</a></li>
@@ -317,7 +317,7 @@
                     <ul class="sub">
                         <li><a href="calendar.html">密码修改</a></li>
                         <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
-                        <li><a href="todo_list.html">信息修改</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">信息修改</a></li>
                     </ul>
                 </li>
             </ul>

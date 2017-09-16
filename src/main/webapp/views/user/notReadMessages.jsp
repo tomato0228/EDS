@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: tomato
   Date: 2017/9/16
-  Time: 上午2:24
+  Time: 上午9:27
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -30,7 +30,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body>
 
@@ -91,5 +90,4 @@
 </script>
 </body>
 </html>
-
 
