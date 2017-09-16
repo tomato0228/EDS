@@ -275,6 +275,17 @@
                         <li><a href="form_component.html">所有评论</a></li>
                     </ul>
                 </li>
+                <!--日志系统-->
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-book"></i>
+                        <span>我的日志</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="#">我的日志</a></li>
+                        <li><a href="#">文件日志</a></li>
+                    </ul>
+                </li>
                 <!--个人信息-->
                 <li class="sub-menu">
                     <a href="javascript:;">

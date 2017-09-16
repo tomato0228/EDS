@@ -230,6 +230,28 @@
                                 <li><a href="#">所有评论</a></li>
                             </ul>
                         </li>
+                        <!--日志系统-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>我的日志</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#">我的日志</a></li>
+                                <li><a href="#">文件日志</a></li>
+                            </ul>
+                        </li>
+                        <!--文件评论-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-tasks"></i>
+                                <span>文件评论</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#">未读评论</a></li>
+                                <li><a href="#">所有评论</a></li>
+                            </ul>
+                        </li>
                         <!--个人信息-->
                         <li class="sub-menu">
                             <a class="active" href="javascript:;">
