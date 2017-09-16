@@ -38,7 +38,7 @@ function datadel(){
 }
 
 /*弹出层*/
-function layer_show(w,h,title,url){
+function layer_show(id,secretlevel,w,h,title,url){
 	if (w == null || w == '') {
 		w=800;
 	};
@@ -62,7 +62,7 @@ function layer_show(w,h,title,url){
     	border: [0],
     	offset: ['20px',''],
     	area: [w+'px', h +'px'],
-    	iframe: {src: url}
+    	iframe: {src: url+'?userid='+id+'&usersecretlevel='+secretlevel}
 	});
 }
 /*----------用户管理------------------*/
@@ -75,8 +75,8 @@ function user_show(id,w,h,title,url){
 	layer_show(w,h,title,url);
 }
 /*用户-密码-修改*/
-function user_password_edit(id,w,h,title,url){
-	layer_show(w,h,title,url);
+function user_secretlevel_edit(id,secretlevel,w,h,title,url){
+	layer_show(id,secretlevel,w,h,title,url);
 }
 
 /*用户-编辑*/
@@ -151,6 +151,22 @@ function user_del(obj,userid){
 		);
 
 	});
+}
+
+function file_del(obj,fileid){
+    layer.confirm('确认要删除吗？',function(index){
+        $(obj).parents("tr").remove();
+        layer.msg('已删除!',1);
+        $.post('/admin/DeleteFile',
+            {
+                fileid:fileid
+            },function (requestdata) {
+
+                window.location.reload();
+            }
+        );
+
+    });
 }
 /*------------资讯管理----------------*/
 /*获取分类值*/

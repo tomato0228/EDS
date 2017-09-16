@@ -25,4 +25,8 @@ public class FiledataDaoImpl extends BaseDaoImpl implements FiledataDao {
         Filedata filedata = (Filedata) query.uniqueResult();
         return filedata;
     }
+    public void deletFiledata(Filedata filedata){
+        getSession().delete(filedata);
+    }
+
 }

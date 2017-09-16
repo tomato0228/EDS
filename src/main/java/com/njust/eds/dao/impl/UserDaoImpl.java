@@ -104,4 +104,11 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         query.setParameter(0, id);
         query.executeUpdate();
     }
+    public void user_secretlevel_edit(int id,int secretlevel ){
+        String hql="update User  set userSecretLevel=? where userId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, secretlevel);
+        query.setParameter(1,id);
+        query.executeUpdate();
+    }
 }

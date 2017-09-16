@@ -32,4 +32,6 @@ public interface UserService {
     public void start(int id);
 
     public void stop(int id);
+
+    public void user_secretlevel_edit(int id,int secretlevel );
 }

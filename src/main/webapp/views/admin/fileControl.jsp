@@ -279,9 +279,6 @@
                                                             href="javascript:;" title="认证"><i
                                     class="icon-hand-down"></i></a>
 
-
-
-
                                 <a
                                     title="编辑" href="javascript:;" onClick="user_edit('4','550','','编辑','user-add.html')"
                                     class="ml-5"
@@ -291,7 +288,7 @@
                                     onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
                                     href="javascript:;"
                                     title="修改密码"><i
-                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="user_del(this,'1')"
+                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="file_del(this,${Fileitem.fileId})"
                                                                  class="ml-5" style="text-decoration:none"><i
                                     class="icon-trash"></i></a></td>
                                </tr>
