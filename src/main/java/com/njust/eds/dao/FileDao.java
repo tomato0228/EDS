@@ -21,4 +21,6 @@ public interface FileDao {
     public File findFileByFileName(String fileName);
 
     public List<List<File>>findUserFiles();
+
+    public void deletFile(File file);
 }

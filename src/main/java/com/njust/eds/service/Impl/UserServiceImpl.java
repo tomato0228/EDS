@@ -137,4 +137,8 @@ public class UserServiceImpl implements UserService {
         userDao.stop(id);
     }
 
+    public void user_secretlevel_edit(int id,int secretlevel ){
+        userDao.user_secretlevel_edit(id,secretlevel);
+    }
+
 }

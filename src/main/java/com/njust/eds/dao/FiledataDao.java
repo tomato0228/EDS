@@ -11,4 +11,6 @@ public interface FiledataDao {
     public void saveFiledata(Filedata filedata);
 
     public Filedata findFiledataById(Integer id);
+
+    public void deletFiledata(Filedata filedata);
 }

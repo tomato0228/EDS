@@ -11,4 +11,6 @@ public interface FiledataService {
     public void saveFiledata(Filedata filedata);
 
     public Filedata getFiledataById(Integer id);
+
+    public void deletFiledata(Filedata filedata);
 }

@@ -72,4 +72,8 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
         }
         return userfiles;
     }
+
+    public void deletFile(File file){
+            getSession().delete(file);
+    }
 }

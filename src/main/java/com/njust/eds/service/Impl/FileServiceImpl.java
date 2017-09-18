@@ -98,4 +98,8 @@ public class FileServiceImpl implements FileService {
     public List<List<File>> findUserFiles() {
         return fileDao.findUserFiles();
     }
+
+    public void deletFile(File file){
+        fileDao.deletFile(file);
+    }
 }

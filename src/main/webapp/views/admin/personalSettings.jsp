@@ -121,11 +121,11 @@
         <div id="xx" class="meun-item" onclick="window.location.href='${ctx}/admin/MessageControl'"><img
                 src="${ctx}/resources/images/icon_user_grey.png">消息管理
         </div>
-        <div id="gr" class="meun-item" onclick="window.location.href='${ctx}/admin/PersonalSettings'"><img
+        <div id="gr" class="meun-item  meun-item-active" ><img
                 src="${ctx}/resources/images/icon_change_grey.png">个人设置
         </div>
         <div class="meun-title">系统管理</div>
-        <div id="xt" class="meun-item meun-item-active"><img
+        <div id="xt" class="meun-item" onclick="window.location.href='${ctx}/admin/SystemInfo'"><img
                 src="${ctx}/resources/images/icon_house_grey.png">系统信息
         </div>
 

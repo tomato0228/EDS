@@ -39,7 +39,7 @@ ${sessionScope.loginUser.userId}
     </table>
 </form>
 <h3>文件下载</h3>
-<a onclick="window.location.href='${pageContext.request.contextPath}/user/download/12'">
+<a onclick="window.location.href='${pageContext.request.contextPath}/user/download/${loginUser.userId}'">
     下载
 </a>
 </body>

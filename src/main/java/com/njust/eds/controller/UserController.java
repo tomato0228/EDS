@@ -312,7 +312,7 @@ public class UserController {
     @RequestMapping(value = "/download/{fileId}", method = RequestMethod.POST)
     public ResponseEntity<byte[]> download(HttpServletRequest request,
                                            @PathVariable("fileId") int fileId) throws Exception {
-        Filedata filedata = filedataService.getFiledataById(17);
+        Filedata filedata = filedataService.getFiledataById(fileId);
         if (filedata != null) {
             File file = fileService.getFileById(filedata.getFileId());
             String key = file.getFileSecretKey();

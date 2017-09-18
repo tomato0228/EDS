@@ -242,6 +242,7 @@
                         <th width="150">邮箱</th>
                         <th width="300">用户个人简介</th>
                         <th width="130">加入时间</th>
+                        <th width="70">密级</th>
                         <th width="70">状态</th>
                         <th width="100">操作</th>
                     </tr>
@@ -250,9 +251,8 @@
 
                     <tbody>
                     <c:forEach items="${UserList}" var="item" >
-
                         <tr class="text-c">
-                            <td><input type="checkbox" value="1" name="${item.userId}"></td>
+                            <td><input type="checkbox" value="${item.userId}" name="chckBox"></td>
                             <td>${item.userId}</td>
                             <td><img src="${ctx}/resources/UserPicture/${item.userId}.jpg" width="40px" height="40px"/> </td>
                             <td><u style="cursor:pointer" class="text-primary"
@@ -267,6 +267,16 @@
                             <td>${item.userEmail}</td>
                             <td class="text-l">${item.userProfile}</td>
                             <td>${item.userCreateTime}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${item.userSecretLevel==1}">普通</c:when>
+                                    <c:when test="${item.userSecretLevel==2}">内部</c:when>
+                                    <c:when test="${item.userSecretLevel==3}">C</c:when>
+                                    <c:when test="${item.userSecretLevel==4}">B</c:when>
+                                    <c:when test="${item.userSecretLevel==5}">A</c:when>
+                                </c:choose>
+
+                            </td>
                             <td class="user-status"><span class="label label-success"><c:choose>
                                 <c:when test = "${item.userIsAccepted==0}">未认证</c:when>
                                 <c:when test = "${item.userIsAccepted==1}">已认证</c:when>
@@ -288,9 +298,9 @@
                                     style="text-decoration:none"><i class="icon-edit"></i></a> <a
                                     style="text-decoration:none"
                                     class="ml-5"
-                                    onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
+                                    onClick="user_secretlevel_edit(${item.userId},${item.userSecretLevel},'370','228','修改密级','${ctx}/views/admin/user-secretlevel-edit.jsp')"
                                     href="javascript:;"
-                                    title="修改密码"><i
+                                    title="修改密级"><i
                                     class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="user_del(this,${item.userId})"
                                                                  class="ml-5" style="text-decoration:none"><i
                                     class="icon-trash"></i></a></td>

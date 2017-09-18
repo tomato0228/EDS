@@ -31,14 +31,71 @@ $("table thead th input:checkbox").on("click" , function(){
 });
 /*批量删除*/
 function datadel(){
-	layer.confirm('确认要删除吗？',function(index){
-		alert("测试");
-		layer.msg('已删除!',1);
-	});
+    var chckBox = document.getElementsByName("chckBox");
+    var num = chckBox.length;
+    var ids =new Array();
+    for(var index =0 ,i=0; index<num ; index++){
+        if(chckBox[index].checked){
+            ids[i]=chckBox[index].value;
+            i++;
+        }
+    }
+    if(ids!=""){
+
+        if(window.confirm("确定删除所选记录？")){
+            $.ajax( {
+                type : "post",
+                traditional: true,
+                url : '/admin/DeleteUsers', //要自行删除的action
+				data:{"ids": ids},
+                success:function(data){
+						window.location.reload();
+                },
+                error : function(data) {
+                    alert("系统错误，删除失败");
+                }
+            });
+
+        }
+    }else{
+        alert("请选择要删除的记录");
+    }
+}
+
+function datadel_file(){
+    var chckBox = document.getElementsByName("chckBox");
+    var num = chckBox.length;
+    var ids =new Array();
+    for(var index =0 ,i=0; index<num ; index++){
+        if(chckBox[index].checked){
+            ids[i]=chckBox[index].value;
+            i++;
+        }
+    }
+    if(ids!=""){
+
+        if(window.confirm("确定删除所选记录？")){
+            $.ajax( {
+                type : "post",
+                traditional: true,
+                url : '/admin/DeleteFiles', //要自行删除的action
+                data:{"ids": ids},
+                success:function(data){
+                    window.location.reload();
+                },
+                error : function(data) {
+                    alert("系统错误，删除失败");
+                }
+            });
+
+        }
+    }else{
+        alert("请选择要删除的记录");
+    }
 }
 
 /*弹出层*/
-function layer_show(w,h,title,url){
+function layer_show(id,secretlevel,w,h,title,url){
 	if (w == null || w == '') {
 		w=800;
 	};
@@ -62,7 +119,7 @@ function layer_show(w,h,title,url){
     	border: [0],
     	offset: ['20px',''],
     	area: [w+'px', h +'px'],
-    	iframe: {src: url}
+    	iframe: {src: url+'?userid='+id+'&usersecretlevel='+secretlevel}
 	});
 }
 /*----------用户管理------------------*/
@@ -75,8 +132,8 @@ function user_show(id,w,h,title,url){
 	layer_show(w,h,title,url);
 }
 /*用户-密码-修改*/
-function user_password_edit(id,w,h,title,url){
-	layer_show(w,h,title,url);
+function user_secretlevel_edit(id,secretlevel,w,h,title,url){
+	layer_show(id,secretlevel,w,h,title,url);
 }
 
 /*用户-编辑*/
@@ -151,6 +208,22 @@ function user_del(obj,userid){
 		);
 
 	});
+}
+
+function file_del(obj,fileid){
+    layer.confirm('确认要删除吗？',function(index){
+        $(obj).parents("tr").remove();
+        layer.msg('已删除!',1);
+        $.post('/admin/DeleteFile',
+            {
+                fileid:fileid
+            },function (requestdata) {
+
+                window.location.reload();
+            }
+        );
+
+    });
 }
 /*------------资讯管理----------------*/
 /*获取分类值*/

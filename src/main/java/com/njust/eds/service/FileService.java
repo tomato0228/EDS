@@ -25,4 +25,5 @@ public interface FileService {
 
     public List<List<File>> findUserFiles();
 
+    public void deletFile(File file);
 }

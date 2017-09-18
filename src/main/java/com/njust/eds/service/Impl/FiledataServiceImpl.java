@@ -23,4 +23,8 @@ public class FiledataServiceImpl implements FiledataService {
     public Filedata getFiledataById(Integer id) {
         return filedataDao.findFiledataById(id);
     }
+
+    public void deletFiledata(Filedata filedata){
+       filedataDao.deletFiledata(filedata);
+    }
 }
