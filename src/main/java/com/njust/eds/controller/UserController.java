@@ -324,7 +324,7 @@ public class UserController {
             //修改后的文件名(带后缀)
             String NewFileName = fileUUIDname + "." + prefix;
             newfile.setFileName(NewFileName);
-            newfile.setFileSize(String.valueOf(file.getSize()));
+            newfile.setFileSize(FileSizeUtils.getFjSize(String.valueOf(file.getSize())));
             newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
             newfile.setFileUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
             newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ?
