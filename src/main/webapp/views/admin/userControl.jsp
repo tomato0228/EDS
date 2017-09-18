@@ -251,9 +251,8 @@
 
                     <tbody>
                     <c:forEach items="${UserList}" var="item" >
-
                         <tr class="text-c">
-                            <td><input type="checkbox" value="1" name="${item.userId}"></td>
+                            <td><input type="checkbox" value="${item.userId}" name="chckBox"></td>
                             <td>${item.userId}</td>
                             <td><img src="${ctx}/resources/UserPicture/${item.userId}.jpg" width="40px" height="40px"/> </td>
                             <td><u style="cursor:pointer" class="text-primary"

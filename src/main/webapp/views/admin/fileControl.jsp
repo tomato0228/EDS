@@ -225,7 +225,7 @@
 
                 </div>
                 <div class="cl pd-5 bg-1 bk-gray mt-20">
-    <span class="l"><a href="javascript:;" onClick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    <span class="l"><a href="javascript:;" onClick="datadel_file()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
     <a href="javascript:;" onClick="user_add('550','','添加文件','user-add.html')" class="btn btn-primary radius"><i
             class="icon-plus"></i> 添加文件</a></span>
                     <span class="r">共有数据：<strong>${UserList.size()}</strong> 条</span>
@@ -254,7 +254,7 @@
 
                            <c:forEach items="${Useritem}" var="Fileitem">
                                <tr class="text-c">
-                               <td><input type="checkbox" value="1" name=""></td>
+                               <td><input type="checkbox" value="${Fileitem.fileId}" name="chckBox"></td>
                                <td>${Namelist[loop.count-1]}</td>
                             <td><u style="cursor:pointer" class="text-primary"
                                    onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')">${Fileitem.fileName}</u></td>

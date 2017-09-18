@@ -153,10 +153,43 @@ public class AdminController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/DeleteUsers")
+    public Map<String,String> DeleteUsers(HttpServletRequest request) throws  Exception{
+        String Users[]=request.getParameterValues("ids");
+
+        for(int i=0;i<Users.length;i++)
+        {
+            int user=Integer.parseInt(Users[i]);
+            System.out.println(user);
+            userService.deletUser(userService.getUserById(user));
+        }
+        Map<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("res","userControl");
+        return resultMap;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/DeleteFile")
     public Map<String,String> DeleteFile(HttpServletRequest request) throws  Exception{
         fileService.deletFile(fileService.getFileById(Integer.parseInt(request.getParameter("fileid"))));
         filedataService.deletFiledata(filedataService.getFiledataById(Integer.parseInt(request.getParameter("fileid"))));
+        Map<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("res","fileControl");
+        return resultMap;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/DeleteFiles")
+    public Map<String,String> DeleteFiles(HttpServletRequest request) throws  Exception{
+        String Files[]=request.getParameterValues("ids");
+
+        for(int i=0;i<Files.length;i++)
+        {
+            int file=Integer.parseInt(Files[i]);
+            System.out.println(file);
+            fileService.deletFile(fileService.getFileById(file));
+
+        }
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("res","fileControl");
         return resultMap;

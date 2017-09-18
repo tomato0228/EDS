@@ -31,10 +31,67 @@ $("table thead th input:checkbox").on("click" , function(){
 });
 /*批量删除*/
 function datadel(){
-	layer.confirm('确认要删除吗？',function(index){
-		alert("测试");
-		layer.msg('已删除!',1);
-	});
+    var chckBox = document.getElementsByName("chckBox");
+    var num = chckBox.length;
+    var ids =new Array();
+    for(var index =0 ,i=0; index<num ; index++){
+        if(chckBox[index].checked){
+            ids[i]=chckBox[index].value;
+            i++;
+        }
+    }
+    if(ids!=""){
+
+        if(window.confirm("确定删除所选记录？")){
+            $.ajax( {
+                type : "post",
+                traditional: true,
+                url : '/admin/DeleteUsers', //要自行删除的action
+				data:{"ids": ids},
+                success:function(data){
+						window.location.reload();
+                },
+                error : function(data) {
+                    alert("系统错误，删除失败");
+                }
+            });
+
+        }
+    }else{
+        alert("请选择要删除的记录");
+    }
+}
+
+function datadel_file(){
+    var chckBox = document.getElementsByName("chckBox");
+    var num = chckBox.length;
+    var ids =new Array();
+    for(var index =0 ,i=0; index<num ; index++){
+        if(chckBox[index].checked){
+            ids[i]=chckBox[index].value;
+            i++;
+        }
+    }
+    if(ids!=""){
+
+        if(window.confirm("确定删除所选记录？")){
+            $.ajax( {
+                type : "post",
+                traditional: true,
+                url : '/admin/DeleteFiles', //要自行删除的action
+                data:{"ids": ids},
+                success:function(data){
+                    window.location.reload();
+                },
+                error : function(data) {
+                    alert("系统错误，删除失败");
+                }
+            });
+
+        }
+    }else{
+        alert("请选择要删除的记录");
+    }
 }
 
 /*弹出层*/
