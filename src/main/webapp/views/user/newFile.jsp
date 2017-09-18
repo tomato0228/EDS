@@ -32,12 +32,53 @@
     <![endif]-->
 </head>
 <body>
+<style>
+    .everyWeekDay .weekday, .everyDay .days { /*解决span不支持width属性*/
+        display: -moz-inline-box;
+        display: inline-block;
+        margin: 5px 0 0 20px;
+        text-align: center;
+        width: 20px;
+        border: 1px solid #F7F7F7;
+        cursor: pointer;
+    }
 
+    .marginTop {
+        margin-top: 5px;
+    }
+
+    .selectStyle {
+        padding-left: 10px;
+        border: none;
+        border-radius: 3px;
+        outline: none;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        margin: 0 10px 0 10px;
+        width: 60px;
+        border-color: #0FB9EF;
+        color: #0FB9EF;
+    }
+</style>
+<script type="text/javascript">
+    window.onload = function () {
+        var test = document.getElementById("Share");
+        test.onclick = function () {
+            if (this.checked) {
+                document.getElementById("isShare").style.display = "block";
+            } else {
+                document.getElementById("isShare").style.display = "none";
+            }
+        }
+    }
+</script>
 <section id="container">
     <!-- **********************************************************************************************************************************************************
                 MAIN CONTENT
                 *********************************************************************************************************************************************************** -->
     <!--main content start-->
+
     <section id="main-content">
         <section class="wrapper site-min-height">
             <h3><i class="fa fa-angle-right"></i>新建文件</h3>
@@ -46,56 +87,89 @@
                     <%--<p>Place your content here.</p>--%>
                     <form action="${pageContext.request.contextPath}/user/uploadFile" enctype="multipart/form-data"
                           method="post">
-                        <table>
+                        <table style="border-collapse:separate; border-spacing:10px;">
                             <tr>
                                 <td>请选择文件:</td>
                                 <td><input type="file" name="file" class="btn btn-round btn-default"></td>
                             </tr>
                             <tr>
                                 <td>文件描述:</td>
-                                <td><textarea rows="10" cols="80" class="form-control"></textarea></td>
+                                <td><textarea name="abstrcat" rows="10" cols="80" class="form-control"></textarea></td>
                             </tr>
                             <tr>
                                 <td>文件秘级</td>
                                 <td>
                                     <select multiple class="form-control ">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
+                                        <c:if test="${sessionScope.loginUser.userSecretLevel == 5}">
+                                            <option>A</option>
+                                        </c:if>
+                                        <c:if test="${sessionScope.loginUser.userSecretLevel>= 4}">
+                                            <option>B</option>
+                                        </c:if>
+                                        <c:if test="${sessionScope.loginUser.userSecretLevel >= 3}">
+                                            <option>C</option>
+                                        </c:if>
+                                        <c:if test="${sessionScope.loginUser.userSecretLevel >= 2}">
+                                            <option>内部</option>
+                                        </c:if>
+                                        <option>普通</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>是否共享</td>
                                 <td>
-                                    <div class="col-sm-6 text-center">
-                                        <div class="switch switch-square"
-                                             data-on-label="<i class=' fa fa-check'></i>"
-                                             data-off-label="<i class='fa fa-times'></i>">
-                                            <input type="checkbox"/>
-                                        </div>
-                                    </div>
+                                    <input type="checkbox" id="Share"/>
                                 </td>
                             </tr>
                             <tr>
-                                <td>共享设置</td>
-                                <td>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-
-
-                                </td>
+                                <td></td>
                                 <td align="center"><input type="submit" value="上传" class="btn btn-round btn-primary">
                                 </td>
                             </tr>
                         </table>
-
-
+                        <table style="border-collapse:separate; border-spacing:10px;">
+                            <tr id="isShare" style="display: none">
+                                <td>共享设置</td>
+                                <td>
+                                    <table style="border-collapse:separate; border-spacing:10px;">
+                                        <tr>
+                                            <td>是否只读</td>
+                                            <td>
+                                                <input type="checkbox"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>是否可改写</td>
+                                            <td>
+                                                <input type="checkbox"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>是否可打印</td>
+                                            <td>
+                                                <input type="checkbox"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>读取次数</td>
+                                            <td>
+                                                <input type="text" placeholder="-1为无限次"
+                                                       style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>生命周期</td>
+                                            <td>
+                                                <input type="text" id="fileLifeCycle"
+                                                       style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;"
+                                                       readonly="readonly" onfocus="showDate()"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
                     </form>
                 </div>
             </div>
@@ -136,6 +210,8 @@
 <!--custom switch-->
 <script src="${ctx}/resources/js/bootstrap-switch.js"></script>
 
+<%--日期选择器--%>
+<script type="text/javascript" src="${ctx}/resources/js/dateJs.fei.js"></script>
 <script>
     //custom select box
 

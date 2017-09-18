@@ -213,8 +213,8 @@
                                 <span>我的文件</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">新建文件</a></li>
-                                <li><a href="#">近期文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
                                 <li><a href="#">共享文件</a></li>
                                 <li><a href="#">私人文件</a></li>
                             </ul>
