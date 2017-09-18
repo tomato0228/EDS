@@ -314,23 +314,7 @@ function admin_edit(password,adminid) {
     });
 
 /*管理员邮箱电话*/
- function admin_edit_save(adminid) {
-	 var tel=document.getElementById("tel").value;
-	 var email=document.getElementById("email").value;
-	 if(tel==""&&email=="")
-	 {
-	 	alert("请至少修改一项！");
-	 }
-	 else{ $.post('/admin/admin_edit2',
-         {
-             "tel":tel,
-             "email":email,
-			 "id":adminid
-         },function (requestdata) {
-             window.location.reload();
-         }
-     );
-	 }
+ function admin_edit2(adminid) {
 
  }
 
@@ -459,9 +443,24 @@ function admin_permission_del(obj,id){
 }
 
 /*管理员-编辑-保存*/
-function admin_edit_save100(obj,id){
-	var i = parent.layer.getFrameIndex();
-	parent.layer.close(i);
+function admin_edit_save100(adminid){
+    var tel=document.getElementById("tel").value;
+    var email=document.getElementById("email").value;
+    if(tel==""&&email=="")
+    {
+        alert("请至少修改一项！");
+    }
+    else{ $.post('/admin/admin_edit2',
+        {
+            "tel":tel,
+            "email":email,
+            "id":adminid
+        },function (requestdata) {
+            window.location.reload();
+        }
+    );
+    }
+
 }
 /*管理员-删除*/
 function admin_del(obj,id){

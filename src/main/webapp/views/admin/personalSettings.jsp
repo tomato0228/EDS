@@ -217,7 +217,7 @@
                         <div class="form-group">
                             <div class="col-xs-offset-4 col-xs-5" style="margin-left: 169px;">
                                 <button type="reset" class="btn btn-xs btn-white">取 消</button>
-                                <input type="button" class="btn btn-xs btn-green" id="1" value="保存" onclick="admin_edit_save('<%=id%>')"></input>
+                                <input type="button" class="btn btn-xs btn-green" id="1" value="保存" onclick="admin_edit_save100('<%=id%>')"></input>
                             </div>
                         </div>
                         <div class="form-group">
