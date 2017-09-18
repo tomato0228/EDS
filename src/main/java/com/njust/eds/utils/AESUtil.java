@@ -134,6 +134,10 @@ public class AESUtil {
         kgen.init(128, new SecureRandom(decryptKey.getBytes()));
 
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        System.out.println(decryptKey.getBytes("UTF-8"));
+        System.out.println(decryptKey);
+        System.out.println(decryptKey.getBytes("UTF-8"));
+        System.out.println(decryptKey);
         //cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
         cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(decryptKey.getBytes("UTF-8"), "AES"));
 

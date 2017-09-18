@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.njust.eds.utils.AESUtil.aesDecryptByBytes;
-import static com.njust.eds.utils.AESUtil.base64Decode;
+import static com.njust.eds.utils.AESUtil.*;
+import static com.njust.eds.utils.MD5Util.getMD5;
 
 /**
  * @author tomato
@@ -189,6 +189,7 @@ public class AdminController {
             System.out.println(file);
             fileService.deletFile(fileService.getFileById(file));
 
+
         }
         Map<String, String> resultMap = new HashMap<String, String>();
         resultMap.put("res","fileControl");
@@ -218,13 +219,97 @@ public class AdminController {
         userService.user_secretlevel_edit(id,secretlevel);
          return "Done";
     }
+    @ResponseBody
+    @RequestMapping(value = "/file_edit")
+    public String file_edit(HttpServletRequest request) throws Exception{
+
+        String fileAbstrcat=request.getParameter("fileAbstrcat");
+        int fileid=Integer.parseInt(request.getParameter("fileid"));
+        File file=fileService.getFileById(fileid);
+        file.setFileAbstrcat(fileAbstrcat);
+        fileService.updateFile(file);
+        return "Done";
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "/password_check")
+    public String password_check(HttpServletRequest request) throws Exception{
+        String oldpw=request.getParameter("oldpw");
+        String password=request.getParameter("password");
+        System.out.println(oldpw);
+        System.out.println(password);
+        System.out.println(MD5Util.getMD5(oldpw));
+
+        if(MD5Util.getMD5(oldpw).equals(password))
+        return "yes";
+
+        else
+            return "no";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/admin_edit")
+    public Map<String,Object> admin_edit(HttpServletRequest request) throws Exception {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String password = request.getParameter("newpw");
+        int id = Integer.parseInt(request.getParameter("adminid"));
+        Admin admin = adminService.getAdminById(id);
+        admin.setAdminPassword(MD5Util.getMD5(password));
+        adminService.updateAdmin(admin);
+
+        Admin currentAdmin = adminService.queryAdmin(admin);
+        if (currentAdmin != null) {
+            resultMap.put("LoginAdminID", currentAdmin.getAdminId());
+            resultMap.put("res", "yes");
+            HttpSession session = request.getSession();
+            session.setAttribute("loginAdmin", currentAdmin);
+        } else {
+            resultMap.put("res", "no");
+        }
+            return resultMap;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/admin_edit2")
+    public Map<String,Object> admin_edit2(HttpServletRequest request) throws Exception {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String tel = request.getParameter("tel");
+        String email=request.getParameter("email");
+        int id=Integer.parseInt(request.getParameter("id"));
+        Admin admin = adminService.getAdminById(id);
+        if(tel!="")
+        {
+            admin.setAdminTel(tel);
+        }
+        if(email!="")
+        {
+            admin.setAdminEmail(email);
+        }
+        adminService.updateAdmin(admin);
+
+        Admin currentAdmin = adminService.queryAdmin(admin);
+        if (currentAdmin != null) {
+            resultMap.put("LoginAdminID", currentAdmin.getAdminId());
+            resultMap.put("res", "yes");
+            HttpSession session = request.getSession();
+            session.setAttribute("loginAdmin", currentAdmin);
+        } else {
+            resultMap.put("res", "no");
+        }
+        return resultMap;
+
+    }
+
 
     @ResponseBody
     @RequestMapping("/login")
     public Map<String, Object> admin(ModelMap map, HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Admin admin = new Admin();
-        String password = MD5Util.getMD5(request.getParameter("password"));
+        String password = getMD5(request.getParameter("password"));
         admin.setAdminName(request.getParameter("adminName"));
         admin.setAdminPassword(password);
         Admin currentAdmin = adminService.queryAdmin(admin);
@@ -247,19 +332,20 @@ public class AdminController {
         Filedata filedata = filedataService.getFiledataById(fileId);
 
         if (filedata != null) {
-            System.out.println("1");
-            File file = fileService.getFileById(filedata.getFileId());
+
+            File file = fileService.getFileById(fileId);
             String key = file.getFileSecretKey();
-            System.out.println();
+            System.out.println(filedata);
+            System.out.println(key);
             byte[] UNAESFILE = base64Decode(aesDecryptByBytes(filedata.getFileData(), key));
-            System.out.println("2");
+            System.out.println("1");
             String filename = file.getFileName();
             HttpHeaders headers = new HttpHeaders();
             //下载显示的文件名，解决中文名称乱码问题
             String downloadFielName = new String(filename.getBytes("UTF-8"), "iso-8859-1");
             //通知浏览器以attachment（下载方式）打开图片
             headers.setContentDispositionFormData("attachment", downloadFielName);
-            System.out.println("3");
+
             //application/octet-stream ： 二进制流数据（最常见的文件下载）。
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
