@@ -259,7 +259,7 @@
                     </a>
                     <ul class="sub">
                         <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
-                        <li><a href="basic_table.html">近期文件</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
                         <li><a href="basic_table.html">共享文件</a></li>
                         <li><a href="basic_table.html">私人文件</a></li>
                     </ul>

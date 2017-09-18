@@ -83,6 +83,11 @@ public class UserController {
         return "user/newFile";
     }
 
+    @RequestMapping("/recentFile")
+    public String recentFile() {
+        return "user/recentFile";
+    }
+
     @ResponseBody
     @RequestMapping("/register")
     public String register(ModelMap map, HttpServletRequest request) throws Exception {
@@ -242,7 +247,7 @@ public class UserController {
     public String index(HttpServletRequest request) {
         FindNotReadFileComments(request);
         FindNotReadMessages(request);
-        return "user/tool";
+        return "user/index";
     }
 
     @ResponseBody
@@ -294,7 +299,6 @@ public class UserController {
                     request.getParameter("abstrcat") : "");
             newfile.setFileType(file.getContentType());
             String key = KeyCreate(16);
-            System.out.println("的值是：---"+ key.length() + "，当前方法=UserController.uploadFile()");
             newfile.setFileSecretKey(key);
             fileService.addFile(newfile);
             newfile = fileService.findFileByFileName(newfile.getFileName());
@@ -302,7 +306,7 @@ public class UserController {
             filedata.setFileData(aesEncryptToBytes(base64Encode(file.getBytes()), key));
             filedataService.saveFiledata(filedata);
         }
-        return "user/index";
+        return "user/newFile";
     }
 
     @RequestMapping(value = "/download/{fileId}", method = RequestMethod.POST)
