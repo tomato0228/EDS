@@ -24,9 +24,9 @@ public interface CommentService {
 
     public Comment findCommentBySenderName(String senderName);
 
-    public Comment findCommentByRecevierId(Integer id);
+    public List<Comment> findCommentByRecevierId(Integer id);
 
-    public Comment findCommentByRecevierName(String recevierName);
+    //public Comment findCommentByRecevierName(String recevierName);
 
     public Comment findCommentByisRead(int Read);
 }

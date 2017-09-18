@@ -9,6 +9,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -251,6 +252,17 @@
                         <li><a href="lock_screen.html">所有消息</a></li>
                     </ul>
                 </li>
+                <!--共享文件-->
+                <li class="sub-menu">
+                    <a href="javascript:;">
+                        <i class="fa fa-globe"></i>
+                        <span>共享文件</span>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
+                        <li><a href="#">搜索文件</a></li>
+                    </ul>
+                </li>
                 <!--文件-->
                 <li class="sub-menu">
                     <a href="javascript:;">
@@ -260,8 +272,8 @@
                     <ul class="sub">
                         <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
                         <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
-                        <li><a href="basic_table.html">共享文件</a></li>
-                        <li><a href="basic_table.html">私人文件</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
                     </ul>
                 </li>
                 <!--文件评论-->

@@ -12,13 +12,13 @@ public class File {
     private String fileSize;
     private Date fileLoadTime;
     private int fileUserId;
-    private Integer fileShare;
-    private int fileSecretLevel;
+    private Integer fileShare = 0;
+    private int fileSecretLevel = 1;
     private String fileAbstrcat;
     private String fileSecretKey;
-    private Integer fileViewtimes;
-    private Integer filePrinttimes;
-    private Integer fileDownloadtimes;
+    private Integer fileViewtimes = 0;
+    private Integer filePrinttimes = 0;
+    private Integer fileDownloadtimes = 0;
     private String fileType;
 
     @Id
@@ -187,5 +187,24 @@ public class File {
         result = 31 * result + (fileDownloadtimes != null ? fileDownloadtimes.hashCode() : 0);
         result = 31 * result + fileType.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "fileId=" + fileId +
+                ", fileName='" + fileName + '\'' +
+                ", fileSize='" + fileSize + '\'' +
+                ", fileLoadTime=" + fileLoadTime +
+                ", fileUserId=" + fileUserId +
+                ", fileShare=" + fileShare +
+                ", fileSecretLevel=" + fileSecretLevel +
+                ", fileAbstrcat='" + fileAbstrcat + '\'' +
+                ", fileSecretKey='" + fileSecretKey + '\'' +
+                ", fileViewtimes=" + fileViewtimes +
+                ", filePrinttimes=" + filePrinttimes +
+                ", fileDownloadtimes=" + fileDownloadtimes +
+                ", fileType='" + fileType + '\'' +
+                '}';
     }
 }

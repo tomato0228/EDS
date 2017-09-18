@@ -8,10 +8,10 @@ import java.util.Date;
 public class Filelimit {
 
     private int fileId;
-    private Integer fileRead;
-    private Integer fileWrite;
-    private Integer filePrint;
-    private Integer fileReadTimes;
+    private Integer fileRead = 0;
+    private Integer fileWrite = 0;
+    private Integer filePrint = 0;
+    private Integer fileReadTimes = -1;
     private Date fileLifeCycle;
 
     @Id

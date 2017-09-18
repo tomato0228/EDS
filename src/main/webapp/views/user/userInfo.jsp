@@ -9,6 +9,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -83,7 +84,7 @@
                                                 <%--内容--%>
                                             <span class="message">
                                             <c:choose>
-                                                <c:when test="${fn:length(comment.comData)} <= 30">
+                                                <c:when test="${fn:length(comment.comData) <= 30}">
                                                     ${comment.comData}
                                                 </c:when>
                                                 <c:otherwise>
@@ -133,7 +134,7 @@
                                                 <%--内容--%>
                                             <span class="message">
                                             <c:choose>
-                                                <c:when test="${fn:length(Message.msgData)} <= 30">
+                                                <c:when test="${fn:length(Message.msgData) <= 30}">
                                                     ${Message.msgData}
                                                 </c:when>
                                                 <c:otherwise>
@@ -174,7 +175,7 @@
                         <p class="centered">
                             <a href="#" onclick="window.location.href = '${ctx}/user/userPicture'">
                                 <c:choose>
-                                    <c:when test="${sessionScope.loginUser.userPictureUrl} == null">
+                                    <c:when test="${empty sessionScope.loginUser.userPictureUrl}">
                                         <img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle" width="60">
                                     </c:when>
                                     <c:otherwise>
@@ -206,6 +207,17 @@
                                 <li><a href="#">所有消息</a></li>
                             </ul>
                         </li>
+                        <!--共享文件-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-th"></i>
+                                <span>共享文件</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
+                                <li><a href="#">搜索文件</a></li>
+                            </ul>
+                        </li>
                         <!--文件-->
                         <li class="sub-menu">
                             <a href="javascript:;">
@@ -215,8 +227,8 @@
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
-                                <li><a href="#">共享文件</a></li>
-                                <li><a href="#">私人文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
                             </ul>
                         </li>
                         <!--文件评论-->
@@ -301,10 +313,16 @@
                     <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
                     <div class="row mt">
                         <div class="col-lg-12">
-                            <p>Place your content here.</p>
+
+
+
+
+
+
+
+
                         </div>
                     </div>
-
                 </section>
                 <! --/wrapper -->
             </section>
@@ -315,7 +333,7 @@
             <footer class="site-footer">
                 <div class="text-center">
                     2014 - Alvarez.is
-                    <a href="userInfo.jsp#" class="go-top">
+                    <a href="#" class="go-top">
                         <i class="fa fa-angle-up"></i>
                     </a>
                 </div>

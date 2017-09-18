@@ -12,7 +12,7 @@ public class Message {
     private int msgReceiver;
     private String msgData;
     private Date msgSendtime;
-    private int isRead;
+    private int isRead = 0;
 
     @Id
     @Column(name = "Msg_ID", nullable = false)

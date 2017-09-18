@@ -9,6 +9,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -31,6 +32,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
 </head>
 <body>
 
@@ -41,20 +43,49 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
+            <h3><i class="fa fa-angle-right"></i>  我的近期文件</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <%--<p>Place your content here.</p>--%>
+                    <c:forEach items="${sessionScope.RecentFiles}" var="recentFile">
                         <!-- TWITTER PANEL -->
                         <div class="col-lg-4 col-md-4 col-sm-4 mb">
-                            <div class="twitter-panel pn">
-                                <i class="fa fa-twitter fa-4x"></i>
-                                <p>Dashgum is here! Take a look and enjoy this new Bootstrap Dashboard theme.</p>
-                                <p class="user">@Alvrz_is</p>
+                            <div class="weather-2 pn">
+                                <div class="weather-2-header">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-xs-6">
+                                            <c:choose>
+                                                <c:when test="${fn:length(recentFile.fileName) <= 15}">
+                                                    <p class="user">${recentFile.fileName}</p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p class="user">${fn:substring(recentFile.fileName, 0, 15)}...</p>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-6 goright">
+                                            <p class="small">${fn:substring(recentFile.fileLoadTime, 0, 16)}</p>
+                                        </div>
+                                    </div>
+                                </div><!-- /weather-2 header -->
+                                <div class="row centered">
+                                    <img src="${ctx}/resources/img/prefix/${recentFile.fileType}.png" class="img-rounded" width="100"
+                                         onclick="window.location.href='${ctx}/user/fileInfo-${recentFile.fileId}'">
+                                </div>
+                                <br>
+                                <div class="row centered">
+                                    <c:choose>
+                                        <c:when test="${fn:length(recentFile.fileAbstrcat) <= 150}">
+                                            <p style="font-size: 1.2em">${recentFile.fileAbstrcat}</p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p style="font-size: 1.2em">${fn:substring(recentFile.fileAbstrcat, 0, 150)}...</p>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
-                        </div><!-- /col-md-4 -->
-
-
+                        </div>
+                        <!-- /col-md-4 -->
+                    </c:forEach><!-- 1st ROW OF PANELS -->
                 </div>
             </div>
 
@@ -68,7 +99,7 @@
     <footer class="site-footer">
         <div class="text-center">
             2014 - Alvarez.is
-            <a href="userInfo.jsp#" class="go-top">
+            <a href="#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>
         </div>

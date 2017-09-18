@@ -84,8 +84,43 @@ public class UserController {
     }
 
     @RequestMapping("/recentFile")
-    public String recentFile() {
+    public String recentFile(HttpServletRequest request) {
+        FindRecentFile(request);
         return "user/recentFile";
+    }
+
+    @RequestMapping("/fileInfo-{fileId}")
+    public String viewFileInfo(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
+        FindRecentFile(request);
+        File file = fileService.getFileById(fileId);
+        if (file != null) {
+            map.addAttribute("fileInfo", file);
+            return "user/fileInfo";
+        } else return "user/index";
+    }
+
+    @RequestMapping("/enjoyFile")
+    public String enjoyFile(HttpServletRequest request) {
+        FindEnjoyFile(request);
+        return "user/enjoyFile";
+    }
+
+    @RequestMapping("/privateFile")
+    public String privateFile(HttpServletRequest request) {
+        FindPrivateFile(request);
+        return "user/privateFile";
+    }
+
+    @RequestMapping("/webRecentFile")
+    public String webRecentFile(HttpServletRequest request) {
+        FindwebRecentFile(request);
+        return "user/webRecentFile";
+    }
+
+    @RequestMapping("/webEnjoyFile")
+    public String webEnjoyFile(HttpServletRequest request) {
+        FindwebEnjoyFile(request);
+        return "user/webEnjoyFile";
     }
 
     @ResponseBody
@@ -275,7 +310,6 @@ public class UserController {
         return "user/login";
     }
 
-
     @RequestMapping(value = "uploadFile", method = RequestMethod.POST)
     public String uploadFile(@RequestPart(value = "file", required = false)
                                      MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
@@ -297,7 +331,22 @@ public class UserController {
                     request.getParameter("fileSecretLevel") : "1"));
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
-            newfile.setFileType(file.getContentType());
+            newfile.setFileShare(Integer.parseInt((request.getParameter("Share") != null) ?
+                    request.getParameter("Share") : "1"));
+            String isPng[] = {"7Z", "ACCDB", "AVI", "BMP", "CSS", "CSV", "DLL", "DOC", "DOCX", "DWG", "EML", "EPS", "FILE",
+                    "FLA", "FON", "GIF", "HLP", "HTML", "IND", "INI", "JPEG", "JPG", "JSF", "MDB", "MIDI", "MOV", "MP3", "MP4",
+                    "MPG", "MPEG", "ODBC", "OGG", "PDF", "PHP", "PNG", "PPS", "PPSX", "PPT", "PPTX", "PROJ",
+                    "PSD", "PST", "PUB", "RAR", "REG", "RTF", "SEF", "SQL", "SWF", "SYS", "TAR", "TIF", "TIFF",
+                    "TTF", "TXT", "URL", "VSD", "WAV", "WMA", "WMV", "XLS", "XLSX", "XML", "ZIP"};
+            int i = 0;
+            prefix = prefix.toUpperCase();
+            for (i = 0; i < isPng.length; i++) {
+                if (isPng[i].equals(prefix))
+                    break;
+            }
+            if (i == isPng.length)
+                prefix = "README";
+            newfile.setFileType(prefix);
             String key = KeyCreate(16);
             newfile.setFileSecretKey(key);
             fileService.addFile(newfile);
@@ -406,5 +455,87 @@ public class UserController {
         request.getSession().setAttribute("notReadMessages", messageList);
         request.getSession().setAttribute("notReadMessagesSender", users);
     }
+
+    //该用户近期文件
+    private void FindRecentFile(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<User> users = new ArrayList<User>();
+        List<File> fileList = new ArrayList<File>();
+        Date date = DateUtils.getDateAfter(-1);
+        for (File file : files) {
+            if (DateUtils.isBeforeSpeciDate(date, file.getFileLoadTime())) {
+                fileList.add(file);
+                users.add(userService.getUserById(file.getFileUserId()));
+            }
+        }
+        request.getSession().setAttribute("RecentFiles", fileList);
+        request.getSession().setAttribute("RecentFileUsers", users);
+    }
+
+    //该用户共享文件
+    private void FindEnjoyFile(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("fileUserId", ((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Comment> comments = new ArrayList<Comment>();
+        map.put("fileShare", 1);
+        List<File> files = fileService.findFiles(map);
+        List<Integer> EnjoyFileComment = new ArrayList<Integer>();
+        for (File f : files) {
+            EnjoyFileComment.add(commentService.findCommentByRecevierId(f.getFileId()).size());
+        }
+        request.getSession().setAttribute("EnjoyFiles", files);
+        request.getSession().setAttribute("EnjoyFileComment", EnjoyFileComment);
+    }
+
+    //该用户私人文件
+    private void FindPrivateFile(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("fileUserId", ((User) request.getSession().getAttribute("loginUser")).getUserId());
+        map.put("fileShare", 0);
+        List<File> files = fileService.findFiles(map);
+//        List<User> users = new ArrayList<User>();
+//        List<File> fileList = new ArrayList<File>();
+//        for (File file : files) {
+//            if (file.getFileShare()-1==0) {
+//                fileList.add(file);
+//                users.add(userService.getUserById(file.getFileUserId()));
+//            }
+//        }
+        request.getSession().setAttribute("PrivateFile", files);
+        //request.getSession().setAttribute("EnjoyFileUsers", users);
+    }
+
+    //近期共享文件
+    private void FindwebRecentFile(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("fileShare", 1);
+        List<File> files = fileService.findFiles(map);
+        List<User> users = new ArrayList<User>();
+        List<File> fileList = new ArrayList<File>();
+        Date date = DateUtils.getDateAfter(-1);
+        for (File file : files) {
+            if (DateUtils.isBeforeSpeciDate(date, file.getFileLoadTime())) {
+                fileList.add(file);
+                users.add(userService.getUserById(file.getFileUserId()));
+            }
+        }
+        request.getSession().setAttribute("WebRecentFiles", fileList);
+        request.getSession().setAttribute("WebRecentFileUsers", users);
+    }
+
+    //共享文件
+    private void FindwebEnjoyFile(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("fileShare", 1);
+        List<File> files = fileService.findFiles(map);
+        List<User> users = new ArrayList<User>();
+        for (File file : files) {
+            users.add(userService.getUserById(file.getFileUserId()));
+        }
+        request.getSession().setAttribute("WebEnjoyFile", files);
+        request.getSession().setAttribute("WebEnjoyFileUsers", users);
+    }
+
 
 }

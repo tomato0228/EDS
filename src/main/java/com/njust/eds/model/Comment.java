@@ -12,7 +12,7 @@ public class Comment {
     private int comRecevier;
     private String comData;
     private Date comTime;
-    private int isRead;
+    private int isRead = 0;
 
     @Id
     @Column(name = "Com_ID", nullable = false)

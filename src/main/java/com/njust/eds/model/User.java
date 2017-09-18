@@ -11,19 +11,19 @@ public class User {
     private String userPassword;
     private String userName;
     private String userRealname;
-    private int userSex;
+    private int userSex = 2;
     private String userEmail;
     private String userTel;
     private String userCompany;
     private Date userBirthday;
-    private int userSecretLevel;
+    private int userSecretLevel = 1;
     private Date userCreateTime;
-    private Integer userIsAccepted;
+    private Integer userIsAccepted = 0;
     private String userValidateSerCode;
     private Date userValidateOverDate;
     private String userUserNameEncodes;
-    private Integer userIsEmailValidated;
-    private String userPictureUrl;
+    private Integer userIsEmailValidated = 0;
+    private String userPictureUrl = "${ctx}/resources/img/ui-sam.jpg";
     private String userProfile;
 
 

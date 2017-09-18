@@ -66,13 +66,13 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.findCommentBySenderName(senderName);
     }
 
-    public Comment findCommentByRecevierId(Integer id) {
+    public List<Comment> findCommentByRecevierId(Integer id) {
         return commentDao.findCommentByRecevierId(id);
     }
 
-    public Comment findCommentByRecevierName(String recevierName) {
-        return commentDao.findCommentByRecevierName(recevierName);
-    }
+//    public Comment findCommentByRecevierName(String recevierName) {
+//        return commentDao.findCommentByRecevierName(recevierName);
+//    }
 
     public Comment findCommentByisRead(int Read) {
         return commentDao.findCommentByisRead(Read);

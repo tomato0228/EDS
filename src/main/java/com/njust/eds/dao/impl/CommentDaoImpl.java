@@ -87,20 +87,21 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
     }
 
     //通过评论文件ID查找评论
-    public Comment findCommentByRecevierId(Integer id) {
+    @SuppressWarnings("unchecked")
+    public List<Comment> findCommentByRecevierId(Integer id) {
         String hql = "from Comment  where comRecevier=?";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, id);
-        return (Comment) query.uniqueResult();
+        return query.list();
     }
 
     //通过评论文件名字查找评论
-    public Comment findCommentByRecevierName(String recevierName) {
-        String hql = "from Comment  where comRecevier=?";
-        Query query = getSession().createQuery(hql);
-        query.setParameter(0, fileDao.findFileByFileName(recevierName).getFileId());
-        return (Comment) query.uniqueResult();
-    }
+//    public Comment findCommentByRecevierName(String recevierName) {
+//        String hql = "from Comment  where comRecevier=?";
+//        Query query = getSession().createQuery(hql);
+//        query.setParameter(0, fileDao.findFileByFileName(recevierName).getFileId());
+//        return (Comment) query.uniqueResult();
+//    }
 
     //按评论是否可读查找
     public Comment findCommentByisRead(int Read) {

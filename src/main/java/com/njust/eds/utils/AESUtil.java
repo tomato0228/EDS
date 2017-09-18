@@ -169,6 +169,6 @@ public class AESUtil {
             int number = random.nextInt(base.length());
             Keysb.append(base.charAt(number));
         }
-        return base64Encode(md5(Keysb.toString())).substring(0,16);
+        return (base64Encode(md5(Keysb.toString()))).substring(0,16);
     }
 }

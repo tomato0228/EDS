@@ -33,7 +33,7 @@ public class FileServiceImpl implements FileService {
     }
 
     public List<File> findFiles(Map<String, Object> map) {
-        StringBuffer hql = new StringBuffer("from Filelimit where 1=1 ");
+        StringBuffer hql = new StringBuffer("from File where 1=1 ");
         List<Object> params = new LinkedList<Object>();
         if (map.get("fileName") != null) {
             hql.append(" and fileName=? ");

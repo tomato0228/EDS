@@ -9,7 +9,7 @@ public class Admin {
     private int adminId;
     private String adminName;
     private String adminPassword;
-    private int adminPower;
+    private int adminPower = 4;
     private String adminTel;
     private String adminEmail;
 

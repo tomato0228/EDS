@@ -9,6 +9,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -84,7 +85,6 @@
             <h3><i class="fa fa-angle-right"></i>新建文件</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <%--<p>Place your content here.</p>--%>
                     <form action="${pageContext.request.contextPath}/user/uploadFile" enctype="multipart/form-data"
                           method="post">
                         <table style="border-collapse:separate; border-spacing:10px;">
@@ -99,7 +99,7 @@
                             <tr>
                                 <td>文件秘级</td>
                                 <td>
-                                    <select multiple class="form-control ">
+                                    <select multiple class="form-control" name="fileSecretLevel" id="fileSecretLevel">
                                         <c:if test="${sessionScope.loginUser.userSecretLevel == 5}">
                                             <option>A</option>
                                         </c:if>
@@ -119,7 +119,7 @@
                             <tr>
                                 <td>是否共享</td>
                                 <td>
-                                    <input type="checkbox" id="Share"/>
+                                    <input type="checkbox" id="Share" name="Share"/>
                                 </td>
                             </tr>
                             <tr>
@@ -136,26 +136,27 @@
                                         <tr>
                                             <td>是否只读</td>
                                             <td>
-                                                <input type="checkbox"/>
+                                                <input type="checkbox" id="fileRead" name="fileRead"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>是否可改写</td>
                                             <td>
-                                                <input type="checkbox"/>
+                                                <input type="checkbox" id="fileWrite" name="fileWrite"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>是否可打印</td>
                                             <td>
-                                                <input type="checkbox"/>
+                                                <input type="checkbox" id="filePrint" name="filePrint"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>读取次数</td>
                                             <td>
-                                                <input type="text" placeholder="-1为无限次"
-                                                       style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;">
+                                                <input type="text" placeholder="-1为无限次" id="fileReadTimes"
+                                                       style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;"
+                                                       name="fileReadTimes">
                                             </td>
                                         </tr>
                                         <tr>
@@ -163,7 +164,7 @@
                                             <td>
                                                 <input type="text" id="fileLifeCycle"
                                                        style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;"
-                                                       readonly="readonly" onfocus="showDate()"/>
+                                                       readonly="readonly" onfocus="showDate()" name="fileLifeCycle"/>
                                             </td>
                                         </tr>
                                     </table>
