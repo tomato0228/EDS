@@ -1,5 +1,6 @@
-/*H-ui.admin.js v2.0 date:15:42 2014-11-24 by:guojunhui*/
+
 /*获取顶部选项卡总长度*/
+
 function tabNavallwidth(){
 	var taballwidth=0,
 		$tabNav = $(".acrossTab"),
@@ -95,7 +96,7 @@ function datadel_file(){
 }
 
 /*弹出层*/
-function layer_show(id,secretlevel,w,h,title,url){
+function layer_show_usersecretlevel_edit(id,secretlevel,w,h,title,url){
 	if (w == null || w == '') {
 		w=800;
 	};
@@ -122,6 +123,35 @@ function layer_show(id,secretlevel,w,h,title,url){
     	iframe: {src: url+'?userid='+id+'&usersecretlevel='+secretlevel}
 	});
 }
+
+
+function layer_show_file_edit(id,w,h,title,url){
+    if (w == null || w == '') {
+        w=800;
+    };
+    if (h == null || h == '') {
+        h=($(window).height() - 50);
+    };
+    if (title == null || title == '') {
+        title=false;
+    };
+    if (url == null || url == '') {
+        url="404.html";
+    };
+    $.layer({
+        type: 2,
+        shadeClose: true,
+        title: title,
+        maxmin:false,
+        shadeClose: true,
+        closeBtn: [0, true],
+        shade: [0.8, '#000'],
+        border: [0],
+        offset: ['20px',''],
+        area: [w+'px', h +'px'],
+        iframe: {src: url+'?fileid='+id}
+    });
+}
 /*----------用户管理------------------*/
 /*用户-添加*/
 function user_add(w,h,title,url){
@@ -133,7 +163,7 @@ function user_show(id,w,h,title,url){
 }
 /*用户-密码-修改*/
 function user_secretlevel_edit(id,secretlevel,w,h,title,url){
-	layer_show(id,secretlevel,w,h,title,url);
+	layer_show_usersecretlevel_edit(id,secretlevel,w,h,title,url);
 }
 
 /*用户-编辑*/
@@ -210,6 +240,11 @@ function user_del(obj,userid){
 	});
 }
 
+/*文件摘要编辑*/
+function file_edit(id,w,h,title,url){
+    layer_show_file_edit(id,w,h,title,url);
+}
+
 function file_del(obj,fileid){
     layer.confirm('确认要删除吗？',function(index){
         $(obj).parents("tr").remove();
@@ -224,6 +259,82 @@ function file_del(obj,fileid){
         );
 
     });
+}
+
+
+/*管理员修改密码*/
+function admin_edit(password,adminid) {
+
+    var oldpw=document.getElementById("oldpw").value;
+    var newpw1=document.getElementById("newpw1").value;
+    var newpw2=document.getElementById("newpw2").value;
+    var pwcheck;
+    $.ajax( {
+        type : "post",
+        url : '/admin/password_check',
+        data:{"oldpw": oldpw,
+		"password":password},
+        success:function(data){
+
+             if(data=="yes")
+             	pwcheck=1;
+             else
+             	pwcheck=0;
+
+            if(oldpw==""||newpw1==""||newpw2=="")
+            {
+                alert("请完整填写密码！");
+            }
+            else if(pwcheck==0){
+                alert("原始密码错误，请重新输入！");
+            }
+            else{
+            	if(newpw1==newpw2)
+				{
+
+                    $.post('/admin/admin_edit',
+                        {
+							"newpw":newpw2,
+							"adminid":adminid
+                        },function (requestdata) {
+							window.location.reload();
+                        }
+                    );
+				}
+				else
+				{
+					alert("两次输入不一致！")
+				}
+            }
+
+        },
+        error : function(data) {
+            alert("系统错误");
+        }
+    });
+
+/*管理员邮箱电话*/
+ function admin_edit_save(adminid) {
+	 var tel=document.getElementById("tel").value;
+	 var email=document.getElementById("email").value;
+	 if(tel==""&&email=="")
+	 {
+	 	alert("请至少修改一项！");
+	 }
+	 else{ $.post('/admin/admin_edit2',
+         {
+             "tel":tel,
+             "email":email,
+			 "id":adminid
+         },function (requestdata) {
+             window.location.reload();
+         }
+     );
+	 }
+
+ }
+
+
 }
 /*------------资讯管理----------------*/
 /*获取分类值*/
@@ -348,7 +459,7 @@ function admin_permission_del(obj,id){
 }
 
 /*管理员-编辑-保存*/
-function admin_edit_save(obj,id){
+function admin_edit_save100(obj,id){
 	var i = parent.layer.getFrameIndex();
 	parent.layer.close(i);
 }

@@ -19,10 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.njust.eds.utils.AESUtil.*;
+import static com.njust.eds.utils.FileSizeUtils.getFjSize;
 
 /**
  * @author tomato
@@ -285,14 +287,14 @@ public class UserController {
             //修改后的文件名(带后缀)
             String NewFileName = fileUUIDname + "." + prefix;
             newfile.setFileName(NewFileName);
-            newfile.setFileSize(String.valueOf(file.getSize()));
+            newfile.setFileSize(getFjSize(String.valueOf(file.getSize())));
             newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
             newfile.setFileUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
             newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ?
                     request.getParameter("fileSecretLevel") : "1"));
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
-            newfile.setFileType(file.getContentType());
+            newfile.setFileType(prefix);
             String key = KeyCreate(16);
             System.out.println("的值是：---"+ key.length() + "，当前方法=UserController.uploadFile()");
             newfile.setFileSecretKey(key);
@@ -402,5 +404,6 @@ public class UserController {
         request.getSession().setAttribute("notReadMessages", messageList);
         request.getSession().setAttribute("notReadMessagesSender", users);
     }
+
 
 }

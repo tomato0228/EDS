@@ -9,6 +9,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
          pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -257,7 +260,8 @@
                                <td><input type="checkbox" value="${Fileitem.fileId}" name="chckBox"></td>
                                <td>${Namelist[loop.count-1]}</td>
                             <td><u style="cursor:pointer" class="text-primary"
-                                   onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')">${Fileitem.fileName}</u></td>
+                                   onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')"> ${fn:substring(Fileitem.fileName, 0, 10)}...
+                            </u></td>
                             <td>${Fileitem.fileSize}</td>
                             <td>${Fileitem.fileViewtimes}</td>
                             <td>${Fileitem.fileDownloadtimes}</td>
@@ -280,14 +284,14 @@
                                     class="icon-hand-down"></i></a>
 
                                 <a
-                                    title="编辑" href="javascript:;" onClick="user_edit('4','550','','编辑','user-add.html')"
+                                    title="编辑" href="javascript:;" onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
                                     class="ml-5"
                                     style="text-decoration:none"><i class="icon-edit"></i></a> <a
                                     style="text-decoration:none"
                                     class="ml-5"
                                     onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
                                     href="javascript:;"
-                                    title="修改密码"><i
+                                    title="修改密级"><i
                                     class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="file_del(this,${Fileitem.fileId})"
                                                                  class="ml-5" style="text-decoration:none"><i
                                     class="icon-trash"></i></a></td>

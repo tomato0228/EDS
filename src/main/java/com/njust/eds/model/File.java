@@ -188,4 +188,24 @@ public class File {
         result = 31 * result + fileType.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "fileId=" + fileId +
+                ", fileName='" + fileName + '\'' +
+                ", fileSize='" + fileSize + '\'' +
+                ", fileLoadTime=" + fileLoadTime +
+                ", fileUserId=" + fileUserId +
+                ", fileShare=" + fileShare +
+                ", fileSecretLevel=" + fileSecretLevel +
+                ", fileAbstrcat='" + fileAbstrcat + '\'' +
+                ", fileSecretKey='" + fileSecretKey + '\'' +
+                ", fileViewtimes=" + fileViewtimes +
+                ", filePrinttimes=" + filePrinttimes +
+                ", fileDownloadtimes=" + fileDownloadtimes +
+                ", fileType='" + fileType + '\'' +
+                '}';
+    }
+
 }

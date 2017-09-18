@@ -146,57 +146,111 @@
             }
         %>
     </div>
+    <% String tel=admin.getAdminTel();
+        String email=admin.getAdminEmail();
+        String password=admin.getAdminPassword();
+        String power;
+        String name=admin.getAdminName();
+        int id=admin.getAdminId();
+        int p=admin.getAdminPower();
+        if(p==1)
+            {
+                power="系统管理";
+            }
+            else if(p==2)
+                {
+                    power="管理员管理";
+                }
+                 else if(p==3)
+                {
+                    power="文件管理";
+                }
+                  else {power="用户管理";}
+%>
     <div id="rightContent">
         <a class="toggle-btn" id="nimei">
             <i class="glyphicon glyphicon-align-justify"></i>
         </a>
         <!-- Tab panes -->
         <div class="tab-content">
-            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 系统信息
+            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 个人管理
                 <a class="btn btn-success radius r mr-20"
                    style="line-height:1.6em;margin-top:3px"
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
-            <div class="cl pd-20" style=" background-color:#5bacb6">
-                <img class="avatar avatar-XL l" src="${ctx}/resources/images/logo.png">
-                <dl style="margin-left:80px; color:#fff">
-                    <dt><span class="f-18">我的信息</span> <span class="pl-10 f-12">余额：40</span></dt>
-                    <dd class="pt-10 f-12" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
-                </dl>
-            </div>
-            <div class="pd-20">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th class="text-r" width="80">性别：</th>
-                        <td>男</td>
-                    </tr>
-                    <tr>
-                        <th class="text-r">手机：</th>
-                        <td>13000000000</td>
-                    </tr>
-                    <tr>
-                        <th class="text-r">邮箱：</th>
-                        <td>admin@mail.com</td>
-                    </tr>
-                    <tr>
-                        <th class="text-r">地址：</th>
-                        <td>北京市 海淀区</td>
-                    </tr>
-                    <tr>
-                        <th class="text-r">注册时间：</th>
-                        <td>2014.12.20</td>
-                    </tr>
-                    <tr>
-                        <th class="text-r">积分：</th>
-                        <td>330</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
-    </div>
-    <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
+            <div role="tabpanel" class="tab-pane" id="chan">
+                <div class="check-div">
+                    修改你的信息 :
+                </div>
+                <div style="padding: 100px 0;margin-top: 50px;background-color: #fff; text-align: right;width: 820px;margin: 50px auto;">
+                    <form class="form-horizontal" name="admin" id="admin" method="post">
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">管理员名：</label>
+                            <div class="col-xs-5">
+                                <input type="" class="form-control input-sm duiqi" name="name" placeholder="<%=name%>" style="margin-top: 7px;" disabled>
+                            </div>
+                        </div> <div class="form-group">
+                        <label for="" class="col-xs-4 control-label">管理员ID：</label>
+                        <div class="col-xs-5">
+                            <input type="" class="form-control input-sm duiqi" name="id" placeholder="<%=id%>" style="margin-top: 7px;" disabled>
+                        </div>
+                    </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">管理员权限：</label>
+                            <div class="col-xs-5">
+                                <input type="" class="form-control input-sm duiqi" name="power" placeholder="<%=power%>" style="margin-top: 7px;" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">联系电话：</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control input-sm duiqi" name="tel" id="tel" placeholder="<%=tel%>" style="margin-top: 7px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">邮箱地址:</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control input-sm duiqi" name="email" id="email"  placeholder="<%=email%>" style="margin-top: 7px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-4 col-xs-5" style="margin-left: 169px;">
+                                <button type="reset" class="btn btn-xs btn-white">取 消</button>
+                                <input type="button" class="btn btn-xs btn-green" id="1" value="保存" onclick="admin_edit_save('<%=id%>')"></input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">修改密码：</label>
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control input-sm duiqi" name="oldpw" id="oldpw" placeholder="<%=password%>" style="margin-top: 7px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">新密码：</label>
+                            <div class="col-xs-5">
+                                <input type="password" class="form-control input-sm duiqi" name="newpw1" id="newpw1" placeholder="" style="margin-top: 7px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-xs-4 control-label">确认密码：</label>
+                            <div class="col-xs-5">
+                                <input type="password" class="form-control input-sm duiqi"name="newpw2" id="newpw2" placeholder="" style="margin-top: 7px;">
+                            </div>
+                        </div>
+                        <div class="form-group text-right">
+                            <div class="col-xs-offset-4 col-xs-5" style="margin-left: 169px;">
+                                <button type="reset" class="btn btn-xs btn-white">取 消</button>
+                                <input type="button" class="btn btn-xs btn-green" id="1" value="保存" onclick="admin_edit('<%=password%>','<%=id%>')"></input>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+
+            <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/H-ui.admin.js"></script>
 

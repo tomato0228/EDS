@@ -49,4 +49,11 @@ public class Filedata {
         result = 31 * result + Arrays.hashCode(fileData);
         return result;
     }
+    @Override
+    public String toString() {
+        return "Filedata{" +
+                "fileId=" + fileId +
+                '}';
+    }
+
 }
