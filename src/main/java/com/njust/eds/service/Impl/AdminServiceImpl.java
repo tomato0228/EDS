@@ -65,7 +65,17 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public String findAdminnameById(int id){return adminDao.findAdminnameById(id);}
+    public List<Admin> getAllAdmin(){
+        return  adminDao.getAllAdmin();
+    }
 
+    public void deletAdmin(Admin admin) {
+        adminDao.deletAdmin(admin);
 
+    }
+
+    public void admin_power(int id,int power ){
+        adminDao.admin_power(id,power);
+    }
 
 }

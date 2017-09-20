@@ -247,7 +247,7 @@
                         <span>我的消息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="blank.html">新建消息</a></li>
+                        <li><a href="${pageContext.request.contextPath }/views/user/newMessage.jsp">新建消息</a></li>
                         <li><a href="login.html">未读消息</a></li>
                         <li><a href="lock_screen.html">所有消息</a></li>
                     </ul>

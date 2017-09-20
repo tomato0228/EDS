@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: tomato
-  Date: 2017/9/11
-  Time: 上午11:40
+  User: Nero
+  Date: 2017/9/20
+  Time: 13:24
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page import="com.njust.eds.model.Admin" %>
@@ -140,98 +140,15 @@
 <body>
 <%
     Admin admin = (Admin) session.getAttribute("loginAdmin");
+
     if (admin != null) {
 %>
-<div id="wrap">
-    <!-- 左侧菜单栏目块 -->
-    <div class="leftMeun" id="leftMeun">
-        <div id="logoDiv">
-            <p id="logoP"><img id="logo" alt="EDS管理系统" src="${ctx}/resources/images/logo.png"><span>EDS管理系统</span></p>
-        </div>
-        <div id="personInfor">
-            <p id="userName">${sessionScope.loginAdmin.adminName}</p>
-            <p><span>${sessionScope.loginAdmin.adminEmail}</span></p>
-            <p>
-                <a onclick="logoutEDS()">退出登录</a>
-            </p>
-        </div>
-        <div class="meun-title ">普通管理</div>
-        <%
-            int Power = admin.getAdminPower();
-            if (Power == 3 || Power == 1) {
-        %>
-        <div id="wj" class="meun-item meun-item-active"><img
-                src="${ctx}/resources/images/icon_source.png">文件管理
-        </div>
-        <%
-            }
-            if (Power == 4 || Power == 1) {
-        %>
-        <div id="yh" class="meun-item" onclick="window.location.href='${ctx}/admin/UserControl'"><img
-                src="${ctx}/resources/images/icon_chara_grey.png">用户管理
-        </div>
-        <%
-            }
-        %>
-        <div id="xx" class="meun-item" onclick="window.location.href='${ctx}/admin/MessageControl'"><img
-                src="${ctx}/resources/images/icon_user_grey.png">消息管理
-        </div>
-        <div id="gr" class="meun-item" onclick="window.location.href='${ctx}/admin/PersonalSettings'"><img
-                src="${ctx}/resources/images/icon_change_grey.png">个人设置
-        </div>
-        <div class="meun-title">系统管理</div>
-        <div id="xt" class="meun-item" onclick="window.location.href='${ctx}/admin/SystemInfo'"><img
-                src="${ctx}/resources/images/icon_house_grey.png">系统信息
-        </div>
-
-        <%
-            if (Power == 1) {
-        %>
-        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/SecretLeveControl'"><img
-                src="${ctx}/resources/images/icon_rule_grey.png">密级管理
-        </div>
-        <%
-            }
-            if (Power == 1 || Power == 2) {
-        %>
-        <div id="gly" class="meun-item" onclick="window.location.href='${ctx}/admin/AdminControl'"><img
-                src="${ctx}/resources/images/icon_card_grey.png">管理员
-        </div>
-        <%
-            }
-        %>
-    </div>
     <!-- 右侧栏目块 -->
     <div id="rightContent">
         <a class="toggle-btn" id="nimei">
             <i class="glyphicon glyphicon-align-justify"></i>
         </a>
         <!-- Tab panes -->
-        <div class="tab-content">
-            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 文件管理
-                <a class="btn btn-success radius r mr-20"
-                   style="line-height:1.6em;margin-top:3px"
-                   href="javascript:location.replace(location.href);" title="刷新"><i
-                        class="icon-refresh"></i></a></nav>
-            <div class="pd-20">
-                <div class="text-c"> 日期范围：
-                    <input type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin"
-                           class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax"
-                           class="input-text Wdate" style="width:120px;">
-                    <select name="type" id="type">
-                        <option value="0">文件名</option>
-                        <option value="1">用户名</option>
-                        <option value="3">文件类型</option>
-                    </select>
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入文件名 用户名" id="name" name="name">
-                    <button type="submit" class="btn btn-success" id="" name="" onclick="search_file('${ctx}/views/admin/search_file.jsp')"><i class="icon-search"></i> 搜文件
-                    </button>
-
-                </div>
                 <div class="cl pd-5 bg-1 bk-gray mt-20">
     <span class="l"><a href="javascript:;" onClick="datadel_file()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
     <a href="javascript:;" onClick="user_add('550','','添加文件','user-add.html')" class="btn btn-primary radius"><i
@@ -260,20 +177,20 @@
                     <c:forEach items="${Userfiles}" var="Useritem"  varStatus="loop">
 
 
-                           <c:forEach items="${Useritem}" var="Fileitem">
-                               <tr class="text-c">
-                               <td><input type="checkbox" value="${Fileitem.fileId}" name="chckBox"></td>
-                               <td>${Namelist[loop.count-1]}</td>
-                            <td><u style="cursor:pointer" class="text-primary"
-                                   onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')"> ${fn:substring(Fileitem.fileName, 0, 10)}...
-                            </u></td>
-                            <td>${Fileitem.fileSize}</td>
-                            <td>${Fileitem.fileViewtimes}</td>
-                            <td>${Fileitem.fileDownloadtimes}</td>
-                            <td class="text-l">${Fileitem.fileType}</td>
-                            <td>${Fileitem.fileAbstrcat}</td>
-                            <td>${Fileitem.fileLoadTime}</td>
-                            <td class="user-status"><span class="label label-success">
+                        <c:forEach items="${Useritem}" var="Fileitem">
+                            <tr class="text-c">
+                                <td><input type="checkbox" value="${Fileitem.fileId}" name="chckBox"></td>
+                                <td>${Namelist[loop.count-1]}</td>
+                                <td><u style="cursor:pointer" class="text-primary"
+                                       onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')"> ${fn:substring(Fileitem.fileName, 0, 10)}...
+                                </u></td>
+                                <td>${Fileitem.fileSize}</td>
+                                <td>${Fileitem.fileViewtimes}</td>
+                                <td>${Fileitem.fileDownloadtimes}</td>
+                                <td class="text-l">${Fileitem.fileType}</td>
+                                <td>${Fileitem.fileAbstrcat}</td>
+                                <td>${Fileitem.fileLoadTime}</td>
+                                <td class="user-status"><span class="label label-success">
                                 <c:choose>
                                     <c:when test="${Fileitem.fileSecretLevel==1}">普通</c:when>
                                     <c:when test="${Fileitem.fileSecretLevel==2}">内部</c:when>
@@ -282,25 +199,25 @@
                                     <c:when test="${Fileitem.fileSecretLevel==3}">A级</c:when>
                                 </c:choose>
                             </span>
-                            </td>
+                                </td>
 
-                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="file_download(this,${Fileitem.fileId})"
-                                                            href="javascript:;" title="认证"><i
-                                    class="icon-hand-down"></i></a>
+                                <td class="f-14 user-manage"><a style="text-decoration:none" onClick="file_download(this,${Fileitem.fileId})"
+                                                                href="javascript:;" title="认证"><i
+                                        class="icon-hand-down"></i></a>
 
-                                <a
-                                    title="编辑" href="javascript:;" onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
-                                    class="ml-5"
-                                    style="text-decoration:none"><i class="icon-edit"></i></a> <a
-                                    style="text-decoration:none"
-                                    class="ml-5"
-                                    onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
-                                    href="javascript:;"
-                                    title="修改密级"><i
-                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="file_del(this,${Fileitem.fileId})"
-                                                                 class="ml-5" style="text-decoration:none"><i
-                                    class="icon-trash"></i></a></td>
-                               </tr>
+                                    <a
+                                            title="编辑" href="javascript:;" onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
+                                            class="ml-5"
+                                            style="text-decoration:none"><i class="icon-edit"></i></a> <a
+                                            style="text-decoration:none"
+                                            class="ml-5"
+                                            onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
+                                            href="javascript:;"
+                                            title="修改密级"><i
+                                            class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="file_del(this,${Fileitem.fileId})"
+                                                                         class="ml-5" style="text-decoration:none"><i
+                                            class="icon-trash"></i></a></td>
+                            </tr>
 
                         </c:forEach>
 
@@ -344,16 +261,16 @@
             ]
         });
     </script>
-    <%
-    } else {
-    %>
-    <script>
-        alert("未登录!");
-        window.location.href = "${ctx}/admin/tologin";
-    </script>
-    <%
-        }
-    %>
+<%
+} else {
+%>
+<script>
+    alert("未登录!");
+    window.location.href = "${ctx}/admin/tologin";
+</script>
+<%
+    }
+%>
 </div>
 </body>
 </html>

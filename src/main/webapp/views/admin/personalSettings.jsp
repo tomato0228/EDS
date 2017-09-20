@@ -223,19 +223,19 @@
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">修改密码：</label>
                             <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm duiqi" name="oldpw" id="oldpw" placeholder="<%=password%>" style="margin-top: 7px;">
+                                <input type="text" class="form-control input-sm duiqi" name="oldpw" id="oldpw" placeholder="原始密码" style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">新密码：</label>
                             <div class="col-xs-5">
-                                <input type="password" class="form-control input-sm duiqi" name="newpw1" id="newpw1" placeholder="" style="margin-top: 7px;">
+                                <input type="password" class="form-control input-sm duiqi" name="newpw1" id="newpw1" placeholder="输入新密码" style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">确认密码：</label>
                             <div class="col-xs-5">
-                                <input type="password" class="form-control input-sm duiqi"name="newpw2" id="newpw2" placeholder="" style="margin-top: 7px;">
+                                <input type="password" class="form-control input-sm duiqi"name="newpw2" id="newpw2" placeholder="确认密码" style="margin-top: 7px;">
                             </div>
                         </div>
                         <div class="form-group text-right">
@@ -249,11 +249,38 @@
                 </div>
 
             </div>
-
-            <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
-    <script type="text/javascript" src="${ctx}/resources/js/H-ui.js"></script>
-    <script type="text/javascript" src="${ctx}/resources/js/H-ui.admin.js"></script>
-
+        <script type="text/javascript" src="${ctx}/resources/js/jquery.min.js"></script>
+        <script type="text/javascript" src="${ctx}/resources/layer/layer.min.js"></script>
+        <script type="text/javascript" src="${ctx}/resources/js/pagenav.cn.js"></script>
+        <script type="text/javascript" src="${ctx}/resources/js/H-ui.js"></script>
+        <script type="text/javascript" src="${ctx}/resources/js/WdatePicker.js"></script>
+        <script type="text/javascript" src="${ctx}/resources/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="${ctx}/resources/js/H-ui.admin.js"></script>
+        <script type="text/javascript">
+            window.onload = (function () {
+                // optional set
+                pageNav.pre = "&lt;上一页";
+                pageNav.next = "下一页&gt;";
+                // p,当前页码,pn,总页面
+                pageNav.fn = function (p, pn) {
+                    $("#pageinfo").text("当前页:" + p + " 总页: " + pn);
+                };
+                //重写分页状态,跳到第三页,总页33页
+                pageNav.go(1, 13);
+            });
+            $('.table-sort').dataTable({
+                "lengthMenu": false,//显示数量选择
+                "bFilter": false,//过滤功能
+                "bPaginate": false,//翻页信息
+                "bInfo": false,//数量信息
+                "aaSorting": [[1, "desc"]],//默认第几个排序
+                "bStateSave": true,//状态保存
+                "aoColumnDefs": [
+                    //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                    {"orderable": false}// 制定列不参与排序
+                ]
+            });
+        </script>
     <%
     } else {
     %>

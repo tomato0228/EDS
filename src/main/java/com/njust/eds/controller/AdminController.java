@@ -3,6 +3,7 @@ package com.njust.eds.controller;
 import com.njust.eds.model.*;
 import com.njust.eds.service.*;
 import com.njust.eds.utils.MD5Util;
+import com.njust.eds.utils.SearchUtils;
 import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.njust.eds.utils.AESUtil.*;
 import static com.njust.eds.utils.MD5Util.getMD5;
@@ -48,6 +51,7 @@ public class AdminController {
     private MessageService messageService;
     @Autowired
     private FiledataService filedataService;
+
 
 
     @ResponseBody
@@ -78,6 +82,7 @@ public class AdminController {
 
         List<List<File>> list = fileService.findUserFiles();
         List<String> namelist=new ArrayList<String>();
+       int size=0;
          for(List<File> filelist:list)
          {
              if(filelist.size()!=0)
@@ -94,8 +99,16 @@ public class AdminController {
              else
                  continue;
          }
+         for(List<File> filelist:list)
+         {
+             for(File file:filelist)
+             {
+                 size++;
+             }
+         }
          map.addAttribute("Userfiles",List);
          map.addAttribute("Namelist",namelist);
+         map.addAttribute("size",size);
         return "admin/fileControl";
     }
 
@@ -116,6 +129,8 @@ public class AdminController {
         { int senderid=message.getMsgSender();
             if (senderid<10000)
                 name.add(adminService.findAdminnameById(senderid));
+            else
+                name.add(userService.findUsernameBuId(senderid));
         }
         map.addAttribute("Namelist",name);
         map.addAttribute("Messagelist",messagelist);
@@ -138,7 +153,9 @@ public class AdminController {
     }
 
     @RequestMapping("/AdminControl")
-    public String AdminControl() {
+    public String AdminControl(ModelMap map) {
+        List<Admin> list = adminService.getAllAdmin();
+        map.addAttribute("AdminList", list);
         return "admin/adminControl";
     }
 
@@ -167,6 +184,19 @@ public class AdminController {
         resultMap.put("res","userControl");
         return resultMap;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/DeleteAdmin")
+    public Map<String,String> DeleteAdmin(HttpServletRequest request) throws  Exception{
+        adminService.deletAdmin(adminService.getAdminById(Integer.parseInt(request.getParameter("adminid"))));
+        Map<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("res","adminControl");
+        return resultMap;
+    }
+
+
+
+
 
     @ResponseBody
     @RequestMapping(value = "/DeleteFile")
@@ -218,6 +248,16 @@ public class AdminController {
         int secretlevel =Integer.parseInt(request.getParameter("SecretLevel"));
         userService.user_secretlevel_edit(id,secretlevel);
          return "Done";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/admin_power")
+    public String admin_power(HttpServletRequest request) throws Exception{
+
+        int id=Integer.parseInt(request.getParameter("adminid"));
+        int power =Integer.parseInt(request.getParameter("power"));
+        adminService.admin_power(id,power);
+        return "Done";
     }
     @ResponseBody
     @RequestMapping(value = "/file_edit")
@@ -351,6 +391,158 @@ public class AdminController {
             return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
         }
         return null;
+    }
+
+    @ResponseBody
+    @RequestMapping("/search_user")
+    public Map<String,Object> search_user(HttpServletRequest request) throws Exception{
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name=request.getParameter("name");
+        int type=Integer.parseInt(request.getParameter("type"));
+        List<User> list = userService.getAllUser();
+        List<User> userlist=new ArrayList<User>();
+        if(type==0){
+      userlist=SearchUtils.search_user_name(name,list);}
+        else{
+
+            userlist=SearchUtils.search_user_tel(name,list);
+        }
+        request.getSession().setAttribute("userlist",userlist);
+       resultMap.put("userlist",userlist);
+       return resultMap;
+     }
+
+
+    @ResponseBody
+    @RequestMapping("/search_file")
+    public Map<String,Object> search_file(HttpServletRequest request) throws Exception{
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name=request.getParameter("name");
+        int type=Integer.parseInt(request.getParameter("type"));
+        System.out.println(name+type);
+        List<List<File>> list = fileService.findUserFiles();
+        List<List<File>> filelist=new ArrayList<List<File>>();
+        List<String> namelist=new ArrayList<String>();
+        if(type==0){
+
+           filelist=SearchUtils.search_file_name(name,list);
+        }
+        else if (type==1)
+        {
+            List<List<File>> results = new ArrayList<List<File>>();
+
+            Pattern pattern = Pattern.compile(name);
+
+            for(int i=0; i < list.size(); i++) {
+                System.out.println("外");
+                List<File> result=new ArrayList<File>();
+
+                for (int j =0; j< list.get(i).size();j++) {
+                    System.out.println("内");
+                    Matcher matcher = pattern.matcher( userService.findUsernameBuId(list.get(i).get(j).getFileUserId()));
+                    if (matcher.find()) {
+                        System.out.println(j);
+                        result.add(list.get(i).get(j));
+                    }
+                }
+                results.add(result);
+            }
+            filelist=results;
+        }
+        else
+        {
+            filelist=SearchUtils.search_file_type(name,list);
+        }
+
+        int size=0;
+        for(List<File> Filelist:filelist)
+        {
+            if(Filelist.size()!=0)
+                namelist.add(userService.findUsernameBuId(Filelist.get(0).getFileUserId()));
+            else
+                continue;
+        }
+
+        List<List<File>> List=new ArrayList<List<File>>();
+        for(List<File> Filelist:filelist)
+        {
+            if(Filelist.size()!=0)
+                List.add(Filelist);
+            else
+                continue;
+        }
+        for(List<File> Filelist:filelist)
+        {
+            for(File file:Filelist)
+            {
+                size++;
+            }
+        }
+        System.out.println(List);
+        System.out.println(namelist);
+        System.out.println(size);
+        request.getSession().setAttribute("Userfiles",List);
+        request.getSession().setAttribute("Namelist",namelist);
+        request.getSession().setAttribute("size",size);
+        resultMap.put("Userfiles",list);
+        return resultMap;
+    }
+
+    @ResponseBody
+    @RequestMapping("/search_msg")
+    public Map<String,Object> search_msg(HttpServletRequest request) throws Exception{
+        int id=((Admin)request.getSession().getAttribute("loginAdmin")).getAdminId();
+        System.out.println(id);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name=request.getParameter("name");
+        int type=Integer.parseInt(request.getParameter("type"));
+        System.out.println(name+type);
+        List<Message> list = messageService.findMessagesByRecevierId(id);
+        System.out.println(list);
+        List<Message> msglist=new ArrayList<Message>();
+        List<String> namelist=new ArrayList<String>();
+        if(type==0){
+
+            List results = new ArrayList();
+            Pattern pattern = Pattern.compile(name);
+            for(int i=0; i < list.size(); i++){
+                 int senderid=list.get(i).getMsgSender();
+                 if(senderid>10000){
+                Matcher matcher = pattern.matcher(userService.findUsernameBuId(senderid));
+
+                if(matcher.find()){
+                    results.add(list.get(i));
+                }
+                }
+                else{
+                     Matcher matcher = pattern.matcher(adminService.findAdminnameById(senderid));
+                     if(matcher.find()){
+                         results.add(list.get(i));
+                     }
+                 }
+            }
+            msglist=results;
+
+           }
+        else{
+            msglist=SearchUtils.search_msg_data(name,list);
+        }
+
+
+        for (Message message:msglist)
+        { int senderid=message.getMsgSender();
+            if (senderid<10000)
+                namelist.add(adminService.findAdminnameById(senderid));
+            else
+                namelist.add(userService.findUsernameBuId(senderid));
+        }
+        System.out.println(msglist.get(0).getMsgData());
+        request.getSession().setAttribute("Messagelist",msglist);
+        request.getSession().setAttribute("Namelist",namelist);
+        resultMap.put("msglist",msglist);
+        resultMap.put("res","yes");
+        return resultMap;
     }
 
 }

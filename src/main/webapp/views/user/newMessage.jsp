@@ -17,6 +17,7 @@
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
     <title>EDS</title>
 
+    <link rel="stylesheet" href="${ctx}/resources/js/message/style.css" media="screen" type="text/css" />
     <!-- Bootstrap core CSS -->
     <link href="${ctx}/resources/css/userbootstrap.css" rel="stylesheet">
     <!--external css-->
@@ -46,6 +47,37 @@
             <div class="row mt">
                 <div class="col-lg-12">
                     <p>Place your content here.</p>
+
+
+                    <div id="convo" data-from="Sonu Joshi">
+                        <ul class="chat-thread">
+                            <li></li>
+                            <li>yes, what time suits you?</li>
+                            <li>I was thinking after lunch, I have a meeting in the morning</li>
+                            <li>Are we meeting today?</li>
+                            <li>yes, what time suits you?</li>
+                            <li>I was thinking after lunch, I have a meeting in the morning</li>
+                            <li>Are we meeting today?</li>
+                            <li>yes, what time suits you?</li>
+                            <li>I was thinking after lunch, I have a meeting in the morning</li>
+                            <li>Are we meeting today?</li>
+                            <li>yes, what time suits you?</li>
+                            <li>I was thinking after lunch, I have a meeting in the morning</li>
+                        </ul>
+                    </div>
+                    <div style="text-align:center;clear:both">
+                        <script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+                        <script src="/follow.js" type="text/javascript"></script>
+                    </div>
+                    <div class="credits"><a href="http://codepen.io/clintioo/pen/HAkjq">Original Pen</a> by <a href="http://codepen.io/clintioo/pen/HAkjq">clintioo</a></div>
+
+
+
+
+
+
+
+
                 </div>
             </div>
 
@@ -69,6 +101,7 @@
 
 
 <!-- js placed at the end of the document so the pages load faster -->
+<script src='${ctx}/resources/js/message/jquery.js'></script>
 <script src="${ctx}/resources/js/jquery.js"></script>
 <script src="${ctx}/resources/js/userbootstrap.min.js"></script>
 <script src="${ctx}/resources/js/jquery-ui-1.9.2.custom.min.js"></script>

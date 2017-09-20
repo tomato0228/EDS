@@ -19,4 +19,11 @@ public interface AdminDao {
     public Admin findAdminByAdminName(String adminName);
 
     public String findAdminnameById(int id);
+
+    public List<Admin> getAllAdmin();
+
+    public void deletAdmin(Admin admin);
+
+    public void admin_power(int id,int power );
+
 }
