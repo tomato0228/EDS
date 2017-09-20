@@ -1178,6 +1178,7 @@ PANELS CONFIGURATIONS
     box-shadow: 0px 3px 2px #aab2bd;
     padding-top: 15px;
     padding-bottom: 5px;
+    overflow:hidden;
 }
 
 .content-panel h4 {
@@ -1442,6 +1443,16 @@ PANELS CONFIGURATIONS
 }
 
 .blog-title {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 130px;
+    padding: 6px;
+    color: white;
+    font-weight: 700;
+    position: absolute;
+    display: block;
+    width: 120px;
+}
+.blog-titleright {
     background: rgba(0, 0, 0, 0.5);
     bottom: 100px;
     padding: 6px;

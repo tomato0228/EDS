@@ -203,6 +203,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#">新建消息</a></li>
+                                <li><a href="#">搜索消息</a></li>
                                 <li><a href="#">未读消息</a></li>
                                 <li><a href="#">所有消息</a></li>
                             </ul>
@@ -226,6 +227,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
+                                <li><a href="#">搜索文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
@@ -238,8 +240,9 @@
                                 <span>文件评论</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">未读评论</a></li>
-                                <li><a href="#">所有评论</a></li>
+                                <li><a href="#">搜索评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allNotReadFileComment'">所有评论</a></li>
                             </ul>
                         </li>
                         <!--日志系统-->
@@ -250,18 +253,8 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#">我的日志</a></li>
+                                <li><a href="#">搜索文件</a></li>
                                 <li><a href="#">文件日志</a></li>
-                            </ul>
-                        </li>
-                        <!--文件评论-->
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-tasks"></i>
-                                <span>文件评论</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="#">未读评论</a></li>
-                                <li><a href="#">所有评论</a></li>
                             </ul>
                         </li>
                         <!--个人信息-->

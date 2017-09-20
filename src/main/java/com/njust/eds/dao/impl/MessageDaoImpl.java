@@ -4,14 +4,15 @@ import com.njust.eds.dao.MessageDao;
 import com.njust.eds.dao.UserDao;
 import com.njust.eds.model.Message;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
 
+    @Autowired
     private UserDao userDao;
 
     public void saveMessage(Message message) {
@@ -19,17 +20,12 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
     }
 
     @SuppressWarnings("unchecked")
-    public Message queryMessage(Message message) {
-        String hql = "from Message where msgSender =? and msgReceiver=?";
+    public List<Message> queryMessage(Integer senderId, Integer recevierId) {
+        String hql = "from Message  where msgSender=? and msgReceiver=? order by msgSendtime desc";
         Query query = getSession().createQuery(hql);
-        query.setParameter(0, message.getMsgSender());
-        query.setParameter(1, message.getMsgReceiver());
-        Message currentMessage = null;
-        List<Message> MessageList = query.list();
-        if (MessageList != null && MessageList.size() > 0) {
-            currentMessage = MessageList.get(0);
-        }
-        return currentMessage;
+        query.setParameter(0, senderId);
+        query.setParameter(1,recevierId);
+        return query.list();
     }
 
     public Message findMessageById(Integer id) {
@@ -53,13 +49,6 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
 
     public void updateMessage(Message message) {
         getSession().update(message);
-    }
-
-    public Message findMessageByTime(Date time) {
-        String hql = "from Message  where msgData=?";
-        Query query = getSession().createQuery(hql);
-        query.setParameter(0, time);
-        return (Message) query.uniqueResult();
     }
 
     public Message findMessageBySenderId(Integer id) {
@@ -96,10 +85,13 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         query.setParameter(0, Read);
         return (Message) query.uniqueResult();
     }
+
+    @SuppressWarnings("unchecked")
     public List<Message> findMessagesByRecevierId(Integer id){
         String hql = "from Message  where msgReceiver=?";
         Query query =getSession().createQuery(hql);
         query.setParameter(0,id);
         return query.list();
     }
+
 }

@@ -9,7 +9,7 @@ public interface CommentDao {
 
     public void saveComment(Comment comment);
 
-    public Comment queryComment(Comment comment);
+    public List<Comment> queryComment(Comment comment);
 
     public Comment findCommentById(Integer id);
 
@@ -19,13 +19,13 @@ public interface CommentDao {
 
     public Comment findCommentByTime(Date time);
 
-    public Comment findCommentBySenderId(Integer id);
+    public List<Comment> findCommentBySenderId(Integer id);
 
-    public Comment findCommentBySenderName(String senderName);
+    public List<Comment> findCommentBySenderName(String senderName);
 
     public List<Comment> findCommentByRecevierId(Integer id);
 
-    //public Comment findCommentByRecevierName(String recevierName);
+    public List<Comment> findCommentByRecevierName(String recevierName);
 
-    public Comment findCommentByisRead(int Read);
+    public List<Comment> findCommentByisRead(int Read);
 }

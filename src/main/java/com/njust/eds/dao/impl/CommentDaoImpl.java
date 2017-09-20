@@ -5,6 +5,7 @@ import com.njust.eds.dao.FileDao;
 import com.njust.eds.dao.UserDao;
 import com.njust.eds.model.Comment;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -13,7 +14,10 @@ import java.util.List;
 @Repository
 public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
 
+    @Autowired
     private UserDao userDao;
+
+    @Autowired
     private FileDao fileDao;
 
     //保存评论
@@ -23,26 +27,21 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
 
     //通过发送者和接收的文件查找评论
     @SuppressWarnings("unchecked")
-    public Comment queryComment(Comment comment) {
+    public List<Comment> queryComment(Comment comment) {
         String hql = "from Comment where comSender=? and comRecevier=?";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, comment.getComSender());
         query.setParameter(1, comment.getComRecevier());
-        Comment currentComment = null;
-        List<Comment> CommentList = query.list();
-        if (CommentList != null && CommentList.size() > 0) {
-            currentComment = CommentList.get(0);
-        }
-        return currentComment;
+        return query.list();
     }
 
     //通过评论ID查找
+    @SuppressWarnings("unchecked")
     public Comment findCommentById(Integer id) {
-        String hql = "from Comment where comId=?";
+        String hql = "from Comment where comId=? order by comTime desc";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, id);
-        Comment comment = (Comment) query.uniqueResult();
-        return comment;
+        return (Comment) query.uniqueResult();
     }
 
     //普通查找
@@ -71,19 +70,21 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
     }
 
     //通过评论发送者ID查找
-    public Comment findCommentBySenderId(Integer id) {
+    @SuppressWarnings("unchecked")
+    public List<Comment> findCommentBySenderId(Integer id) {
         String hql = "from Comment  where comSender=?";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, id);
-        return (Comment) query.uniqueResult();
+        return query.list();
     }
 
     //通过评论发送者用户名查找
-    public Comment findCommentBySenderName(String senderName) {
+    @SuppressWarnings("unchecked")
+    public List<Comment> findCommentBySenderName(String senderName) {
         String hql = "from Comment  where comSender=?";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, userDao.findUserByUserName(senderName).getUserId());
-        return (Comment) query.uniqueResult();
+        return query.list();
     }
 
     //通过评论文件ID查找评论
@@ -96,18 +97,20 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
     }
 
     //通过评论文件名字查找评论
-//    public Comment findCommentByRecevierName(String recevierName) {
-//        String hql = "from Comment  where comRecevier=?";
-//        Query query = getSession().createQuery(hql);
-//        query.setParameter(0, fileDao.findFileByFileName(recevierName).getFileId());
-//        return (Comment) query.uniqueResult();
-//    }
+    @SuppressWarnings("unchecked")
+    public List<Comment> findCommentByRecevierName(String recevierName) {
+        String hql = "from Comment  where comRecevier=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, fileDao.findFileByFileName(recevierName).getFileId());
+        return query.list();
+    }
 
     //按评论是否可读查找
-    public Comment findCommentByisRead(int Read) {
+    @SuppressWarnings("unchecked")
+    public List<Comment> findCommentByisRead(int Read) {
         String hql = "from Comment  where isRead=?";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, Read);
-        return (Comment) query.uniqueResult();
+        return query.list();
     }
 }

@@ -260,7 +260,7 @@
                     </a>
                     <ul class="sub">
                         <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
-                        <li><a href="#">搜索文件</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/findFile'">搜索文件</a></li>
                     </ul>
                 </li>
                 <!--文件-->
@@ -283,8 +283,8 @@
                         <span>文件评论</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="form_component.html">未读评论</a></li>
-                        <li><a href="form_component.html">所有评论</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/allNotReadFileComment'">所有评论</a></li>
                     </ul>
                 </li>
                 <!--日志系统-->

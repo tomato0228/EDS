@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
         commentDao.saveComment(comment);
     }
 
-    public Comment queryComment(Comment comment) {
+    public List<Comment> queryComment(Comment comment) {
         return commentDao.queryComment(comment);
     }
 
@@ -58,11 +58,11 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.findCommentByTime(time);
     }
 
-    public Comment findCommentBySenderId(Integer id) {
+    public List<Comment> findCommentBySenderId(Integer id) {
         return commentDao.findCommentBySenderId(id);
     }
 
-    public Comment findCommentBySenderName(String senderName) {
+    public List<Comment> findCommentBySenderName(String senderName) {
         return commentDao.findCommentBySenderName(senderName);
     }
 
@@ -70,11 +70,11 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.findCommentByRecevierId(id);
     }
 
-//    public Comment findCommentByRecevierName(String recevierName) {
-//        return commentDao.findCommentByRecevierName(recevierName);
-//    }
+    public List<Comment> findCommentByRecevierName(String recevierName) {
+        return commentDao.findCommentByRecevierName(recevierName);
+    }
 
-    public Comment findCommentByisRead(int Read) {
+    public List<Comment> findCommentByisRead(int Read) {
         return commentDao.findCommentByisRead(Read);
     }
 }

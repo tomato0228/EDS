@@ -48,16 +48,16 @@
 </head>
 <body>
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}" />
-<input type="hidden" id="userId" value="${valiUser.id}"/>
-验证信息 ${validateRes}
+<input type="hidden" id="userId" value="${requestScope.valiUser.userId}"/>
+验证信息 ${requestScope.validateRes}
 <br>
 <c:choose>
-    <c:when test="${validateRes=='验证成功'}">
-        <form>
+    <c:when test="${requestScope.validateRes=='验证成功'}">
+        <form action="">
             <table>
                 <tr>
                     <td>用户名：</td>
-                    <td><input type="text" value="${valiUser.userName}" readonly="readonly"/></td>
+                    <td><input type="text" value="${requestScope.valiUser.userName}" readonly="readonly"/></td>
                 </tr>
                 <tr>
                     <td>新密码：</td>
@@ -76,7 +76,7 @@
         </form>
     </c:when>
     <c:otherwise>
-        <font size="12" color="#ff000">*${validateRes}</font>
+        <font size="12" color="#ff000">*${requestScope.validateRes}</font>
     </c:otherwise>
 </c:choose>
 

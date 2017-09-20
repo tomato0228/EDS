@@ -42,6 +42,10 @@
             if (userName == null || email == null || trim(userName) == "" || trim(email) == "") {
                 return false;
             }
+            //var emailReg = "^([w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$";
+            //var userNameReg = "/^[\u4E00-\u9FA5A-Za-z0-9]{4,16}$/";
+            //if (!emailReg.exec(trim(email))) return false;
+            //if (!userNameReg.exec(trim(userName))) return false;
             var url = serverUrl + '/user/findPassword';
             $.post(url, {
                 userName: userName,

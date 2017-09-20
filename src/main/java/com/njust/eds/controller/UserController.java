@@ -47,6 +47,9 @@ public class UserController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private FilelimitService filelimitService;
+
     @ResponseBody
     @RequestMapping("/checkUserName")
     public String checkUserName(HttpServletRequest request) {
@@ -91,12 +94,11 @@ public class UserController {
 
     @RequestMapping("/fileInfo-{fileId}")
     public String viewFileInfo(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
-        FindRecentFile(request);
         File file = fileService.getFileById(fileId);
         if (file != null) {
             map.addAttribute("fileInfo", file);
             return "user/fileInfo";
-        } else return "user/index";
+        } else return "error/404";
     }
 
     @RequestMapping("/enjoyFile")
@@ -120,8 +122,55 @@ public class UserController {
     @RequestMapping("/webEnjoyFile")
     public String webEnjoyFile(HttpServletRequest request) {
         FindwebEnjoyFile(request);
-        return "user/webEnjoyFile";
+        return "user/recentFile";
     }
+
+    @RequestMapping("/findFile")
+    public String findFile(HttpServletRequest request) {
+        //FindwebEnjoyFile(request);
+        return "user/findFile";
+    }
+
+    @RequestMapping("/notReadFileComment")
+    public String notReadFileComment(HttpServletRequest request) {
+        FindNotReadFileComment(request);
+        return "user/notReadFileComment";
+    }
+
+    @RequestMapping("/readComment-{comId}")
+    public String readComment(ModelMap map, HttpServletRequest request, @PathVariable Integer comId) {
+        Comment comment = commentService.findCommentById(comId);
+        if (comment != null) {
+            File file = fileService.getFileById(comment.getComRecevier());
+            User user = userService.getUserById(comment.getComSender());
+            if (file != null && user != null) {
+                map.addAttribute("ThisComment", comment);
+                map.addAttribute("ThisFile", file);
+                map.addAttribute("ThisUser", user);
+                return "user/readComment";
+            } else return "error/404";
+        } else return "error/404";
+    }
+
+    @RequestMapping("/aboutUser-{userId}")
+    public String aboutUser(ModelMap map, HttpServletRequest request, @PathVariable Integer userId) {
+        User user = userService.getUserById(userId);
+
+        if (user != null) {
+            if (user.getUserId() == ((User)request.getSession().getAttribute("loginUser")).getUserId())
+                return "user/userInfo";
+            map.addAttribute("ThisUser", user);
+
+            return "user/aboutUser";
+        } else return "error/404";
+    }
+
+    @RequestMapping("/allNotReadFileComment")
+    public String allNotReadFileComment(HttpServletRequest request) {
+        FindAllNotReadFileComment(request);
+        return "user/allNotReadFileComment";
+    }
+
 
     @ResponseBody
     @RequestMapping("/register")
@@ -331,8 +380,7 @@ public class UserController {
                     request.getParameter("fileSecretLevel") : "1"));
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
-            newfile.setFileShare(Integer.parseInt((request.getParameter("Share") != null) ?
-                    request.getParameter("Share") : "1"));
+            newfile.setFileShare((request.getParameter("Share") != null) ? 1 : 0);
             String isPng[] = {"7Z", "ACCDB", "AVI", "BMP", "CSS", "CSV", "DLL", "DOC", "DOCX", "DWG", "EML", "EPS", "FILE",
                     "FLA", "FON", "GIF", "HLP", "HTML", "IND", "INI", "JPEG", "JPG", "JSF", "MDB", "MIDI", "MOV", "MP3", "MP4",
                     "MPG", "MPEG", "ODBC", "OGG", "PDF", "PHP", "PNG", "PPS", "PPSX", "PPT", "PPTX", "PROJ",
@@ -354,6 +402,20 @@ public class UserController {
             filedata.setFileId(newfile.getFileId());
             filedata.setFileData(aesEncryptToBytes(base64Encode(file.getBytes()), key));
             filedataService.saveFiledata(filedata);
+            if (newfile.getFileShare().equals(1)) {
+                Filelimit filelimit = new Filelimit();
+                filelimit.setFileRead((request.getParameter("fileRead") != null) ? 1: 0);
+                filelimit.setFileWrite((request.getParameter("fileWrite") != null) ? 1: 0);
+                filelimit.setFilePrint((request.getParameter("filePrint") != null) ? 1: 0);
+                filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null) ?
+                        request.getParameter("fileReadTimes") : "-1"));
+                if (request.getParameter("fileLifeCycle") == null) {
+                    filelimit.setFileLifeCycle(DateUtils.getDateAfter(356));
+                } else {
+                    filelimit.setFileLifeCycle(DateUtils.strToDate(request.getParameter("fileLifeCycle"), "yyyy-MM-dd"));
+                }
+                filelimitService.saveFilelimit(filelimit);
+            }
         }
         return "user/newFile";
     }
@@ -462,7 +524,7 @@ public class UserController {
         List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
         List<User> users = new ArrayList<User>();
         List<File> fileList = new ArrayList<File>();
-        Date date = DateUtils.getDateAfter(-1);
+        Date date = DateUtils.getDateAfter(-5);
         for (File file : files) {
             if (DateUtils.isBeforeSpeciDate(date, file.getFileLoadTime())) {
                 fileList.add(file);
@@ -537,5 +599,81 @@ public class UserController {
         request.getSession().setAttribute("WebEnjoyFileUsers", users);
     }
 
+    //未读评论
+    private void FindNotReadFileComment(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("isRead", 0);
+        List<Comment> comments = commentService.findCommentByisRead(0);
+        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Comment> commentList = new ArrayList<Comment>();
+        List<File> fileList = new ArrayList<File>();
+        for (Comment c : comments) {
+            for (File f : files) {
+                if (f.getFileId() == c.getComRecevier()) {
+                    commentList.add(c);
+                    fileList.add(f);
+                    break;
+                }
+            }
+        }
+        List<User> users = new ArrayList<User>();
+        for (Comment comment : commentList) {
+            users.add(userService.getUserById(comment.getComSender()));
+        }
+        request.getSession().setAttribute("NotReadFileComment", commentList);
+        request.getSession().setAttribute("NotReadFileCommentUsers", users);
+        request.getSession().setAttribute("NotReadFileCommentFiles", fileList);
+    }
+
+    //所有评论
+    private void FindAllNotReadFileComment(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Comment> comments = commentService.findComment(map);
+        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Comment> commentList = new ArrayList<Comment>();
+        List<File> fileList = new ArrayList<File>();
+        for (Comment c : comments) {
+            for (File f : files)
+                if (f.getFileId() == c.getComRecevier()) {
+                    commentList.add(c);
+                    fileList.add(f);
+                    break;
+                }
+        }
+        List<User> users = new ArrayList<User>();
+        for (Comment comment : commentList) {
+            users.add(userService.getUserById(comment.getComSender()));
+        }
+        request.getSession().setAttribute("NotReadFileComment", commentList);
+        request.getSession().setAttribute("NotReadFileCommentUsers", users);
+        request.getSession().setAttribute("NotReadFileCommentFiles", fileList);
+    }
+
+    //和某个用户的聊天记录
+    private void FindaUserMessage(HttpServletRequest request) {
+
+
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Comment> comments = commentService.findComment(map);
+        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Comment> commentList = new ArrayList<Comment>();
+        List<File> fileList = new ArrayList<File>();
+        for (Comment c : comments) {
+            for (File f : files)
+                if (f.getFileId() == c.getComRecevier()) {
+                    commentList.add(c);
+                    fileList.add(f);
+                    break;
+                }
+        }
+        List<User> users = new ArrayList<User>();
+        for (Comment comment : commentList) {
+            users.add(userService.getUserById(comment.getComSender()));
+        }
+        request.getSession().setAttribute("NotReadFileComment", commentList);
+        request.getSession().setAttribute("NotReadFileCommentUsers", users);
+        request.getSession().setAttribute("NotReadFileCommentFiles", fileList);
+    }
 
 }

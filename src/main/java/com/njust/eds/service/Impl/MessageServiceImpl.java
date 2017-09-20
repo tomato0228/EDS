@@ -3,11 +3,9 @@ package com.njust.eds.service.Impl;
 import com.njust.eds.dao.MessageDao;
 import com.njust.eds.model.Message;
 import com.njust.eds.service.MessageService;
-import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +20,8 @@ public class MessageServiceImpl implements MessageService {
         messageDao.saveMessage(message);
     }
 
-    public Message queryMessage(Message message) {
-        return messageDao.queryMessage(message);
+    public List<Message> queryMessage(Integer senderId, Integer recevierId) {
+        return messageDao.queryMessage(senderId,recevierId);
     }
 
     public Message findMessageById(Integer id) {
@@ -53,10 +51,6 @@ public class MessageServiceImpl implements MessageService {
 
     public void updateMessage(Message message) {
         messageDao.updateMessage(message);
-    }
-
-    public Message findMessageByTime(Date time) {
-        return messageDao.findMessageByTime(time);
     }
 
     public Message findMessageBySenderId(Integer id) {

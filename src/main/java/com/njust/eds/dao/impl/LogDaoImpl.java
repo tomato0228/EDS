@@ -5,6 +5,7 @@ import com.njust.eds.dao.LogDao;
 import com.njust.eds.dao.UserDao;
 import com.njust.eds.model.Log;
 import org.hibernate.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -13,7 +14,10 @@ import java.util.List;
 @Repository
 public class LogDaoImpl extends BaseDaoImpl implements LogDao {
 
+    @Autowired
     private UserDao userDao;
+
+    @Autowired
     private FileDao fileDao;
 
     public void saveLog(Log log) {
