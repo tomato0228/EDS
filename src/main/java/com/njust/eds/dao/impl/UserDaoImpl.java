@@ -84,6 +84,9 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         Query query = getSession().createQuery(hql);
         query.setParameter(0, id);
         User user=(User)query.uniqueResult();
+        if(user==null)
+            return "用户不存在";
+        else
         return user.getUserName();
 
     }

@@ -13,8 +13,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <c:set value="" var="ctx"></c:set>
+    <meta name="renderer" content="web${pageContext.request.contextPath }kit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
@@ -219,8 +219,12 @@
                     <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
                            id="datemax"
                            class="input-text Wdate" style="width:120px;">
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
-                    <button type="submit" class="btn btn-success" id="1" name=""><i class="icon-search"></i> 搜用户
+                    <select name="type" id="type">
+                        <option value="0">用户名</option>
+                        <option value="1">Tel</option>
+                    </select>
+                    <input type="text" class="input-text" style="width:250px" placeholder="输入用户名" id="name" name="name">
+                    <button type="submit" class="btn btn-success" id="1" name="1" onclick="search_user('${ctx}/views/admin/search_user.jsp')"><i class="icon-search"></i> 搜用户
                     </button>
 
                 </div>
@@ -228,7 +232,7 @@
     <span class="l"><a href="javascript:;" onClick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
     <a href="javascript:;" onClick="user_add('550','','添加用户','user-add.html')" class="btn btn-primary radius"><i
             class="icon-plus"></i> 添加用户</a></span>
-                    <span class="r">共有数据：<strong>${UserList.size()}</strong> 条</span>
+                    <span class="r">共有用户：<strong>${UserList.size()}</strong> 位</span>
                 </div>
                 <table class="table table-border table-bordered table-hover table-bg table-sort">
                     <thead>
@@ -236,7 +240,7 @@
                         <th width="25"><input type="checkbox" name="" value=""></th>
                         <th width="80">ID</th>
                         <th width="100">头像</th>
-                        <th width="40">用户名</th>
+                        <th width="100">用户名</th>
                         <th width="40">性别</th>
                         <th width="90">手机</th>
                         <th width="150">邮箱</th>
@@ -254,7 +258,7 @@
                         <tr class="text-c">
                             <td><input type="checkbox" value="${item.userId}" name="chckBox"></td>
                             <td>${item.userId}</td>
-                            <td><img src="${ctx}/resources/UserPicture/${item.userId}.jpg" width="40px" height="40px"/> </td>
+                            <td><img src="${ctx}${item.userPictureUrl}" width="40px" height="40px"/> </td>
                             <td><u style="cursor:pointer" class="text-primary"
                                    onclick="user_show('${item.userId}','800','800','${item.userName}的详细信息','${ctx}/views/admin/user-show.jsp')">${item.userName}</u></td>
                             <td><c:choose>

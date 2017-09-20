@@ -70,6 +70,26 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
         Query query = getSession().createQuery(hql);
         query.setParameter(0, id);
         Admin admin=(Admin)query.uniqueResult();
-        return admin.getAdminName();
+        if(admin==null)
+            return "用户不存在";
+        else return admin.getAdminName();
+    }
+    public List<Admin> getAllAdmin(){
+
+        String hql = "from Admin ";
+        Query query = getSession().createQuery(hql);
+        return query.list();
+    }
+
+    public void deletAdmin(Admin admin){
+        getSession().delete(admin);
+    }
+
+    public void admin_power(int id,int power ){
+        String hql="update Admin  set adminPower=? where adminId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, power);
+        query.setParameter(1,id);
+        query.executeUpdate();
     }
 }
