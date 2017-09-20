@@ -155,9 +155,9 @@ public class UserController {
     @RequestMapping("/aboutUser-{userId}")
     public String aboutUser(ModelMap map, HttpServletRequest request, @PathVariable Integer userId) {
         User user = userService.getUserById(userId);
-
         if (user != null) {
-            if (user.getUserId() == ((User)request.getSession().getAttribute("loginUser")).getUserId())
+            FindaUserMessage(request,userId);
+            if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
                 return "user/userInfo";
             map.addAttribute("ThisUser", user);
 
@@ -404,9 +404,9 @@ public class UserController {
             filedataService.saveFiledata(filedata);
             if (newfile.getFileShare().equals(1)) {
                 Filelimit filelimit = new Filelimit();
-                filelimit.setFileRead((request.getParameter("fileRead") != null) ? 1: 0);
-                filelimit.setFileWrite((request.getParameter("fileWrite") != null) ? 1: 0);
-                filelimit.setFilePrint((request.getParameter("filePrint") != null) ? 1: 0);
+                filelimit.setFileRead((request.getParameter("fileRead") != null) ? 1 : 0);
+                filelimit.setFileWrite((request.getParameter("fileWrite") != null) ? 1 : 0);
+                filelimit.setFilePrint((request.getParameter("filePrint") != null) ? 1 : 0);
                 filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null) ?
                         request.getParameter("fileReadTimes") : "-1"));
                 if (request.getParameter("fileLifeCycle") == null) {
@@ -650,30 +650,28 @@ public class UserController {
     }
 
     //和某个用户的聊天记录
-    private void FindaUserMessage(HttpServletRequest request) {
-
-
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<Comment> comments = commentService.findComment(map);
-        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
-        List<Comment> commentList = new ArrayList<Comment>();
-        List<File> fileList = new ArrayList<File>();
-        for (Comment c : comments) {
-            for (File f : files)
-                if (f.getFileId() == c.getComRecevier()) {
-                    commentList.add(c);
-                    fileList.add(f);
-                    break;
-                }
+    private void FindaUserMessage(HttpServletRequest request, Integer id) {
+        List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
+        List<Message> messageList = messageService.queryMessage(((User) request.getSession().getAttribute("loginUser")).getUserId(), id);
+        List<Message> messagesdesc = new ArrayList<Message>();
+        int i = 0;
+        int j = 0;
+        for (i = 0, j = 0; i < messageList.size() && j < messages.size(); ) {
+            if (DateUtils.isBeforeSpeciDate(messageList.get(i).getMsgSendtime(), messages.get(j).getMsgSendtime())) {
+                messagesdesc.add(messages.get(j));
+                j++;
+            } else {
+                messagesdesc.add(messageList.get(i));
+                i++;
+            }
         }
-        List<User> users = new ArrayList<User>();
-        for (Comment comment : commentList) {
-            users.add(userService.getUserById(comment.getComSender()));
-        }
-        request.getSession().setAttribute("NotReadFileComment", commentList);
-        request.getSession().setAttribute("NotReadFileCommentUsers", users);
-        request.getSession().setAttribute("NotReadFileCommentFiles", fileList);
+        if (i < messageList.size())
+            for (; i < messageList.size(); i++)
+                messagesdesc.add(messageList.get(i));
+        if (j < messages.size())
+            for (; j < messages.size(); j++)
+                messagesdesc.add(messages.get(j));
+        request.getSession().setAttribute("aUserMessage", messagesdesc);
     }
 
 }
