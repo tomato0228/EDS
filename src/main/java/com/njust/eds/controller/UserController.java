@@ -160,7 +160,7 @@ public class UserController {
         return "user/recentFile";
     }
 
-    @RequestMapping("/findFile")
+    @RequestMapping("/findMyFile")
     public String findFile(HttpServletRequest request) {
         //FindwebEnjoyFile(request);
         return "user/findFile";

@@ -56,18 +56,13 @@
                         </button>
                         <form class="search__form" action="">
                             <input id="search-input" class="search__input" name="search" type="search" placeholder=""
-                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="height: 256px"/>
                             <button class="btn btn--search">
                                 <svg class="icon icon--search">
                                     <use xlink:href="#icon-search"></use>
                                 </svg>
                             </button>
                         </form>
-                        <div class="search__suggestion">
-                            <h3>May We Suggest?</h3>
-                            <p>#drone #funny #catgif #broken #lost #love #hilarious #good #red #blue #nono #why #yes
-                                #yesyes #aliens #green #fancy #pants #trees</p>
-                        </div>
                     </div><!-- /search -->
 
                 </div>
