@@ -49,27 +49,27 @@
             <h3><i class="fa fa-angle-right"></i> 我的未读评论</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <c:forEach items="${sessionScope.NotReadFileComment}" var="FileComment" varStatus="loop">
+                    <c:forEach items="${sessionScope.notReadFileComments}" var="FileComment" varStatus="loop">
                         <! -- Blog Panel -->
                         <div class="col-lg-4 col-md-4 col-sm-4 mb">
                             <div class="content-panel pn">
                                 <div id="blog-bg">
-                                    <img src="${sessionScope.NotReadFileCommentUsers[loop.count-1].userPictureUrl}"
+                                    <img src="${sessionScope.notReadFileCommentsSender[loop.count-1].userPictureUrl}"
                                          class="img-circle" width="70" style="margin:20px 35px;"
                                          onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
 
-                                    <div class="blog-title">${sessionScope.NotReadFileCommentUsers[loop.count-1].userName}</div>
+                                    <div class="blog-title">${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</div>
 
-                                    <img src="${ctx}/resources/img/prefix/${sessionScope.NotReadFileCommentFiles[loop.count-1].fileType}.png"
+                                    <img src="${ctx}/resources/img/prefix/${sessionScope.notReadFileCommentFiles[loop.count-1].fileType}.png"
                                          class="img-rounded" width="70" style="margin:20px 35px;"
                                          onclick="window.location.href='${ctx}/user/readComment-${FileComment.comRecevier}'">
                                     <div class="blog-titleright">
                                         <c:choose>
-                                            <c:when test="${fn:length(sessionScope.NotReadFileCommentFiles[loop.count-1].fileName) <= 10}">
+                                            <c:when test="${fn:length(sessionScope.notReadFileCommentFiles[loop.count-1].fileName) <= 10}">
                                                 ${FileComment.comData}
                                             </c:when>
                                             <c:otherwise>
-                                                ${fn:substring(sessionScope.NotReadFileCommentFiles[loop.count-1].fileName, 0, 10)}...
+                                                ${fn:substring(sessionScope.notReadFileCommentFiles[loop.count-1].fileName, 0, 10)}...
                                             </c:otherwise>
                                         </c:choose>
                                     </div>

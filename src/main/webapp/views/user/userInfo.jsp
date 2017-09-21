@@ -242,7 +242,7 @@
                             <ul class="sub">
                                 <li><a href="#">搜索评论</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/allNotReadFileComment'">所有评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
                             </ul>
                         </li>
                         <!--日志系统-->

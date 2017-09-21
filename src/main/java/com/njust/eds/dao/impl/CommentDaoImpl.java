@@ -90,7 +90,7 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
     //通过评论文件ID查找评论
     @SuppressWarnings("unchecked")
     public List<Comment> findCommentByRecevierId(Integer id) {
-        String hql = "from Comment  where comRecevier=?  order by comTime desc ";
+        String hql = "from Comment  where comRecevier=?  order by comTime asc ";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, id);
         return query.list();
@@ -113,4 +113,5 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
         query.setParameter(0, Read);
         return query.list();
     }
+
 }
