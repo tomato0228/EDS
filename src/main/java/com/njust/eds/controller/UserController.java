@@ -162,21 +162,7 @@ public class UserController {
     @RequestMapping("/aboutUser-{userId}")
     public String aboutUser(ModelMap map, HttpServletRequest request, @PathVariable Integer userId) {
         User user = userService.getUserById(userId);
-        int myid=((User) request.getSession().getAttribute("loginUser")).getUserId();
-        System.out.println(userId);
-        List<Message> usermessage= messageService.Messagelist(myid,userId);
         if (user != null) {
-<<<<<<< HEAD
-           map.addAttribute("aUserMessage",usermessage);
-            System.out.println(usermessage.get(0).getMsgData());
-            System.out.println(usermessage.get(1).getMsgData());
-
-            if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
-                return "user/userInfo";
-            map.addAttribute("ThisUser", user);
-
-            return "user/newMessage";
-=======
             FindaUserMessage(request, userId);
             if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
                 return userInfo(request);
@@ -184,7 +170,6 @@ public class UserController {
                 map.addAttribute("ThisUser", user);
                 return "user/aboutUser";
             }
-
         } else return "error/404";
     }
 
@@ -625,32 +610,7 @@ public class UserController {
     //和某个用户的聊天记录
     private void FindaUserMessage(HttpServletRequest request, Integer id) {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
-<<<<<<< HEAD
-        List<Message> messageList = messageService.queryMessage(((User) request.getSession().getAttribute("loginUser")).getUserId(), id);
-        List<Message> messagesdesc = new ArrayList<Message>();
-        int i = 0;
-        int j = 0;
-        for (i = 0, j = 0; i < messageList.size() && j < messages.size(); ) {
-            if (DateUtils.isBeforeSpeciDate(messageList.get(i).getMsgSendtime(), messages.get(j).getMsgSendtime())) {
-                messagesdesc.add(messages.get(j));
-                j++;
-            } else {
-                messagesdesc.add(messageList.get(i));
-                i++;
-            }
-        }
-        if (i < messageList.size())
-            for (; i < messageList.size(); i++)
-                messagesdesc.add(messageList.get(i));
-        if (j < messages.size())
-            for (; j < messages.size(); j++)
-                messagesdesc.add(messages.get(j));
-        request.getSession().setAttribute("aUserMessage", messagesdesc);
-        System.out.println(messageList.get(0).getMsgData());
-        System.out.println(messageList.get(1).getMsgData());
-=======
         request.getSession().setAttribute("aUserMessage", messages);
->>>>>>> origin/master
     }
 
 }

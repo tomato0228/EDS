@@ -3734,7 +3734,7 @@ table.sliders tr td {
 
 .twt-feed a {
     border: 8px solid #fff;
-    border-radius: 50%;
+    /*border-radius: 50%;*/
     -webit-border-radius: 50%;
     display: inline-block;
     margin-bottom: -55px;
@@ -3743,7 +3743,6 @@ table.sliders tr td {
 .twt-feed a img {
     height: 112px;
     width: 112px;
-    border-radius: 50%;
     -webit-border-radius: 50%;
 }
 

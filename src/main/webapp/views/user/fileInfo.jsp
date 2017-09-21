@@ -45,123 +45,55 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> 我的私人文件</h3>
+            <h3><i class="fa fa-angle-right"></i> 文件详情</h3>
             <div class="row mt">
                 <div class="col-lg-12">
                     <div class="col-lg-4">
                         <!--widget start-->
-                        <aside class="profile-nav alt green-border">
-                            <section class="panel">
-                                <div class="user-heading alt green-bg">
-                                    <a href="#">
-                                        <img alt="" src="img/profile-avatar.jpg">
-                                    </a>
-                                    <h1>Jonathan Smith</h1>
-                                    <p>jsmith@flatlab.com</p>
-                                </div>
-
+                        <section class="panel">
+                            <div class="twt-feed blue-bg">
+                                <h1>
+                                    <c:set value="${fn:length(requestScope.fileInfo.fileName)}"
+                                    <c:choose>
+                                        <c:when test="${fn:length(requestScope.fileInfo.fileName) <= 15}">
+                                            <p class="user">${requestScope.fileInfo.fileName}</p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p class="user">${fn:substring(requestScope.fileInfo.fileName, 0, 15)}...</p>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </h1>
+                                <p>jsmith@flatlab.com</p>
+                                <a href="#">
+                                    <img src="${ctx}/resources/img/prefix/${requestScope.fileInfo.fileType}.png" >
+                                </a>
+                            </div>
+                            <div style="margin-top: 55px;">
                                 <ul class="nav nav-pills nav-stacked">
                                     <li><a href="javascript:;"> <i class="icon-time"></i> Mail Inbox <span class="label label-primary pull-right r-activity">19</span></a></li>
                                     <li><a href="javascript:;"> <i class="icon-calendar"></i> Recent Activity <span class="label label-info pull-right r-activity">11</span></a></li>
                                     <li><a href="javascript:;"> <i class="icon-bell-alt"></i> Notification <span class="label label-warning pull-right r-activity">03</span></a></li>
                                     <li><a href="javascript:;"> <i class="icon-envelope-alt"></i> Message <span class="label label-success pull-right r-activity">10</span></a></li>
                                 </ul>
-
-                            </section>
-                        </aside>
+                            </div>
+                            <div class="twt-write col-sm-12">
+                                <textarea class="form-control  t-text-area" rows="2" placeholder="Tweet Here"></textarea>
+                            </div>
+                            <footer class="twt-footer">
+                                <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
+                                    <i class="fa fa-user"></i>
+                                </button>
+                                <button class="btn btn-space btn-info pull-right" type="button" style="margin-top: 15px">
+                                    <i class="fa fa-cloud-download"></i>
+                                    下载
+                                </button>
+                            </footer>
+                        </section>
                         <!--widget end-->
                     </div>
-
-                    <div class="col-lg-6">
-                        <section class="panel">
-                            <header class="panel-heading">
-                                Timeline
-                            </header>
-                            <div class="panel-body profile-activity">
-                                <h5 class="pull-right">12 August 2013</h5>
-                                <div class="activity terques">
-                                  <span>
-                                      <i class="icon-shopping-cart"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow"></div>
-                                                <i class=" icon-time"></i>
-                                                <h4>10:45 AM</h4>
-                                                <p>Purchased new equipments for zonal office setup and stationaries.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="activity alt purple">
-                                  <span>
-                                      <i class="icon-rocket"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow-alt"></div>
-                                                <i class=" icon-time"></i>
-                                                <h4>12:30 AM</h4>
-                                                <p>Lorem ipsum dolor sit amet consiquest dio</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="activity blue">
-                                  <span>
-                                      <i class="icon-bullhorn"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow"></div>
-                                                <i class=" icon-time"></i>
-                                                <h4>10:45 AM</h4>
-                                                <p>Please note which location you will consider, or both. Reporting to
-                                                    the VP you will be responsible for managing.. </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="activity alt green">
-                                  <span>
-                                      <i class="fa fa-beer"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow-alt"></div>
-                                                <i class="fa fa-clock-o"></i>
-                                                <h4>12:30 AM</h4>
-                                                <p>Please note which location you will consider, or both.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="chat-form">
-                                    <div class="input-cont ">
-                                        <input type="text" class="form-control col-lg-12"
-                                               placeholder="Type a message here...">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="pull-right chat-features">
-                                            <a href="javascript:;">
-                                                <i class="icon-camera"></i>
-                                            </a>
-                                            <a href="javascript:;">
-                                                <i class="icon-link"></i>
-                                            </a>
-                                            <a class="btn btn-danger" href="javascript:;">Send</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-
                     <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
@@ -171,13 +103,11 @@
                                 <div class="timeline-messages">
                                     <!-- Comment -->
                                     <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg"
-                                                                             alt=""></a>
+                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
                                         <div class="message-body msg-in">
                                             <span class="arrow"></span>
                                             <div class="text">
-                                                <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April
-                                                    2013</p>
+                                                <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
                                                 <p>Hello, How are you brother?</p>
                                             </div>
                                         </div>
@@ -186,13 +116,11 @@
 
                                     <!-- Comment -->
                                     <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg"
-                                                                             alt=""></a>
+                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
                                         <div class="message-body msg-out">
                                             <span class="arrow"></span>
                                             <div class="text">
-                                                <p class="attribution"><a href="#">Jonathan Smith</a> at 2:01pm, 13th
-                                                    April 2013</p>
+                                                <p class="attribution"> <a href="#">Jonathan Smith</a> at 2:01pm, 13th April 2013</p>
                                                 <p>I'm Fine, Thank you. What about you? How is going on?</p>
                                             </div>
                                         </div>
@@ -201,13 +129,11 @@
 
                                     <!-- Comment -->
                                     <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg"
-                                                                             alt=""></a>
+                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
                                         <div class="message-body msg-in">
                                             <span class="arrow"></span>
                                             <div class="text">
-                                                <p class="attribution"><a href="#">Jhon Doe</a> at 2:03pm, 13th April
-                                                    2013</p>
+                                                <p class="attribution"><a href="#">Jhon Doe</a> at 2:03pm, 13th April 2013</p>
                                                 <p>Yeah I'm fine too. Everything is going fine here.</p>
                                             </div>
                                         </div>
@@ -216,28 +142,23 @@
 
                                     <!-- Comment -->
                                     <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg"
-                                                                             alt=""></a>
+                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
                                         <div class="message-body msg-out">
                                             <span class="arrow"></span>
                                             <div class="text">
-                                                <p class="attribution"><a href="#">Jonathan Smith</a> at 2:05pm, 13th
-                                                    April 2013</p>
-                                                <p>well good to know that. anyway how much time you need to done your
-                                                    task?</p>
+                                                <p class="attribution"><a href="#">Jonathan Smith</a> at 2:05pm, 13th April 2013</p>
+                                                <p>well good to know that. anyway how much time you need to done your task?</p>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- /comment -->
                                     <!-- Comment -->
                                     <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg"
-                                                                             alt=""></a>
+                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
                                         <div class="message-body msg-in">
                                             <span class="arrow"></span>
                                             <div class="text">
-                                                <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April
-                                                    2013</p>
+                                                <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
                                                 <p>Hello, How are you brother?</p>
                                             </div>
                                         </div>
@@ -246,8 +167,7 @@
                                 </div>
                                 <div class="chat-form">
                                     <div class="input-cont ">
-                                        <input type="text" class="form-control col-lg-12"
-                                               placeholder="Type a message here...">
+                                        <input type="text" class="form-control col-lg-12" placeholder="Type a message here...">
                                     </div>
                                     <div class="form-group">
                                         <div class="pull-right chat-features">
@@ -257,47 +177,18 @@
                                             <a href="javascript:;">
                                                 <i class="icon-link"></i>
                                             </a>
-                                            <a class="btn btn-danger" href="javascript:;">Send</a>
+                                            <a class="btn btn-danger" href="javascript:;">留言</a>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </section>
                     </div>
 
 
-                    <c:forEach items="${sessionScope.PrivateFile}" var="privateFile">
-                        <!-- SERVER STATUS PANELS -->
-                        <div class="col-md-4 col-sm-4 mb">
-                            <div class="white-panel pn donut-chart">
-                                <div class="white-header">
-                                    <h5>
-                                        <c:choose>
-                                            <c:when test="${fn:length(privateFile.fileName) <= 15}">
-                                                ${privateFile.fileName}
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${fn:substring(privateFile.fileName, 0, 15)}...
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><i class="fa fa-clock-o"></i>${fn:substring(privateFile.fileLoadTime, 0, 16)}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row centered">
-                                    <img src="${ctx}/resources/img/prefix/${privateFile.fileType}.png"
-                                         class="img-rounded" width="100"
-                                         onclick="window.location.href='${ctx}/user/fileInfo-${privateFile.fileId}'">
-                                </div>
-                            </div>
-                            <! --/grey-panel -->
-                        </div>
-                        <!-- /col-md-4-->
-                    </c:forEach><!-- 1st ROW OF PANELS -->
+
+
                 </div>
             </div>
 
