@@ -155,13 +155,19 @@ public class UserController {
     @RequestMapping("/aboutUser-{userId}")
     public String aboutUser(ModelMap map, HttpServletRequest request, @PathVariable Integer userId) {
         User user = userService.getUserById(userId);
+        int myid=((User) request.getSession().getAttribute("loginUser")).getUserId();
+        System.out.println(userId);
+        List<Message> usermessage= messageService.Messagelist(myid,userId);
         if (user != null) {
-            FindaUserMessage(request,userId);
+           map.addAttribute("aUserMessage",usermessage);
+            System.out.println(usermessage.get(0).getMsgData());
+            System.out.println(usermessage.get(1).getMsgData());
+
             if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
                 return "user/userInfo";
             map.addAttribute("ThisUser", user);
 
-            return "user/aboutUser";
+            return "user/newMessage";
         } else return "error/404";
     }
 
@@ -672,6 +678,8 @@ public class UserController {
             for (; j < messages.size(); j++)
                 messagesdesc.add(messages.get(j));
         request.getSession().setAttribute("aUserMessage", messagesdesc);
+        System.out.println(messageList.get(0).getMsgData());
+        System.out.println(messageList.get(1).getMsgData());
     }
 
 }

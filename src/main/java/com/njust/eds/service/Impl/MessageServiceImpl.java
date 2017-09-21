@@ -76,4 +76,10 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> findMessagesByRecevierId(Integer id) {
         return messageDao.findMessagesByRecevierId(id);
     }
+
+    public List<Message> Messagelist( int id1,int id2){
+       return messageDao.Messagelist(id1,id2);
+    }
+
+    public void msg_edit(int id,int isread){messageDao.msg_edit(id,isread);}
 }

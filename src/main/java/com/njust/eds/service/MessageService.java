@@ -28,4 +28,7 @@ public interface MessageService {
     public Message findMessageByisRead(int Read);
 
     public List<Message> findMessagesByRecevierId(Integer id);
+    public List<Message> Messagelist( int id1,int id2);
+
+    public void msg_edit(int id ,int isread);
 }

@@ -94,4 +94,30 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         return query.list();
     }
 
+    public List<Message> Messagelist( int id1,int id2){
+        String hql = "from Message  where msgSender=? and msgReceiver=? or msgSender=? and msgReceiver=? order by msgSendtime asc ";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, id1);
+        query.setParameter(1,id2);
+        query.setParameter(2, id2);
+        query.setParameter(3,id1);
+        return query.list();
+
+    }
+    public void msg_edit(int id ,int isread){
+        String hql="update Message  set isRead=1 where msgId=?";
+        String hql2="update Message  set isRead=0 where msgId=?";
+        Query query = getSession().createQuery(hql);
+        Query query2=getSession().createQuery(hql2);
+        query.setParameter(0, id);
+        query2.setParameter(0,id);
+        if(isread==1)
+        {
+            query2.executeUpdate();
+        }
+        else
+        {
+            query.executeUpdate();
+        }
+    }
 }
