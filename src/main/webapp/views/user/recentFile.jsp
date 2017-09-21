@@ -72,13 +72,13 @@
                                          onclick="window.location.href='${ctx}/user/fileInfo-${recentFile.fileId}'">
                                 </div>
                                 <br>
-                                <div class="row centered">
+                                <div class="row centered col-xs-offset-1 col-xs-10">
                                     <c:choose>
-                                        <c:when test="${fn:length(recentFile.fileAbstrcat) <= 150}">
+                                        <c:when test="${fn:length(recentFile.fileAbstrcat) <= 30}">
                                             <p style="font-size: 1.2em">${recentFile.fileAbstrcat}</p>
                                         </c:when>
                                         <c:otherwise>
-                                            <p style="font-size: 1.2em">${fn:substring(recentFile.fileAbstrcat, 0, 150)}...</p>
+                                            <p style="font-size: 1.2em">${fn:substring(recentFile.fileAbstrcat, 0, 30)}...</p>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>

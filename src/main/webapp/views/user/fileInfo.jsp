@@ -131,7 +131,8 @@
                                     </c:otherwise>
                                 </c:choose>
 
-                                <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
+                                <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px"
+                                        onclick="window.location.href='${ctx}/user/aboutUser-${requestScope.fileUser.userId}'">
                                     <i class="fa fa-user"></i>
                                 </button>
                                 <c:choose>

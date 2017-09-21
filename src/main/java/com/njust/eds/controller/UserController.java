@@ -87,7 +87,7 @@ public class UserController {
     @RequestMapping("/userInfo")
     public String userInfo(HttpServletRequest request) {
         FindNotReadFileComments(request, false);
-        FindNotReadMessages(request);
+        FindNotReadUserMessages(request,false);
         return "user/userInfo";
     }
 
@@ -175,9 +175,16 @@ public class UserController {
             File file = fileService.getFileById(comment.getComRecevier());
             User user = userService.getUserById(comment.getComSender());
             if (file != null && user != null) {
+                comment.setIsRead(1);
+                commentService.updateComment(comment);
+                if (file.getFileShare() - 1 == 0) {
+                    map.addAttribute("fileInfoLimit", filelimitService.getFilelimitById(file.getFileUserId()));
+                }
                 map.addAttribute("ThisComment", comment);
                 map.addAttribute("ThisFile", file);
                 map.addAttribute("ThisUser", user);
+                comment.setIsRead(1);
+                commentService.updateComment(comment);
                 return "user/readComment";
             } else return "error/404";
         } else return "error/404";
@@ -197,10 +204,36 @@ public class UserController {
         } else return "error/404";
     }
 
+    @RequestMapping("/userMessage-{userId}")
+    public String userMessage(ModelMap map, HttpServletRequest request, @PathVariable Integer userId) {
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            FindaUserMessage(request, userId);
+            if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
+                return userInfo(request);
+            else {
+                map.addAttribute("ThisUser", user);
+                return "user/userMessage";
+            }
+        } else return "error/404";
+    }
+
     @RequestMapping("/allFileComment")
     public String allNotReadFileComment(HttpServletRequest request) {
         FindNotReadFileComments(request, true);
         return "user/allFileComment";
+    }
+
+    @RequestMapping("/notReadMessages")
+    public String notReadUserMessages(HttpServletRequest request) {
+        FindNotReadUserMessages(request, false);
+        return "user/notReadMessages";
+    }
+
+    @RequestMapping("/allMessages")
+    public String allUserMessages(HttpServletRequest request) {
+        FindNotReadUserMessages(request, true);
+        return "user/allMessages";
     }
 
     @ResponseBody
@@ -361,7 +394,7 @@ public class UserController {
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
         FindNotReadFileComments(request, false);
-        FindNotReadMessages(request);
+        FindNotReadUserMessages(request,false);
         return "user/index";
     }
 
@@ -478,6 +511,9 @@ public class UserController {
             headers.setContentDispositionFormData("attachment", downloadFielName);
             //application/octet-stream ： 二进制流数据（最常见的文件下载）。
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            file.setFileDownloadtimes(file.getFileDownloadtimes()+1);
+            file.setFilePrinttimes(file.getFilePrinttimes()+1);
+            fileService.updateFile(file);
             return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
         }
         return null;
@@ -521,7 +557,7 @@ public class UserController {
         return new AjaxResult(true, "图片上传成功", folderPath + savedFileName);
     }
 
-    //该用户文件评论 all--0所有评论，all--1未读评论
+    //该用户文件评论 all--true所有评论，all--false未读评论
     private void FindNotReadFileComments(HttpServletRequest request, boolean all) {
         int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
         List<Comment> commentList;
@@ -545,14 +581,21 @@ public class UserController {
         request.getSession().setAttribute("notReadFileCommentFiles", fileList);
     }
 
-    //该用户未读消息
-    private void FindNotReadMessages(HttpServletRequest request) {
+    //该用户消息 all--true所有消息，all--false未读消息
+    private void FindNotReadUserMessages(HttpServletRequest request, boolean all) {
         int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
-        List<Message> messages = messageService.findMessagesByRecevierId(id);
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("msgReceiver",id);
+        map.put("isRead",0);
+        List<Message> messages;
+        if (all)
+            messages = messageService.findMessagesByRecevierId(id);
+        else
+            messages = messageService.findMessage(map);
         List<Message> messageList = new ArrayList<Message>();
         List<User> users = new ArrayList<User>();
         for (Message message : messages) {
-            if (message.getIsRead() == 0 && message.getMsgSender() != id) {
+            if (message.getMsgSender() != id) {
                 users.add(userService.getUserById(message.getMsgSender()));
                 messageList.add(message);
             }
@@ -634,6 +677,12 @@ public class UserController {
     //和某个用户的聊天记录
     private void FindaUserMessage(HttpServletRequest request, Integer id) {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
+        for (Message m:messages) {
+            if (m.getMsgSender()==id){
+                m.setIsRead(1);
+                messageService.updateMessage(m);
+            }
+        }
         request.getSession().setAttribute("aUserMessage", messages);
     }
 
@@ -685,7 +734,6 @@ public class UserController {
         }
         map.addAttribute("loglist",loglist);
         map.addAttribute("filelist",file);
-
         return "user/myLog";
     }
 
@@ -700,9 +748,9 @@ public class UserController {
         }
         map.addAttribute("loglist",loglist);
         map.addAttribute("filelist",file);
-
         return "user/myFileLog";
     }
+
     @ResponseBody
     @RequestMapping("/Log_delete")
     public void Log_delete(HttpServletRequest request)throws Exception{

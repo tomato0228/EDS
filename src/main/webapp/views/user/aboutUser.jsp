@@ -102,7 +102,7 @@
                     <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
-                                Timeline
+                                最近消息
                             </header>
                             <div class="panel-body profile-activity">
                                 <%--<h5 class="pull-right">12 August 2013</h5>--%>
@@ -157,15 +157,17 @@
                                 <div class="chat-form">
                                     <form>
                                         <div class="input-cont ">
-
                                             <input type="text" id="msg" name="msg" class="form-control col-lg-12"
                                                    placeholder="在这里输入你的消息...">
                                         </div>
                                         <div class="form-group">
-                                            <div class="pull-right chat-features">
+                                            <div class="pull-right chat-features" style="margin-top: 10px">
                                                 <a class="btn btn-danger" onclick="Msg_send(${ThisUser.userId})">发 送</a>
                                             </div>
-
+                                        </div>
+                                        <div class="pull-left chat-features" style="margin-top: 10px">
+                                            <a class="btn btn-info"
+                                               onclick="window.location.href='${ctx}/user/userMessage-${requestScope.ThisUser.userId}'">查看所有消息</a>
                                         </div>
                                     </form>
 
