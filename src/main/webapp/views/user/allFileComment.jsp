@@ -5,7 +5,9 @@
   Time: 上午9:12
   To change this template use File | Settings | File Templates.
 --%>
-<!--notReadFileComment-->
+<%--
+  AllFileComment
+--%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -44,48 +46,53 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i>  我的近期文件</h3>
+            <h3><i class="fa fa-angle-right"></i> 我的所有评论</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <c:forEach items="${sessionScope.RecentFiles}" var="recentFile">
-                        <!-- TWITTER PANEL -->
+                    <c:forEach items="${sessionScope.notReadFileComments}" var="FileComment" varStatus="loop">
+                        <! -- Blog Panel -->
                         <div class="col-lg-4 col-md-4 col-sm-4 mb">
-                            <div class="weather-2 pn">
-                                <div class="weather-2-header">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-xs-6">
-                                            <c:choose>
-                                                <c:when test="${fn:length(recentFile.fileName) <= 15}">
-                                                    <p class="user">${recentFile.fileName}</p>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p class="user">${fn:substring(recentFile.fileName, 0, 15)}...</p>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </div>
-                                        <div class="col-sm-6 col-xs-6 goright">
-                                            <p class="small">${fn:substring(recentFile.fileLoadTime, 0, 16)}</p>
-                                        </div>
+                            <div class="content-panel pn">
+                                <div id="blog-bg">
+                                    <img src="${sessionScope.notReadFileCommentsSender[loop.count-1].userPictureUrl}"
+                                         class="img-circle" width="70" style="margin:20px 35px;"
+                                         onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
+
+                                    <div class="blog-title">${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</div>
+
+                                    <img src="${ctx}/resources/img/prefix/${sessionScope.notReadFileCommentFiles[loop.count-1].fileType}.png"
+                                         class="img-rounded" width="70" style="margin:20px 35px;"
+                                         onclick="window.location.href='${ctx}/user/readComment-${FileComment.comRecevier}'">
+                                    <div class="blog-titleright">
+                                        <c:choose>
+                                            <c:when test="${fn:length(sessionScope.notReadFileCommentFiles[loop.count-1].fileName) <= 10}">
+                                                ${FileComment.comData}
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${fn:substring(sessionScope.notReadFileCommentFiles[loop.count-1].fileName, 0, 10)}...
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
-                                </div><!-- /weather-2 header -->
-                                <div class="row centered">
-                                    <img src="${ctx}/resources/img/prefix/${recentFile.fileType}.png" class="img-rounded" width="100"
-                                         onclick="window.location.href='${ctx}/user/fileInfo-${recentFile.fileId}'">
                                 </div>
-                                <br>
-                                <div class="row centered">
-                                    <c:choose>
-                                        <c:when test="${fn:length(recentFile.fileAbstrcat) <= 150}">
-                                            <p style="font-size: 1.2em">${recentFile.fileAbstrcat}</p>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <p style="font-size: 1.2em">${fn:substring(recentFile.fileAbstrcat, 0, 150)}...</p>
-                                        </c:otherwise>
-                                    </c:choose>
+                                <div class="blog-text">
+                                    <p style="font-size: 1.2em">
+                                        <c:choose>
+                                            <c:when test="${fn:length(FileComment.comData) <= 75}">
+                                                ${FileComment.comData}
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${fn:substring(FileComment.comData, 0, 75)}...
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <a href="#"
+                                           onclick="window.location.href='${ctx}/user/readComment-${FileComment.comId}'">
+                                            Read This
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <!-- /col-md-4 -->
+                        <!-- /col-md-4-->
                     </c:forEach><!-- 1st ROW OF PANELS -->
                 </div>
             </div>

@@ -29,8 +29,9 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
         return file;
     }
 
+    @SuppressWarnings("unchecked")
     public List<File> findFileByUserId(int userId) {
-        String hql = "from File where fileUserId=?";
+        String hql = "from File where fileUserId=?  order by fileLoadTime desc ";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, userId);
         return query.list();

@@ -57,7 +57,7 @@
                                 <i class="fa fa-tasks"></i>
                                 <span class="badge bg-theme">${fn:length(sessionScope.notReadFileComments)}</span>
                             </a>
-                            <ul class="dropdown-menu extended tasks-bar">
+                            <ul class="dropdown-menu extended inbox">
                                 <div class="notify-arrow notify-arrow-green"></div>
                                 <li>
                                     <p class="green">你有 ${fn:length(sessionScope.notReadFileComments)} 条新评论</p>
@@ -84,11 +84,11 @@
                                                 <%--内容--%>
                                             <span class="message">
                                             <c:choose>
-                                                <c:when test="${fn:length(comment.comData) <= 30}">
+                                                <c:when test="${fn:length(comment.comData) <= 14}">
                                                     ${comment.comData}
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${fn:substring(comment.comData, 0, 30)}...
+                                                    ${fn:substring(comment.comData, 0, 14)}...
                                                 </c:otherwise>
                                             </c:choose>
                                         </span>
@@ -119,26 +119,26 @@
                                         <a href="#">
                                                 <%--头像--%>
                                             <span class="photo">
-                                            <img alt="avatar"
+                                                <img alt="avatar"
                                                  src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
-                                        </span>
+                                            </span>
                                             <span class="subject">
                                             <%--名字--%>
                                             <span class="from">${sessionScope.notReadMessagesSender[loop.count-1].userName}</span>
                                             <%--时间--%>
                                             <span class="time">
-                                                <fmt:formatDate value="${Message.comTime}" type="time"
+                                                <fmt:formatDate value="${Message.msgSendtime}" type="time"
                                                                 timeStyle="medium"/>
                                             </span>
                                         </span>
                                                 <%--内容--%>
                                             <span class="message">
                                             <c:choose>
-                                                <c:when test="${fn:length(Message.msgData) <= 30}">
+                                                <c:when test="${fn:length(Message.msgData) <= 14}">
                                                     ${Message.msgData}
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${fn:substring(Message.msgData, 0, 30)}...
+                                                    ${fn:substring(Message.msgData, 0, 14)}...
                                                 </c:otherwise>
                                             </c:choose>
                                         </span>
@@ -242,7 +242,7 @@
                             <ul class="sub">
                                 <li><a href="#">搜索评论</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/allNotReadFileComment'">所有评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
                             </ul>
                         </li>
                         <!--日志系统-->
@@ -288,7 +288,8 @@
                             <ul class="sub">
                                 <li><a href="#">密码修改</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -306,12 +307,6 @@
                     <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
                     <div class="row mt">
                         <div class="col-lg-12">
-
-
-
-
-
-
 
 
                         </div>

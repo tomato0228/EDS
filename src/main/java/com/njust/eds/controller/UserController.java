@@ -81,6 +81,13 @@ public class UserController {
         return "user/changeUserInfo";
     }
 
+    @RequestMapping("/userInfo")
+    public String userInfo(HttpServletRequest request) {
+        FindNotReadFileComments(request,false);
+        FindNotReadMessages(request);
+        return "user/userInfo";
+    }
+
     @RequestMapping("/newFile")
     public String newFile() {
         return "user/newFile";
@@ -133,7 +140,7 @@ public class UserController {
 
     @RequestMapping("/notReadFileComment")
     public String notReadFileComment(HttpServletRequest request) {
-        FindNotReadFileComment(request);
+        FindNotReadFileComments(request,false);
         return "user/notReadFileComment";
     }
 
@@ -159,6 +166,7 @@ public class UserController {
         System.out.println(userId);
         List<Message> usermessage= messageService.Messagelist(myid,userId);
         if (user != null) {
+<<<<<<< HEAD
            map.addAttribute("aUserMessage",usermessage);
             System.out.println(usermessage.get(0).getMsgData());
             System.out.println(usermessage.get(1).getMsgData());
@@ -168,15 +176,23 @@ public class UserController {
             map.addAttribute("ThisUser", user);
 
             return "user/newMessage";
+=======
+            FindaUserMessage(request, userId);
+            if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
+                return userInfo(request);
+            else {
+                map.addAttribute("ThisUser", user);
+                return "user/aboutUser";
+            }
+
         } else return "error/404";
     }
 
-    @RequestMapping("/allNotReadFileComment")
+    @RequestMapping("/allFileComment")
     public String allNotReadFileComment(HttpServletRequest request) {
-        FindAllNotReadFileComment(request);
-        return "user/allNotReadFileComment";
+        FindNotReadFileComments(request,true);
+        return "user/allFileComment";
     }
-
 
     @ResponseBody
     @RequestMapping("/register")
@@ -335,7 +351,7 @@ public class UserController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
-        FindNotReadFileComments(request);
+        FindNotReadFileComments(request,false);
         FindNotReadMessages(request);
         return "user/index";
     }
@@ -382,8 +398,17 @@ public class UserController {
             newfile.setFileSize(FileSizeUtils.getFjSize(String.valueOf(file.getSize())));
             newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
             newfile.setFileUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
-            newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ?
-                    request.getParameter("fileSecretLevel") : "1"));
+            if (request.getParameter("fileSecretLevel") != null) {
+                if (request.getParameter("fileSecretLevel").equals("内部"))
+                    newfile.setFileSecretLevel(2);
+                else if (request.getParameter("fileSecretLevel").equals("C"))
+                    newfile.setFileSecretLevel(3);
+                else if (request.getParameter("fileSecretLevel").equals("B"))
+                    newfile.setFileSecretLevel(4);
+                else if (request.getParameter("fileSecretLevel").equals("A"))
+                    newfile.setFileSecretLevel(5);
+                else newfile.setFileSecretLevel(1);
+            }
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
             newfile.setFileShare((request.getParameter("Share") != null) ? 1 : 0);
@@ -410,12 +435,15 @@ public class UserController {
             filedataService.saveFiledata(filedata);
             if (newfile.getFileShare().equals(1)) {
                 Filelimit filelimit = new Filelimit();
+                filelimit.setFileId(newfile.getFileId());
                 filelimit.setFileRead((request.getParameter("fileRead") != null) ? 1 : 0);
                 filelimit.setFileWrite((request.getParameter("fileWrite") != null) ? 1 : 0);
                 filelimit.setFilePrint((request.getParameter("filePrint") != null) ? 1 : 0);
-                filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null) ?
+                System.out.println("的值是：---" + request.getParameter("fileReadTimes") + "，当前方法=UserController.uploadFile()");
+                filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null &&
+                        !("".equals(request.getParameter("fileReadTimes")))) ?
                         request.getParameter("fileReadTimes") : "-1"));
-                if (request.getParameter("fileLifeCycle") == null) {
+                if (request.getParameter("fileLifeCycle") == null || request.getParameter("fileLifeCycle").equals("")) {
                     filelimit.setFileLifeCycle(DateUtils.getDateAfter(356));
                 } else {
                     filelimit.setFileLifeCycle(DateUtils.strToDate(request.getParameter("fileLifeCycle"), "yyyy-MM-dd"));
@@ -486,36 +514,38 @@ public class UserController {
         return new AjaxResult(true, "图片上传成功", folderPath + savedFileName);
     }
 
-    //该用户未读文件评论
-    private void FindNotReadFileComments(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        //commentService.findComment()
-        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+    //该用户文件评论 all--0所有评论，all--1未读评论
+    private void FindNotReadFileComments(HttpServletRequest request,boolean all) {
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
+        List<Comment> commentList;
+        if (all)
+            commentList = commentService.findComment(new HashMap<String, Object>());
+        else
+            commentList = commentService.findCommentByisRead(0);
+        List<File> fileList = new ArrayList<File>();
         List<Comment> comments = new ArrayList<Comment>();
-        List<Comment> commentList = new ArrayList<Comment>();
         List<User> users = new ArrayList<User>();
-        for (File f : files) {
-            map.put("comRecevier", f.getFileId());
-            commentList = commentService.findComment(map);
-            for (Comment c : commentList) {
-                if (c.getIsRead() == 0) {
-                    users.add(userService.getUserById(c.getComSender()));
-                    comments.add(c);
-                }
+        for (Comment c : commentList) {
+            File file = fileService.getFileById(c.getComRecevier());
+            if (file.getFileUserId() == id && c.getComSender() != id) {
+                comments.add(c);
+                fileList.add(file);
+                users.add(userService.getUserById(c.getComSender()));
             }
         }
         request.getSession().setAttribute("notReadFileComments", comments);
         request.getSession().setAttribute("notReadFileCommentsSender", users);
+        request.getSession().setAttribute("notReadFileCommentFiles", fileList);
     }
 
     //该用户未读消息
     private void FindNotReadMessages(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<Message> messages = messageService.findMessagesByRecevierId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
+        List<Message> messages = messageService.findMessagesByRecevierId(id);
         List<Message> messageList = new ArrayList<Message>();
         List<User> users = new ArrayList<User>();
         for (Message message : messages) {
-            if (message.getIsRead() == 0) {
+            if (message.getIsRead() == 0 && message.getMsgSender() != id) {
                 users.add(userService.getUserById(message.getMsgSender()));
                 messageList.add(message);
             }
@@ -526,7 +556,6 @@ public class UserController {
 
     //该用户近期文件
     private void FindRecentFile(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
         List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
         List<User> users = new ArrayList<User>();
         List<File> fileList = new ArrayList<File>();
@@ -545,7 +574,6 @@ public class UserController {
     private void FindEnjoyFile(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("fileUserId", ((User) request.getSession().getAttribute("loginUser")).getUserId());
-        List<Comment> comments = new ArrayList<Comment>();
         map.put("fileShare", 1);
         List<File> files = fileService.findFiles(map);
         List<Integer> EnjoyFileComment = new ArrayList<Integer>();
@@ -562,16 +590,7 @@ public class UserController {
         map.put("fileUserId", ((User) request.getSession().getAttribute("loginUser")).getUserId());
         map.put("fileShare", 0);
         List<File> files = fileService.findFiles(map);
-//        List<User> users = new ArrayList<User>();
-//        List<File> fileList = new ArrayList<File>();
-//        for (File file : files) {
-//            if (file.getFileShare()-1==0) {
-//                fileList.add(file);
-//                users.add(userService.getUserById(file.getFileUserId()));
-//            }
-//        }
         request.getSession().setAttribute("PrivateFile", files);
-        //request.getSession().setAttribute("EnjoyFileUsers", users);
     }
 
     //近期共享文件
@@ -605,59 +624,10 @@ public class UserController {
         request.getSession().setAttribute("WebEnjoyFileUsers", users);
     }
 
-    //未读评论
-    private void FindNotReadFileComment(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("isRead", 0);
-        List<Comment> comments = commentService.findCommentByisRead(0);
-        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
-        List<Comment> commentList = new ArrayList<Comment>();
-        List<File> fileList = new ArrayList<File>();
-        for (Comment c : comments) {
-            for (File f : files) {
-                if (f.getFileId() == c.getComRecevier()) {
-                    commentList.add(c);
-                    fileList.add(f);
-                    break;
-                }
-            }
-        }
-        List<User> users = new ArrayList<User>();
-        for (Comment comment : commentList) {
-            users.add(userService.getUserById(comment.getComSender()));
-        }
-        request.getSession().setAttribute("NotReadFileComment", commentList);
-        request.getSession().setAttribute("NotReadFileCommentUsers", users);
-        request.getSession().setAttribute("NotReadFileCommentFiles", fileList);
-    }
-
-    //所有评论
-    private void FindAllNotReadFileComment(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<Comment> comments = commentService.findComment(map);
-        List<File> files = fileService.findFileByUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
-        List<Comment> commentList = new ArrayList<Comment>();
-        List<File> fileList = new ArrayList<File>();
-        for (Comment c : comments) {
-            for (File f : files)
-                if (f.getFileId() == c.getComRecevier()) {
-                    commentList.add(c);
-                    fileList.add(f);
-                    break;
-                }
-        }
-        List<User> users = new ArrayList<User>();
-        for (Comment comment : commentList) {
-            users.add(userService.getUserById(comment.getComSender()));
-        }
-        request.getSession().setAttribute("NotReadFileComment", commentList);
-        request.getSession().setAttribute("NotReadFileCommentUsers", users);
-        request.getSession().setAttribute("NotReadFileCommentFiles", fileList);
-    }
-
     //和某个用户的聊天记录
     private void FindaUserMessage(HttpServletRequest request, Integer id) {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
+<<<<<<< HEAD
         List<Message> messageList = messageService.queryMessage(((User) request.getSession().getAttribute("loginUser")).getUserId(), id);
         List<Message> messagesdesc = new ArrayList<Message>();
         int i = 0;
@@ -680,6 +650,9 @@ public class UserController {
         request.getSession().setAttribute("aUserMessage", messagesdesc);
         System.out.println(messageList.get(0).getMsgData());
         System.out.println(messageList.get(1).getMsgData());
+=======
+        request.getSession().setAttribute("aUserMessage", messages);
+>>>>>>> origin/master
     }
 
 }

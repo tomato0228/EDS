@@ -37,6 +37,10 @@ public class CommentServiceImpl implements CommentService {
             hql.append(" and comSender=? ");
             params.add(map.get("comSender"));
         }
+        if (map.get("isRead") != null) {
+            hql.append(" and isRead=? ");
+            params.add(map.get("isRead"));
+        }
         if (map.get("comRecevier") != null) {
             hql.append(" and comRecevier=? ");
             params.add(map.get("comRecevier"));
@@ -45,8 +49,7 @@ public class CommentServiceImpl implements CommentService {
             hql.append(" and comTime=? ");
             params.add(map.get("comTime"));
         }
-
-        System.out.println(hql.toString());
+        hql.append(" order by comTime desc ");
         return commentDao.findComment(params, hql.toString());
     }
 
