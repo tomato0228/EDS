@@ -48,7 +48,7 @@
             <h3><i class="fa fa-angle-right"></i> ${requestScope.ThisUser.userName}的信息</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <!--widget start-->
                         <aside class="profile-nav alt green-border">
                             <section class="panel">
@@ -99,7 +99,6 @@
                         </aside>
                         <!--widget end-->
                     </div>
-
                     <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
@@ -172,7 +171,6 @@
 
                 </div>
             </div>
-
         </section>
         <! --/wrapper -->
     </section>
