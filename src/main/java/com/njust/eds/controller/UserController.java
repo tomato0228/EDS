@@ -83,7 +83,7 @@ public class UserController {
 
     @RequestMapping("/userInfo")
     public String userInfo(HttpServletRequest request) {
-        FindNotReadFileComments(request,false);
+        FindNotReadFileComments(request, false);
         FindNotReadMessages(request);
         return "user/userInfo";
     }
@@ -140,7 +140,7 @@ public class UserController {
 
     @RequestMapping("/notReadFileComment")
     public String notReadFileComment(HttpServletRequest request) {
-        FindNotReadFileComments(request,false);
+        FindNotReadFileComments(request, false);
         return "user/notReadFileComment";
     }
 
@@ -175,7 +175,7 @@ public class UserController {
 
     @RequestMapping("/allFileComment")
     public String allNotReadFileComment(HttpServletRequest request) {
-        FindNotReadFileComments(request,true);
+        FindNotReadFileComments(request, true);
         return "user/allFileComment";
     }
 
@@ -336,7 +336,7 @@ public class UserController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
-        FindNotReadFileComments(request,false);
+        FindNotReadFileComments(request, false);
         FindNotReadMessages(request);
         return "user/index";
     }
@@ -440,8 +440,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/download/{fileId}", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> download(HttpServletRequest request,
-                                           @PathVariable("fileId") int fileId) throws Exception {
+    public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("fileId") int fileId) throws Exception {
         Filedata filedata = filedataService.getFiledataById(fileId);
         if (filedata != null) {
             File file = fileService.getFileById(filedata.getFileId());
@@ -463,8 +462,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping("uploadUserImg")
     public AjaxResult uploadUserImg(@RequestParam(value = "avatar_file", required = false) MultipartFile file,
-                                    @RequestParam("avatar_data") String avatar_data, HttpServletRequest request)
-            throws IOException {
+                                    @RequestParam("avatar_data") String avatar_data, HttpServletRequest request) throws IOException {
         //获得裁剪数据
         GraphicData graphicData = JSONObject.parseObject(avatar_data, GraphicData.class);
         //获得文件名
@@ -500,7 +498,7 @@ public class UserController {
     }
 
     //该用户文件评论 all--0所有评论，all--1未读评论
-    private void FindNotReadFileComments(HttpServletRequest request,boolean all) {
+    private void FindNotReadFileComments(HttpServletRequest request, boolean all) {
         int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
         List<Comment> commentList;
         if (all)
