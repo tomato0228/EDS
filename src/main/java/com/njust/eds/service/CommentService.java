@@ -1,6 +1,7 @@
 package com.njust.eds.service;
 
 import com.njust.eds.model.Comment;
+import com.njust.eds.model.File;
 
 import java.util.Date;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface CommentService {
     public List<Comment> findCommentByRecevierName(String recevierName);
 
     public List<Comment> findCommentByisRead(int Read);
+
+    public List<Comment> findCommentByfiles(List<File> files);
 }

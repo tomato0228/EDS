@@ -80,4 +80,8 @@ public class MessageServiceImpl implements MessageService {
     public void msg_edit(int id ,int isread){
         messageDao.msg_edit(id,isread);
     }
+
+    public List<Message> findMessagesById(int id){
+       return messageDao.findMessagesById(id);
+    }
 }

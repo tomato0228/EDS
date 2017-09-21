@@ -31,4 +31,5 @@ public interface MessageService {
 
     public void msg_edit(int id ,int isread);
 
+    public List<Message> findMessagesById(int id);
 }

@@ -112,5 +112,13 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         }
     }
 
+    public List<Message> findMessagesById(int id){
+        String hql = "from Message  where msgReceiver=? or msgSender=? order by msgSendtime desc ";
+        Query query =getSession().createQuery(hql);
+        query.setParameter(0,id);
+        query.setParameter(1,id);
+        return query.list();
+
+    }
 
 }

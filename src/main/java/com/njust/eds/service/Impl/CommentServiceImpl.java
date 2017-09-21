@@ -2,6 +2,7 @@ package com.njust.eds.service.Impl;
 
 import com.njust.eds.dao.CommentDao;
 import com.njust.eds.model.Comment;
+import com.njust.eds.model.File;
 import com.njust.eds.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,5 +80,9 @@ public class CommentServiceImpl implements CommentService {
 
     public List<Comment> findCommentByisRead(int Read) {
         return commentDao.findCommentByisRead(Read);
+    }
+
+    public List<Comment> findCommentByfiles(List<File> files){
+        return  commentDao.findCommentByfiles(files);
     }
 }

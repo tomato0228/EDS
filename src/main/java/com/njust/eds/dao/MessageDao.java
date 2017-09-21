@@ -29,4 +29,9 @@ public interface MessageDao {
     public Message findMessageByisRead(int Read);
 
     public void msg_edit(int id ,int isread);
+
+    public List<Message> findMessagesById(int id);
+
+
+
 }

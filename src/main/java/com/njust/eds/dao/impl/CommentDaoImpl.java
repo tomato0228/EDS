@@ -4,6 +4,7 @@ import com.njust.eds.dao.CommentDao;
 import com.njust.eds.dao.FileDao;
 import com.njust.eds.dao.UserDao;
 import com.njust.eds.model.Comment;
+import com.njust.eds.model.File;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -114,4 +115,17 @@ public class CommentDaoImpl extends BaseDaoImpl implements CommentDao {
         return query.list();
     }
 
+    public List<Comment> findCommentByfiles(List<File> files)
+    {
+        String hql = "from Comment  where  comRecevier=?";
+        for (int i = 0; i < files.size() -1; i++) {
+            hql = hql + "or comRecevier=?";
+        }
+        hql=hql+"order by comTime desc";
+        Query query = getSession().createQuery(hql);
+        for (int i = 0; i < files.size(); i++) {
+            query.setParameter(i,files.get(i).getFileId());
+        }
+        return query.list();
+    }
 }

@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.njust.eds.utils.AESUtil.*;
@@ -31,7 +32,8 @@ import static com.njust.eds.utils.AESUtil.*;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
+    @Autowired
+    private AdminService adminService;
     @Autowired
     private UserService userService;
 
@@ -655,7 +657,7 @@ public class UserController {
         String msg = request.getParameter("msg");
         User user = userService.getUserById(userId);
         if (user != null) {
-            Message message=new Message();
+            Message message = new Message();
             Date time = new java.sql.Date(new java.util.Date().getTime());
             message.setIsRead(0);
             message.setMsgData(msg);
@@ -675,40 +677,60 @@ public class UserController {
     }
 
     @RequestMapping("/myLog")
-    public String myLog(HttpServletRequest request, ModelMap map)throws Exception{
-        int id=((User) request.getSession().getAttribute("loginUser")).getUserId();
+    public String myLog(HttpServletRequest request, ModelMap map) throws Exception {
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
 
-        List<String> file=new ArrayList<String>();
-        List<Log> loglist=logService.findLogByUserID(id);
-        for(Log log:loglist){
+        List<String> file = new ArrayList<String>();
+        List<Log> loglist = logService.findLogByUserID(id);
+        for (Log log : loglist) {
             file.add(fileService.getFileById(log.getLogFileId()).getFileName());
         }
-        map.addAttribute("loglist",loglist);
-        map.addAttribute("filelist",file);
+        map.addAttribute("loglist", loglist);
+        map.addAttribute("filelist", file);
 
         return "user/myLog";
     }
 
     @RequestMapping("/myFileLog")
-    public String myFileLog(HttpServletRequest request, ModelMap map)throws Exception{
-        int id=((User) request.getSession().getAttribute("loginUser")).getUserId();
-        List<File> Files=fileService.findFileByUserId(id);
-        List<Log> loglist=logService.findLogByFileIds(Files);
-        List<String> file=new ArrayList<String>();
-        for(Log log:loglist){
+    public String myFileLog(HttpServletRequest request, ModelMap map) throws Exception {
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
+        List<File> Files = fileService.findFileByUserId(id);
+        List<Log> loglist = logService.findLogByFileIds(Files);
+        List<String> file = new ArrayList<String>();
+        List<String> user = new ArrayList<String>();
+        for (Log log : loglist) {
             file.add(fileService.getFileById(log.getLogFileId()).getFileName());
+            user.add(userService.getUserById(log.getLogUserId()).getUserName());
         }
-        map.addAttribute("loglist",loglist);
-        map.addAttribute("filelist",file);
+        map.addAttribute("loglist", loglist);
+        map.addAttribute("filelist", file);
+        map.addAttribute("userlist", user);
 
         return "user/myFileLog";
     }
+
     @ResponseBody
     @RequestMapping("/Log_delete")
-    public void Log_delete(HttpServletRequest request)throws Exception{
-        int id=Integer.parseInt(request.getParameter("logid"));
-        Log log=logService.getLogById(id);
+    public void Log_delete(HttpServletRequest request) throws Exception {
+        int id = Integer.parseInt(request.getParameter("logid"));
+        Log log = logService.getLogById(id);
         logService.deleteLog(log);
         return;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

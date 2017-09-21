@@ -72,11 +72,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                
                                 <c:forEach items="${loglist}" var="item" varStatus="loop">
+                                    <c:set value="${fn:length(filelist[loop.count-1]) - 36}" var="length"></c:set>
                                     <tr class="odd gradeX">
                                         <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                                        <td>${filelist[loop.count-1]}</td>
+                                        <td>${fn:substring(filelist[loop.count-1], 0, length)}</td>
                                         <td class="hidden-phone">${item.logSignature}</td>
                                         <td class="hidden-phone">${item.logTime}</td>
                                         <td class="hidden-phone">
@@ -89,7 +89,7 @@
 
                                             </c:choose></td>
                                         <td class="hidden-phone">
-                                            <span class="label label-danger"><button class="btn btn-danger btn-xs" onclick="Log_del(${item.logId})"><i class="fa-trash-o "></i></button></span>
+                                                <a class="label label-danger" href="#" onclick="Log_del(${item.logId})"><i class="fa fa-trash-o "></i></a>
 </span>
                                         </td>
                                     </tr>

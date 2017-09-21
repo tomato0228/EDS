@@ -40,6 +40,7 @@ public class SearchUtils {
 
         return results;
     }
+
     public static List<List<File>> search_file_name(String name, List<List<File>> list){
 
         List<List<File>> results = new ArrayList<List<File>>();
@@ -98,6 +99,48 @@ public class SearchUtils {
                 results.add(list.get(i));
             }
         }
+        return results;
+    }
+
+
+
+
+    public static List search_myfile_name(String name, List list){
+        List results = new ArrayList();
+        Pattern pattern = Pattern.compile(name);
+        for(int i=0; i < list.size(); i++){
+            Matcher matcher = pattern.matcher(((File)list.get(i)).getFileName());
+            if(matcher.find()){
+                results.add(list.get(i));
+            }
+        }
+
+        return results;
+    }
+
+    public static List search_myfile_data(String name, List list){
+        List results = new ArrayList();
+        Pattern pattern = Pattern.compile(name);
+        for(int i=0; i < list.size(); i++){
+            Matcher matcher = pattern.matcher(((File)list.get(i)).getFileAbstrcat());
+            if(matcher.find()){
+                results.add(list.get(i));
+            }
+        }
+
+        return results;
+    }
+
+    public static List search_myfile_type(String name, List list){
+        List results = new ArrayList();
+        Pattern pattern = Pattern.compile(name);
+        for(int i=0; i < list.size(); i++){
+            Matcher matcher = pattern.matcher(((File)list.get(i)).getFileType());
+            if(matcher.find()){
+                results.add(list.get(i));
+            }
+        }
+
         return results;
     }
 }
