@@ -235,7 +235,7 @@
 
                 <!--主页-->
                 <li class="mt">
-                    <a class="active" href="#">
+                    <a class="active" href="#"  onclick="window.location.href='${ctx}/user/index'">
                         <i class="fa fa-home"></i>
                         <span>主  页</span>
                     </a>
@@ -247,9 +247,8 @@
                         <span>我的消息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="${pageContext.request.contextPath }/views/user/newMessage.jsp">新建消息</a></li>
-                        <li><a href="login.html">未读消息</a></li>
-                        <li><a href="lock_screen.html">所有消息</a></li>
+                        <li><a href="#"  onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
                     </ul>
                 </li>
                 <!--共享文件-->
@@ -305,8 +304,8 @@
                         <span>个人信息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="morris.html">信息查看</a></li>
-                        <li><a href="panels.html">个人简介</a></li>
+                        <li><a href="#">信息查看</a></li>
+                        <li><a href="#">个人简介</a></li>
                     </ul>
                 </li>
                 <!--系统信息-->
@@ -316,8 +315,8 @@
                         <span>系统信息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="general.html">系统介绍</a></li>
-                        <li><a href="buttons.html">作者介绍</a></li>
+                        <li><a href="#">系统介绍</a></li>
+                        <li><a href="#">作者介绍</a></li>
                     </ul>
                 </li>
                 <!--设置-->
@@ -327,7 +326,7 @@
                         <span>设  置</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="calendar.html">密码修改</a></li>
+                        <li><a href="#">密码修改</a></li>
                         <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
                         <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">信息修改</a></li>
                     </ul>

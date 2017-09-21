@@ -96,7 +96,7 @@
                                     </li>
                                 </c:forEach>
                                 <li class="external">
-                                    <a href="#">查看所有评论</a>
+                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
                                 </li>
                             </ul>
                         </li>
@@ -146,7 +146,7 @@
                                     </li>
                                 </c:forEach>
                                 <li>
-                                    <a href="#">查看所有消息</a>
+                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
                                 </li>
                             </ul>
                         </li>
@@ -170,7 +170,6 @@
                 <div id="sidebar" class="nav-collapse ">
                     <!-- sidebar menu start-->
                     <ul class="sidebar-menu" id="nav-accordion">
-
                         <!--头像-->
                         <p class="centered">
                             <a href="#" onclick="window.location.href = '${ctx}/user/userPicture'">
@@ -202,21 +201,20 @@
                                 <span>我的消息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">新建消息</a></li>
-                                <li><a href="#">搜索消息</a></li>
-                                <li><a href="#">未读消息</a></li>
-                                <li><a href="#">所有消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findMessage'">搜索消息</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
                             </ul>
                         </li>
                         <!--共享文件-->
                         <li class="sub-menu">
                             <a href="javascript:;">
-                                <i class="fa fa-th"></i>
+                                <i class="fa fa-cloud"></i>
                                 <span>共享文件</span>
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
-                                <li><a href="#">搜索文件</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
                             </ul>
                         </li>
                         <!--文件-->
@@ -227,7 +225,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
-                                <li><a href="#">搜索文件</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
@@ -240,7 +238,7 @@
                                 <span>文件评论</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">搜索评论</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
                             </ul>
@@ -252,9 +250,8 @@
                                 <span>我的日志</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">我的日志</a></li>
-                                <li><a href="#">搜索文件</a></li>
-                                <li><a href="#">文件日志</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/myLog'">我的日志</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/myFileLog'">文件日志</a></li>
                             </ul>
                         </li>
                         <!--个人信息-->
@@ -264,8 +261,8 @@
                                 <span>个人信息</span>
                             </a>
                             <ul class="sub">
-                                <li class="active"><a href="#">信息查看</a></li>
-                                <li><a href="#">个人简介</a></li>
+                                <li class="active"><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
                             </ul>
                         </li>
                         <!--系统信息-->
@@ -275,8 +272,8 @@
                                 <span>系统信息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">系统介绍</a></li>
-                                <li><a href="#">作者介绍</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
                             </ul>
                         </li>
                         <!--设置-->
@@ -286,7 +283,7 @@
                                 <span>设  置</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">密码修改</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
                                 </li>
@@ -320,7 +317,7 @@
             <!--footer start-->
             <footer class="site-footer">
                 <div class="text-center">
-                    2014 - Alvarez.is
+                    2017 - Limit. three silly
                     <a href="#" class="go-top">
                         <i class="fa fa-angle-up"></i>
                     </a>

@@ -81,11 +81,12 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
         return (Message) query.uniqueResult();
     }
 
-    public Message findMessageByisRead(int Read) {
-        String hql = "from Message  where isRead=?";
+    @SuppressWarnings("unchecked")
+    public List<Message> findMessageByisRead(int Read) {
+        String hql = "from Message  where isRead=? order by msgSendtime desc ";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, Read);
-        return (Message) query.uniqueResult();
+        return query.list();
     }
 
     @SuppressWarnings("unchecked")

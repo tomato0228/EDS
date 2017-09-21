@@ -44,8 +44,11 @@ public class MessageServiceImpl implements MessageService {
             hql.append(" and msgSendtime=? ");
             params.add(map.get("msgSendtime"));
         }
-
-        System.out.println(hql.toString());
+        if (map.get("isRead") != null) {
+            hql.append(" and isRead=? ");
+            params.add(map.get("isRead"));
+        }
+        hql.append("order by msgSendtime desc ");
         return messageDao.findMessage(params, hql.toString());
     }
 
@@ -69,7 +72,7 @@ public class MessageServiceImpl implements MessageService {
         return messageDao.findMessageByRecevierName(recevierName);
     }
 
-    public Message findMessageByisRead(int Read) {
+    public List<Message> findMessageByisRead(int Read) {
         return messageDao.findMessageByisRead(Read);
     }
 
