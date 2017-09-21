@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.njust.eds.utils.AESUtil.*;
@@ -52,6 +53,9 @@ public class UserController {
 
     @Autowired
     private LogService logService;
+
+    @Autowired
+    private AdminService adminService;
 
     @ResponseBody
     @RequestMapping("/checkUserName")
@@ -87,7 +91,7 @@ public class UserController {
     @RequestMapping("/userInfo")
     public String userInfo(HttpServletRequest request) {
         FindNotReadFileComments(request, false);
-        FindNotReadUserMessages(request,false);
+        FindNotReadUserMessages(request, false);
         return "user/userInfo";
     }
 
@@ -394,7 +398,7 @@ public class UserController {
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
         FindNotReadFileComments(request, false);
-        FindNotReadUserMessages(request,false);
+        FindNotReadUserMessages(request, false);
         return "user/index";
     }
 
@@ -511,8 +515,8 @@ public class UserController {
             headers.setContentDispositionFormData("attachment", downloadFielName);
             //application/octet-stream ： 二进制流数据（最常见的文件下载）。
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            file.setFileDownloadtimes(file.getFileDownloadtimes()+1);
-            file.setFilePrinttimes(file.getFilePrinttimes()+1);
+            file.setFileDownloadtimes(file.getFileDownloadtimes() + 1);
+            file.setFilePrinttimes(file.getFilePrinttimes() + 1);
             fileService.updateFile(file);
             return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
         }
@@ -584,9 +588,9 @@ public class UserController {
     //该用户消息 all--true所有消息，all--false未读消息
     private void FindNotReadUserMessages(HttpServletRequest request, boolean all) {
         int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
-        Map<String,Object> map = new HashMap<String, Object>();
-        map.put("msgReceiver",id);
-        map.put("isRead",0);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("msgReceiver", id);
+        map.put("isRead", 0);
         List<Message> messages;
         if (all)
             messages = messageService.findMessagesByRecevierId(id);
@@ -677,8 +681,8 @@ public class UserController {
     //和某个用户的聊天记录
     private void FindaUserMessage(HttpServletRequest request, Integer id) {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
-        for (Message m:messages) {
-            if (m.getMsgSender()==id){
+        for (Message m : messages) {
+            if (m.getMsgSender() == id) {
                 m.setIsRead(1);
                 messageService.updateMessage(m);
             }
@@ -704,7 +708,7 @@ public class UserController {
         String msg = request.getParameter("msg");
         User user = userService.getUserById(userId);
         if (user != null) {
-            Message message=new Message();
+            Message message = new Message();
             Date time = new java.sql.Date(new java.util.Date().getTime());
             message.setIsRead(0);
             message.setMsgData(msg);
@@ -724,39 +728,260 @@ public class UserController {
     }
 
     @RequestMapping("/myLog")
-    public String myLog(HttpServletRequest request, ModelMap map)throws Exception{
-        int id=((User) request.getSession().getAttribute("loginUser")).getUserId();
+    public String myLog(HttpServletRequest request, ModelMap map) throws Exception {
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
 
-        List<String> file=new ArrayList<String>();
-        List<Log> loglist=logService.findLogByUserID(id);
-        for(Log log:loglist){
+        List<String> file = new ArrayList<String>();
+        List<Log> loglist = logService.findLogByUserID(id);
+        for (Log log : loglist) {
             file.add(fileService.getFileById(log.getLogFileId()).getFileName());
         }
-        map.addAttribute("loglist",loglist);
-        map.addAttribute("filelist",file);
+        map.addAttribute("loglist", loglist);
+        map.addAttribute("filelist", file);
         return "user/myLog";
     }
 
     @RequestMapping("/myFileLog")
-    public String myFileLog(HttpServletRequest request, ModelMap map)throws Exception{
-        int id=((User) request.getSession().getAttribute("loginUser")).getUserId();
-        List<File> Files=fileService.findFileByUserId(id);
-        List<Log> loglist=logService.findLogByFileIds(Files);
-        List<String> file=new ArrayList<String>();
-        for(Log log:loglist){
+    public String myFileLog(HttpServletRequest request, ModelMap map) throws Exception {
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
+        List<File> Files = fileService.findFileByUserId(id);
+        List<Log> loglist = logService.findLogByFileIds(Files);
+        List<String> file = new ArrayList<String>();
+        for (Log log : loglist) {
             file.add(fileService.getFileById(log.getLogFileId()).getFileName());
         }
-        map.addAttribute("loglist",loglist);
-        map.addAttribute("filelist",file);
+        map.addAttribute("loglist", loglist);
+        map.addAttribute("filelist", file);
         return "user/myFileLog";
     }
 
     @ResponseBody
     @RequestMapping("/Log_delete")
-    public void Log_delete(HttpServletRequest request)throws Exception{
-        int id=Integer.parseInt(request.getParameter("logid"));
-        Log log=logService.getLogById(id);
+    public void Log_delete(HttpServletRequest request) throws Exception {
+        int id = Integer.parseInt(request.getParameter("logid"));
+        Log log = logService.getLogById(id);
         logService.deleteLog(log);
         return;
+    }
+
+    @ResponseBody
+    @RequestMapping("/search_Commonfile")
+    public Map<String, Object> search_Commonfile(HttpServletRequest request) throws Exception {
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name = request.getParameter("name");
+        int type = Integer.parseInt(request.getParameter("type"));
+        System.out.println(name + type);
+        List<List<File>> list = fileService.findUserFiles();
+        List<List<File>> filelist = new ArrayList<List<File>>();
+        List<String> namelist = new ArrayList<String>();
+        if (type == 0) {
+
+            filelist = SearchUtils.search_file_name(name, list);
+        } else if (type == 1) {
+            List<List<File>> results = new ArrayList<List<File>>();
+
+            Pattern pattern = Pattern.compile(name);
+
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("外");
+                List<File> result = new ArrayList<File>();
+
+                for (int j = 0; j < list.get(i).size(); j++) {
+                    System.out.println("内");
+                    Matcher matcher = pattern.matcher(userService.findUsernameBuId(list.get(i).get(j).getFileUserId()));
+                    if (matcher.find()) {
+                        System.out.println(j);
+                        result.add(list.get(i).get(j));
+                    }
+                }
+                results.add(result);
+            }
+            filelist = results;
+        } else {
+            filelist = SearchUtils.search_file_type(name, list);
+        }
+        for (List<File> Filelist : filelist) {
+            for (File File : Filelist) {
+                if (File.getFileShare() == 0) {
+                    Filelist.remove(File);
+                }
+            }
+        }
+        int size = 0;
+        for (List<File> Filelist : filelist) {
+            if (Filelist.size() != 0)
+                namelist.add(userService.findUsernameBuId(Filelist.get(0).getFileUserId()));
+            else
+                continue;
+        }
+
+        List<List<File>> List = new ArrayList<List<File>>();
+        for (List<File> Filelist : filelist) {
+            if (Filelist.size() != 0)
+                List.add(Filelist);
+            else
+                continue;
+        }
+        for (List<File> Filelist : filelist) {
+            for (File file : Filelist) {
+                size++;
+            }
+        }
+        System.out.println(List);
+        System.out.println(namelist);
+        System.out.println(size);
+        request.getSession().setAttribute("Userfiles", List);
+        request.getSession().setAttribute("Namelist", namelist);
+        request.getSession().setAttribute("size", size);
+        resultMap.put("Userfiles", list);
+        return resultMap;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/search_Myfile")
+    public Map<String, Object> search_Myfile(HttpServletRequest request) throws Exception {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name = request.getParameter("name");
+        int type = Integer.parseInt(request.getParameter("type"));
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
+        List<File> list = fileService.findFileByUserId(id);
+        List<File> filelist = new ArrayList<File>();
+        if (type == 0) {
+            filelist = SearchUtils.search_myfile_name(name, list);
+        } else if (type == 1) {
+
+            filelist = SearchUtils.search_myfile_data(name, list);
+        } else {
+            filelist = SearchUtils.search_myfile_type(name, list);
+        }
+        request.getSession().setAttribute("filelist", filelist);
+
+        resultMap.put("filelist", filelist);
+        return resultMap;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/search_mymsg")
+    public Map<String, Object> search_msg(HttpServletRequest request) throws Exception {
+        int id = ((Admin) request.getSession().getAttribute("loginAdmin")).getAdminId();
+        System.out.println(id);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name = request.getParameter("name");
+        int type = Integer.parseInt(request.getParameter("type"));
+        System.out.println(name + type);
+        List<Message> list = messageService.findMessagesById(id);
+        System.out.println(list);
+        List<Message> msglist = new ArrayList<Message>();
+        List<String> senderlist = new ArrayList<String>();
+        List<String> receicerlist = new ArrayList<String>();
+
+        if (type == 0) {
+
+            List results = new ArrayList();
+            Pattern pattern = Pattern.compile(name);
+            for (int i = 0; i < list.size(); i++) {
+                int senderid = list.get(i).getMsgSender();
+                if (senderid > 10000) {
+                    Matcher matcher = pattern.matcher(userService.findUsernameBuId(senderid));
+
+                    if (matcher.find()) {
+                        results.add(list.get(i));
+                    }
+                } else {
+                    Matcher matcher = pattern.matcher(adminService.findAdminnameById(senderid));
+                    if (matcher.find()) {
+                        results.add(list.get(i));
+                    }
+                }
+            }
+            msglist = results;
+
+
+        } else if (type == 1) {
+
+            List results = new ArrayList();
+            Pattern pattern = Pattern.compile(name);
+            for (int i = 0; i < list.size(); i++) {
+                int receiverid = list.get(i).getMsgReceiver();
+                if (receiverid > 10000) {
+                    Matcher matcher = pattern.matcher(userService.findUsernameBuId(receiverid));
+
+                    if (matcher.find()) {
+                        results.add(list.get(i));
+                    }
+                } else {
+                    Matcher matcher = pattern.matcher(adminService.findAdminnameById(receiverid));
+                    if (matcher.find()) {
+                        results.add(list.get(i));
+                    }
+                }
+            }
+            msglist = results;
+
+        } else {
+            msglist = SearchUtils.search_msg_data(name, list);
+
+        }
+
+        for (Message message : msglist) {
+            int senderid = message.getMsgSender();
+            if (senderid < 10000)
+                senderlist.add(adminService.findAdminnameById(senderid));
+            else
+                senderlist.add(userService.findUsernameBuId(senderid));
+        }
+
+        for (Message message : msglist) {
+            int receiverid = message.getMsgSender();
+            if (receiverid < 10000)
+                receicerlist.add(adminService.findAdminnameById(receiverid));
+            else
+                receicerlist.add(userService.findUsernameBuId(receiverid));
+        }
+
+
+        System.out.println(msglist.get(0).getMsgData());
+        request.getSession().setAttribute("Messagelist", msglist);
+        request.getSession().setAttribute("Senderlist", senderlist);
+        request.getSession().setAttribute("Receiverlist", receicerlist);
+        resultMap.put("msglist", msglist);
+        resultMap.put("res", "yes");
+        return resultMap;
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/search_Mycomment")
+    public Map<String, Object> search_Mycomment(HttpServletRequest request) throws Exception {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name = request.getParameter("name");
+        int type = Integer.parseInt(request.getParameter("type"));
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
+        List<File> files = fileService.findFileByUserId(id);
+        List<Comment> comlist = new ArrayList<Comment>();
+        List<Comment> list = commentService.findCommentByfiles(files);
+        List<String> file = new ArrayList<String>();
+
+
+        List results = new ArrayList();
+        Pattern pattern = Pattern.compile(name);
+        for (int i = 0; i < list.size(); i++) {
+            int receiverid = list.get(i).getComRecevier();
+            Matcher matcher = pattern.matcher(fileService.getFileById(receiverid).getFileName());
+            if (matcher.find()) {
+                results.add(list.get(i));
+            }
+
+        }
+        comlist = results;
+        for (Comment comment : comlist) {
+            file.add(fileService.getFileById(comment.getComRecevier()).getFileName());
+
+        }
+        resultMap.put("comlist", comlist);
+        return resultMap;
     }
 }
