@@ -49,6 +49,8 @@ public class UserController {
 
     @Autowired
     private FilelimitService filelimitService;
+    @Autowired
+    private LogService logService;
 
     @ResponseBody
     @RequestMapping("/checkUserName")
@@ -612,5 +614,28 @@ public class UserController {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
         request.getSession().setAttribute("aUserMessage", messages);
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

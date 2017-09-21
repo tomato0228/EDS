@@ -1,5 +1,6 @@
 package com.njust.eds.service;
 
+import com.njust.eds.model.File;
 import com.njust.eds.model.Log;
 
 import java.util.Date;
@@ -20,12 +21,16 @@ public interface LogService {
 
     public Log findLogByTime(Date time);
 
-    public Log findLogByUserID(String userId);
+    public List<Log> findLogByUserID(int userId);
 
     public Log findLogByUserName(String userName);
 
     public Log findLogByFileID(String fileId);
 
     public Log findLogByFileName(String fileName);
+
+    public void deleteLog(Log log);
+
+    public List<Log> findLogByFileIds(List<File> Files);
 }
 

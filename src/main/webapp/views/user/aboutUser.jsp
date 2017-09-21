@@ -32,11 +32,11 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
 
 
 </head>
-<body>
 
 <section id="container">
     <!-- **********************************************************************************************************************************************************
@@ -108,65 +108,69 @@
                             <div class="panel-body profile-activity">
                                 <%--<h5 class="pull-right">12 August 2013</h5>--%>
                                 <c:choose>
-                                    <c:when test="${fn:length(sessionScope.aUserMessage) <= 8}">
-                                        <c:set value="0" var="begin"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:set value="${fn:length(sessionScope.aUserMessage) - 8}" var="begin"/>
-                                    </c:otherwise>
+                                <c:when test="${fn:length(sessionScope.aUserMessage) <= 8}">
+                                    <c:set value="0" var="begin"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set value="${fn:length(sessionScope.aUserMessage) - 8}" var="begin"/>
+                                </c:otherwise>
                                 </c:choose>
                                 <c:forEach items="${sessionScope.aUserMessage}" var="message" begin="${begin}">
-                                    <c:choose>
-                                        <c:when test="${message.msgSender == requestScope.ThisUser.userId}">
-                                            <div class="activity blue">
+                                <c:choose>
+                                <c:when test="${message.msgSender == requestScope.ThisUser.userId}">
+                                <div class="activity blue">
                                             <span>
                                                 <img src="${requestScope.ThisUser.userPictureUrl}" class="img-circle"
                                                      width="50">
                                             </span>
-                                                <div class="activity-desk">
-                                                    <div class="panel">
-                                                        <div class="panel-body">
-                                                            <div class="arrow"></div>
-                                                                <%--<i class="fa fa-clock-o"></i>--%>
-                                                            <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
-                                                            <p>${message.msgData}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="activity-desk">
+                                        <div class="panel">
+                                            <div class="panel-body">
+                                                <div class="arrow"></div>
+                                                    <%--<i class="fa fa-clock-o"></i>--%>
+                                                <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
+                                                <p>${message.msgData}</p>
                                             </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="activity alt green">
+                                        </div>
+                                    </div>
+                                </div>
+                                </c:when>
+                                <c:otherwise>
+                                <div class="activity alt green">
                                                 <span>
                                                     <img src="${sessionScope.loginUser.userPictureUrl}"
                                                          class="img-circle" width="50">
                                                 </span>
-                                                <div class="activity-desk">
-                                                    <div class="panel">
-                                                        <div class="panel-body">
-                                                            <div class="arrow-alt"></div>
-                                                                <%--<i class="fa fa-clock-o"></i>--%>
-                                                            <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
-                                                            <p>${message.msgData}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="activity-desk">
+                                        <div class="panel">
+                                            <div class="panel-body">
+                                                <div class="arrow-alt"></div>
+                                                    <%--<i class="fa fa-clock-o"></i>--%>
+                                                <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
+                                                <p>${message.msgData}</p>
                                             </div>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                                <div class="chat-form">
-                                    <div class="input-cont ">
-                                        <input type="text" class="form-control col-lg-12"
-                                               placeholder="在这里输入你的消息...">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="pull-right chat-features">
-                                            <a class="btn btn-danger" href="javascript:;">发 送</a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                </c:otherwise>
+                                </c:choose>
+                                </c:forEach>
+                                <div class="chat-form">
+                                    <form>
+                                        <div class="input-cont ">
+
+                                            <input type="text" id="msg" name="msg" class="form-control col-lg-12"
+                                                   placeholder="在这里输入你的消息...">
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="pull-right chat-features">
+                                                <a class="btn btn-danger" onclick="Msg_send(${ThisUser.userId})">发 送</a>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+                                </div>
                         </section>
                     </div>
 
@@ -177,12 +181,6 @@
         <! --/wrapper -->
     </section>
     <!-- /MAIN CONTENT -->
-
-
-
-
-
-
 
 
     <!--main content end-->
@@ -208,6 +206,7 @@
 <script src="${ctx}/resources/js/jquery.scrollTo.min.js"></script>
 <script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
 <script src="${ctx}/resources/js/jquery-knob/js/jquery.knob.js"></script>
+<script type="text/javascript" src="${ctx}/resources/js/H-ui.user.js"></script>
 
 <!--common script for all pages-->
 <script src="${ctx}/resources/js/common-scripts.js"></script>

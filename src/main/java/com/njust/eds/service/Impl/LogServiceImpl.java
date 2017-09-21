@@ -1,6 +1,7 @@
 package com.njust.eds.service.Impl;
 
 import com.njust.eds.dao.LogDao;
+import com.njust.eds.model.File;
 import com.njust.eds.model.Log;
 import com.njust.eds.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class LogServiceImpl implements LogService {
         return logDao.findLogByTime(time);
     }
 
-    public Log findLogByUserID(String userId) {
+    public List<Log> findLogByUserID(int userId) {
         return logDao.findLogByUserID(userId);
     }
 
@@ -79,5 +80,13 @@ public class LogServiceImpl implements LogService {
 
     public Log findLogByFileName(String fileName) {
         return logDao.findLogByFileName(fileName);
+    }
+
+    public void deleteLog(Log log){
+        logDao.deleteLog(log);
+    }
+    public List<Log> findLogByFileIds(List<File> Files)
+    {
+       return logDao.findLogByFileIds(Files);
     }
 }

@@ -294,8 +294,8 @@
                         <span>我的日志</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="#">我的日志</a></li>
-                        <li><a href="#">文件日志</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/myLog'">我的日志</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/myFileLog'">文件日志</a></li>
                     </ul>
                 </li>
                 <!--个人信息-->

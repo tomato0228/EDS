@@ -3,6 +3,7 @@ package com.njust.eds.dao.impl;
 import com.njust.eds.dao.FileDao;
 import com.njust.eds.dao.LogDao;
 import com.njust.eds.dao.UserDao;
+import com.njust.eds.model.File;
 import com.njust.eds.model.Log;
 import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +69,11 @@ public class LogDaoImpl extends BaseDaoImpl implements LogDao {
         return (Log) query.uniqueResult();
     }
 
-    public Log findLogByUserID(String userId) {
-        String hql = "from Log  where logUserId=?";
+    public List<Log> findLogByUserID(int userId) {
+        String hql = "from Log  where logUserId=? order by logTime desc ";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, userId);
-        return (Log) query.uniqueResult();
+        return  query.list();
     }
 
     public Log findLogByUserName(String userName) {
@@ -94,5 +95,22 @@ public class LogDaoImpl extends BaseDaoImpl implements LogDao {
         Query query = getSession().createQuery(hql);
         query.setParameter(0, fileDao.findFileByFileName(fileName).getFileId());
         return (Log) query.uniqueResult();
+    }
+
+    public void deleteLog(Log log){
+        getSession().delete(log);
+    }
+
+    public List<Log> findLogByFileIds(List<File> Files) {
+        String hql = "from Log  where logFileId=?";
+        for (int i = 0; i < Files.size() -1; i++) {
+            hql = hql + "or logFileId=?";
+        }
+        hql=hql+"order by logTime desc";
+        Query query = getSession().createQuery(hql);
+        for (int i = 0; i < Files.size(); i++) {
+            query.setParameter(i,Files.get(i).getFileId());
+        }
+        return query.list();
     }
 }
