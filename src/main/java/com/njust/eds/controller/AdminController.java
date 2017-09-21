@@ -544,5 +544,13 @@ public class AdminController {
         resultMap.put("res","yes");
         return resultMap;
     }
+    @ResponseBody
+    @RequestMapping(value = "/msg_edit")
+    public void msg_edit(HttpServletRequest request) throws  Exception {
+        System.out.println(request.getParameter("msgid"));
+
+        messageService.msg_edit(Integer.parseInt(request.getParameter("msgid")),Integer.parseInt(request.getParameter("isread")));
+    }
+
 
 }

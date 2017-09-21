@@ -17,7 +17,7 @@
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
     <title>EDS</title>
 
-    <link rel="stylesheet" href="${ctx}/resources/js/message/style.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="${ctx}/resources/js/message/style.css" media="screen" type="text/css"/>
     <!-- Bootstrap core CSS -->
     <link href="${ctx}/resources/css/userbootstrap.css" rel="stylesheet">
     <!--external css-->
@@ -32,7 +32,17 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <link rel="stylesheet" href="${ctx}/resources/js/message/style.css" media="screen" type="text/css"/>
+    <style type="text/css">
+        .oddRightChild:before {
+            background-image: url("${sessionScope.loginUser.userPictureUrl}");
+        }
+    </style>
+    <style type="text/css">
+        .oddLeftChild:before {
+            background-image: url("${ThisUser.userPictureUrl}");
+        }
+    </style>
 </head>
 <body>
 
@@ -48,81 +58,73 @@
                 <div class="col-lg-12">
                     <p>Place your content here.</p>
 
-
                     <div id="convo" data-from="Sonu Joshi">
-                        <ul class="chat-thread">
-                            <li></li>
-                            <li>yes, what time suits you?</li>
-                            <li>I was thinking after lunch, I have a meeting in the morning</li>
-                            <li>Are we meeting today?</li>
-                            <li>yes, what time suits you?</li>
-                            <li>I was thinking after lunch, I have a meeting in the morning</li>
-                            <li>Are we meeting today?</li>
-                            <li>yes, what time suits you?</li>
-                            <li>I was thinking after lunch, I have a meeting in the morning</li>
-                            <li>Are we meeting today?</li>
-                            <li>yes, what time suits you?</li>
-                            <li>I was thinking after lunch, I have a meeting in the morning</li>
-                        </ul>
+                        <div class="chat-thread">
+                            <c:forEach items="${aUserMessage}" var="item">
+                                <c:choose>
+                                    <c:when test="${item.msgSender==10001}">
+                                        <div class="oddRight oddRightChild">${item.msgData}</div>
+                                    </c:when>
+                                    <c:when test="${item.msgSender==10002}">
+                                        <div class="oddLeft oddLeftChild">${item.msgData}</div>
+                                    </c:when>
+                                </c:choose>
+
+                            </c:forEach>
+                        </div>
+                        <div style="text-align:center;clear:both">
+                            <script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+                            <script src="/follow.js" type="text/javascript"></script>
+                        </div>
+                        <div class="credits"><a href="http://codepen.io/clintioo/pen/HAkjq">Original Pen</a> by <a
+                                href="http://codepen.io/clintioo/pen/HAkjq">clintioo</a></div>
+
+
                     </div>
-                    <div style="text-align:center;clear:both">
-                        <script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
-                        <script src="/follow.js" type="text/javascript"></script>
-                    </div>
-                    <div class="credits"><a href="http://codepen.io/clintioo/pen/HAkjq">Original Pen</a> by <a href="http://codepen.io/clintioo/pen/HAkjq">clintioo</a></div>
-
-
-
-
-
-
-
-
                 </div>
-            </div>
 
+
+                <! --/wrapper -->
         </section>
-        <! --/wrapper -->
+        <!-- /MAIN CONTENT -->
+
+        <!--main content end-->
+        <!--footer start-->
+        <footer class="site-footer">
+            <div class="text-center">
+                2014 - Alvarez.is
+                <a href="userInfo.jsp#" class="go-top">
+                    <i class="fa fa-angle-up"></i>
+                </a>
+            </div>
+        </footer>
+        <!--footer end-->
     </section>
-    <!-- /MAIN CONTENT -->
-
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            2014 - Alvarez.is
-            <a href="userInfo.jsp#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
-</section>
 
 
-<!-- js placed at the end of the document so the pages load faster -->
-<script src='${ctx}/resources/js/message/jquery.js'></script>
-<script src="${ctx}/resources/js/jquery.js"></script>
-<script src="${ctx}/resources/js/userbootstrap.min.js"></script>
-<script src="${ctx}/resources/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script src="${ctx}/resources/js/jquery.ui.touch-punch.min.js"></script>
-<script class="include" type="text/javascript" src="${ctx}/resources/js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="${ctx}/resources/js/jquery.scrollTo.min.js"></script>
-<script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src='${ctx}/resources/js/message/jquery.js'></script>
+    <script src="${ctx}/resources/js/jquery.js"></script>
+    <script src="${ctx}/resources/js/userbootstrap.min.js"></script>
+    <script src="${ctx}/resources/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="${ctx}/resources/js/jquery.ui.touch-punch.min.js"></script>
+    <script class="include" type="text/javascript" src="${ctx}/resources/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="${ctx}/resources/js/jquery.scrollTo.min.js"></script>
+    <script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
 
-<!--common script for all pages-->
-<script src="${ctx}/resources/js/common-scripts.js"></script>
+    <!--common script for all pages-->
+    <script src="${ctx}/resources/js/common-scripts.js"></script>
 
-<!--script for this page-->
+    <!--script for this page-->
 
-<script>
-    //custom select box
+    <script>
+        //custom select box
 
-    $(function () {
-        $('select.styled').customSelect();
-    });
+        $(function () {
+            $('select.styled').customSelect();
+        });
 
-</script>
+    </script>
 </body>
 </html>
 

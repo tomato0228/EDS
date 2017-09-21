@@ -95,6 +95,10 @@ function datadel_file(){
     }
 }
 
+
+
+
+
 /*弹出层*/
 function layer_show_usersecretlevel_edit(id,secretlevel,w,h,title,url){
 	if (w == null || w == '') {
@@ -318,19 +322,21 @@ function  search_msg(url) {
 
 
 /*用户-停用*/
-function user_stop(obj,fileid){
-	layer.confirm('确认要停用吗？',function(index){
-		$(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="已下载"><i class="icon-hand-up"></i></a>');
-		$(obj).remove();
-		layer.msg('已下载!',1);
-        $.post('/admin/download',
+function user_stop(obj,userid){
+    layer.confirm('确认要停用吗？',function(index){
+        $(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="停用"><i class="icon-hand-down"></i></a>');
+        $(obj).parents("tr").find(".user-status").html('<span class="label label-success">已停用</span>');
+        $(obj).remove();
+        layer.msg('已停用!',1);
+        $.post('/admin/StopUser',
             {
-                fileid:fileid
+                userid:userid
             },function (requestdata) {
+
 
             }
         );
-	});
+    });
 }
 /*用户-启用*/
 function user_start(obj,userid){
@@ -394,14 +400,33 @@ function file_del(obj,fileid){
                 fileid:fileid
             },function (requestdata) {
 
-                window.location.reload();
+
             }
         );
 
     });
 }
 
+function msg_edit(obj,msgisread,msgid){
+if(msgisread==1) {
+    $(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="标记为已读"><i class="icon-hand-down"></i></a>');
+    $(obj).parents("tr").find(".user-status").html('<span class="label label-success">未读</span>');
+    $(obj).remove();
+}
+else{
+    $(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="标记为未读"><i class="icon-hand-down"></i></a>');
+    $(obj).parents("tr").find(".user-status").html('<span class="label label-success">已读</span>');
+    $(obj).remove();
+}
+        $.post('/admin/msg_edit',
+            {
+                msgid:msgid,
+                isread:msgisread
+            },function (requestdata) {
 
+            }
+        );
+}
 /*管理员修改密码*/
 function admin_edit(password,adminid) {
 
