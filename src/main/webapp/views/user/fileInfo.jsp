@@ -34,30 +34,28 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
-
-        $(function(){
-            var serverUrl=$('#serverUrl').val();
-            $('#fileComment').bind('click',function(){
-                alert("sss");
-                var fileInfoComment = $('#fileInfoComment').val();
-                if (fileInfoComment == null || trim(fileInfoComment) == "" || fileInfoComment.length()<=4) {
-                    return false;
-                }
-                var url=serverUrl+'/user/fileInfoComment-${requestScope.fileInfo.fileId}';
-                $.post(url,{
-                    fileInfoComment:fileInfoComment
-                },function(requestData){
-                    window.location.reload();
-                });
+        function comment() {
+            var serverUrl = $('#serverUrl').val();
+            var fileInfoComment = $('#fileInfoComment').val();
+            if (fileInfoComment == null || trim(fileInfoComment) == "" || fileInfoComment.length <= 4) {
+                fileInfoComment = $('#fileInfoComment1').val();
+            }
+            if (fileInfoComment == null || trim(fileInfoComment) == "" || fileInfoComment.length <= 4) {
                 return false;
+            }
+            var url = serverUrl + '/user/fileInfoComment-${requestScope.fileInfo.fileId}';
+            $.post(url, {
+                fileInfoComment: fileInfoComment
+            }, function (requestData) {
+                window.location.reload();
             });
-        });
+            return false;
+        }
 
         //去掉最后的空格
         function trim(str) {
             return str.replace(/(^\s+)|(\s+$)/g, "");
         }
-
     </script>
 
 </head>
@@ -120,12 +118,14 @@
                             <footer class="twt-footer">
                                 <c:choose>
                                     <c:when test="requestScope.fileInfo.fileShare == 0">
-                                        <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px" >
+                                        <button class="btn btn-space btn-white" data-toggle="button"
+                                                style="margin-top: 15px">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                     </c:when>
                                     <c:otherwise>
-                                        <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
+                                        <button class="btn btn-space btn-white" data-toggle="button"
+                                                style="margin-top: 15px">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                     </c:otherwise>
@@ -134,11 +134,23 @@
                                 <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
                                     <i class="fa fa-user"></i>
                                 </button>
-                                <button class="btn btn-space btn-info pull-right" type="button"
-                                        style="margin-top: 15px">
-                                    <i class="fa fa-cloud-download"></i>
-                                    下载
-                                </button>
+                                <c:choose>
+                                    <c:when test="${(requestScope.fileInfo.fileShare == 1) && (!empty requestScope.fileInfoLimit) && (requestScope.fileInfoLimit.filePrint==1)}">
+                                        <button class="btn btn-space btn-info pull-right" type="button"
+                                                style="margin-top: 15px"
+                                                onclick="window.location.href='${ctx}/user/download-${requestScope.fileInfo.fileId}'">
+                                            <i class="fa fa-cloud-download"></i>
+                                            下载
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="btn btn-space btn-info pull-right" type="button"
+                                                style="margin-top: 15px">
+                                            <i class="fa fa-cloud-download"></i>
+                                            下载
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
                             </footer>
                         </section>
                         <!--widget end-->
@@ -184,7 +196,8 @@
                                                                         ${sessionScope.aFileCommentUsers[loop.count-1+begin].userName}
                                                                     </c:otherwise>
                                                                 </c:choose></a>
-                                                                At&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(comment.comTime, 0, 19)}</p>
+                                                                At&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(comment.comTime, 0, 19)}
+                                                            </p>
                                                             <p>${comment.comData}</p>
                                                         </div>
                                                     </div>
@@ -194,17 +207,19 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
-                                <div class="chat-form">
+                                <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
+                                <form class="chat-form">
                                     <div class="input-cont ">
                                         <input type="text" class="form-control col-lg-12"
-                                               placeholder="在这里输入评论......">
+                                               placeholder="在这里输入评论......" id="fileInfoComment" name="fileInfoComment">
                                     </div>
                                     <div class="form-group">
                                         <div class="pull-right chat-features">
-                                            <a class="btn btn-danger" href="#">留言</a>
+                                            <input class="btn btn-danger" value="留言" id="fileComment" type="button"
+                                                   onclick="comment()">
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </section>
                     </div>
@@ -241,7 +256,8 @@
                                                                         ${sessionScope.aFileCommentUsers[loop.count-1].userName}
                                                                     </c:otherwise>
                                                                 </c:choose></a>
-                                                                At&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(comment.comTime, 0, 19)}</p>
+                                                                At&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(comment.comTime, 0, 19)}
+                                                            </p>
                                                             <p>${comment.comData}</p>
                                                         </div>
                                                     </div>
@@ -251,17 +267,19 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
-                                <div class="chat-form">
+                                <form class="chat-form">
                                     <div class="input-cont ">
                                         <input type="text" class="form-control col-lg-12"
-                                               placeholder="在这里输入评论......">
+                                               placeholder="在这里输入评论......" id="fileInfoComment1"
+                                               name="fileInfoComment1">
                                     </div>
                                     <div class="form-group">
                                         <div class="pull-right chat-features">
-                                            <a class="btn btn-danger" href="#">留言</a>
+                                            <input class="btn btn-danger" value="留言" id="fileComment1" type="button"
+                                                   onclick="comment()">
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </section>
                     </div>

@@ -103,6 +103,9 @@ public class UserController {
     public String viewFileInfo(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
         File file = fileService.getFileById(fileId);
         if (file != null) {
+            if (file.getFileShare() - 1 == 0) {
+                map.addAttribute("fileInfoLimit", filelimitService.getFilelimitById(fileId));
+            }
             map.addAttribute("fileInfo", file);
             map.addAttribute("fileUser", userService.getUserById(file.getFileUserId()));
             file.setFileViewtimes(file.getFileViewtimes() + 1);
@@ -116,15 +119,14 @@ public class UserController {
     public String fileInfoComment(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
         File file = fileService.getFileById(fileId);
         String fileInfoComment = request.getParameter("fileInfoComment");
-        System.out.println("fileInfoComment的值是：---"+ fileInfoComment + "，当前方法=UserController.fileInfoComment()");
-        if (fileInfoComment!=null && !"".equals(fileInfoComment)){
+        if (fileInfoComment != null && !"".equals(fileInfoComment)) {
             Comment comment = new Comment();
             comment.setComSender(((User) request.getSession().getAttribute("loginUser")).getUserId());
             comment.setComRecevier(fileId);
             comment.setComData(fileInfoComment);
             commentService.addComment(comment);
         }
-        return viewFileInfo(map,request,fileId);
+        return viewFileInfo(map, request, fileId);
     }
 
     @RequestMapping("/enjoyFile")
@@ -458,7 +460,7 @@ public class UserController {
         return "user/newFile";
     }
 
-    @RequestMapping(value = "/download/{fileId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/download-{fileId}")
     public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("fileId") int fileId) throws Exception {
         Filedata filedata = filedataService.getFiledataById(fileId);
         if (filedata != null) {
