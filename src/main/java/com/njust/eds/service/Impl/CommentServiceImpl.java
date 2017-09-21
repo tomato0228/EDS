@@ -45,8 +45,7 @@ public class CommentServiceImpl implements CommentService {
             hql.append(" and comTime=? ");
             params.add(map.get("comTime"));
         }
-
-        System.out.println(hql.toString());
+        hql.append(" order by comTime desc ");
         return commentDao.findComment(params, hql.toString());
     }
 

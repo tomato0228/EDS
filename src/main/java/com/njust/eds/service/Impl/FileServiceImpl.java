@@ -79,6 +79,7 @@ public class FileServiceImpl implements FileService {
             hql.append(" and fileDownloadtimes=? ");
             params.add(map.get("fileDownloadtimes"));
         }
+        hql.append(" order by fileLoadTime desc ");
         System.out.println(hql.toString());
         return fileDao.findFile(params, hql.toString());
     }

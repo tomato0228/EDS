@@ -21,10 +21,12 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
 
     @SuppressWarnings("unchecked")
     public List<Message> queryMessage(Integer senderId, Integer recevierId) {
-        String hql = "from Message  where msgSender=? and msgReceiver=? order by msgSendtime desc";
+        String hql = "from Message  where msgSender=? and msgReceiver=? or  msgSender=? and msgReceiver=? order by msgSendtime asc ";
         Query query = getSession().createQuery(hql);
         query.setParameter(0, senderId);
         query.setParameter(1,recevierId);
+        query.setParameter(2, recevierId);
+        query.setParameter(3,senderId);
         return query.list();
     }
 
@@ -88,10 +90,9 @@ public class MessageDaoImpl extends BaseDaoImpl implements MessageDao {
 
     @SuppressWarnings("unchecked")
     public List<Message> findMessagesByRecevierId(Integer id){
-        String hql = "from Message  where msgReceiver=?";
+        String hql = "from Message  where msgReceiver=?  order by msgSendtime desc ";
         Query query =getSession().createQuery(hql);
         query.setParameter(0,id);
         return query.list();
     }
-
 }

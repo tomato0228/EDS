@@ -74,9 +74,12 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </a></li>
-                                    <li><a href="javascript:;"> <i class="fa fa-phone"></i> 电话：${requestScope.ThisUser.userTel}</a></li>
-                                    <li><a href="javascript:;"> <i class="fa fa-building"></i> 单位：${requestScope.ThisUser.userCompany}</a></li>
-                                    <li><a href="javascript:;"> <i class="fa fa-gift"></i> 生日：${requestScope.ThisUser.userBirthday}</a></li>
+                                    <li><a href="javascript:;"> <i class="fa fa-phone"></i>
+                                        电话：${requestScope.ThisUser.userTel}</a></li>
+                                    <li><a href="javascript:;"> <i class="fa fa-building"></i>
+                                        单位：${requestScope.ThisUser.userCompany}</a></li>
+                                    <li><a href="javascript:;"> <i class="fa fa-gift"></i>
+                                        生日：${requestScope.ThisUser.userBirthday}</a></li>
                                     <li><a href="javascript:;"> <i class="fa fa-key"></i> 密级：
                                         <c:choose>
                                             <c:when test="${requestScope.ThisUser.userSecretLevel == 5}"> A</c:when>
@@ -86,8 +89,10 @@
                                             <c:otherwise> 普通</c:otherwise>
                                         </c:choose>
                                     </a></li>
-                                    <li><a href="javascript:;"> <i class="fa fa-calendar"></i> 注册日期：${fn:substring(requestScope.ThisUser.userCreateTime, 0, 11)}</a></li>
-                                    <li><a href="javascript:;"> <i class="fa fa-tag"></i> 个人简介：${requestScope.ThisUser.userProfile} </a></li>
+                                    <li><a href="javascript:;"> <i class="fa fa-calendar"></i>
+                                        注册日期：${fn:substring(requestScope.ThisUser.userCreateTime, 0, 11)}</a></li>
+                                    <li><a href="javascript:;"> <i class="fa fa-tag"></i>
+                                        个人简介：${requestScope.ThisUser.userProfile} </a></li>
                                 </ul>
 
                             </section>
@@ -101,83 +106,63 @@
                                 Timeline
                             </header>
                             <div class="panel-body profile-activity">
-                                <h5 class="pull-right">12 August 2013</h5>
-                                <div class="activity terques">
-                                  <span>
-                                      <i class="icon-shopping-cart"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow"></div>
-                                                <i class=" icon-time"></i>
-                                                <h4>10:45 AM</h4>
-                                                <p>Purchased new equipments for zonal office setup and stationaries.</p>
+                                <%--<h5 class="pull-right">12 August 2013</h5>--%>
+                                <c:choose>
+                                    <c:when test="${fn:length(sessionScope.aUserMessage) <= 8}">
+                                        <c:set value="0" var="begin"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set value="${fn:length(sessionScope.aUserMessage) - 8}" var="begin"/>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:forEach items="${sessionScope.aUserMessage}" var="message" begin="${begin}">
+                                    <c:choose>
+                                        <c:when test="${message.msgSender == requestScope.ThisUser.userId}">
+                                            <div class="activity blue">
+                                            <span>
+                                                <img src="${requestScope.ThisUser.userPictureUrl}" class="img-circle"
+                                                     width="50">
+                                            </span>
+                                                <div class="activity-desk">
+                                                    <div class="panel">
+                                                        <div class="panel-body">
+                                                            <div class="arrow"></div>
+                                                                <%--<i class="fa fa-clock-o"></i>--%>
+                                                            <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
+                                                            <p>${message.msgData}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="activity alt purple">
-                                  <span>
-                                      <i class="icon-rocket"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow-alt"></div>
-                                                <i class=" icon-time"></i>
-                                                <h4>12:30 AM</h4>
-                                                <p>Lorem ipsum dolor sit amet consiquest dio</p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="activity alt green">
+                                                <span>
+                                                    <img src="${sessionScope.loginUser.userPictureUrl}"
+                                                         class="img-circle" width="50">
+                                                </span>
+                                                <div class="activity-desk">
+                                                    <div class="panel">
+                                                        <div class="panel-body">
+                                                            <div class="arrow-alt"></div>
+                                                                <%--<i class="fa fa-clock-o"></i>--%>
+                                                            <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
+                                                            <p>${message.msgData}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="activity blue">
-                                  <span>
-                                      <i class="icon-bullhorn"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow"></div>
-                                                <i class=" icon-time"></i>
-                                                <h4>10:45 AM</h4>
-                                                <p>Please note which location you will consider, or both. Reporting to
-                                                    the VP you will be responsible for managing.. </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="activity alt green">
-                                  <span>
-                                      <i class="fa fa-beer"></i>
-                                  </span>
-                                    <div class="activity-desk">
-                                        <div class="panel">
-                                            <div class="panel-body">
-                                                <div class="arrow-alt"></div>
-                                                <i class="fa fa-clock-o"></i>
-                                                <h4>12:30 AM</h4>
-                                                <p>Please note which location you will consider, or both.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
                                 <div class="chat-form">
                                     <div class="input-cont ">
                                         <input type="text" class="form-control col-lg-12"
-                                               placeholder="Type a message here...">
+                                               placeholder="在这里输入你的消息...">
                                     </div>
                                     <div class="form-group">
                                         <div class="pull-right chat-features">
-                                            <a href="javascript:;">
-                                                <i class="icon-camera"></i>
-                                            </a>
-                                            <a href="javascript:;">
-                                                <i class="icon-link"></i>
-                                            </a>
-                                            <a class="btn btn-danger" href="javascript:;">Send</a>
+                                            <a class="btn btn-danger" href="javascript:;">发 送</a>
                                         </div>
                                     </div>
                                 </div>

@@ -81,6 +81,13 @@ public class UserController {
         return "user/changeUserInfo";
     }
 
+    @RequestMapping("/userInfo")
+    public String userInfo(HttpServletRequest request) {
+        FindNotReadFileComments(request);
+        FindNotReadMessages(request);
+        return "user/userInfo";
+    }
+
     @RequestMapping("/newFile")
     public String newFile() {
         return "user/newFile";
@@ -156,12 +163,13 @@ public class UserController {
     public String aboutUser(ModelMap map, HttpServletRequest request, @PathVariable Integer userId) {
         User user = userService.getUserById(userId);
         if (user != null) {
-            FindaUserMessage(request,userId);
+            FindaUserMessage(request, userId);
             if (user.getUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId())
-                return "user/userInfo";
-            map.addAttribute("ThisUser", user);
-
-            return "user/aboutUser";
+                return userInfo(request);
+            else {
+                map.addAttribute("ThisUser", user);
+                return "user/aboutUser";
+            }
         } else return "error/404";
     }
 
@@ -170,6 +178,7 @@ public class UserController {
         FindAllNotReadFileComment(request);
         return "user/allNotReadFileComment";
     }
+
 
 
     @ResponseBody
@@ -376,8 +385,17 @@ public class UserController {
             newfile.setFileSize(FileSizeUtils.getFjSize(String.valueOf(file.getSize())));
             newfile.setFileLoadTime(new java.sql.Date(new java.util.Date().getTime()));
             newfile.setFileUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
-            newfile.setFileSecretLevel(Integer.parseInt((request.getParameter("fileSecretLevel") != null) ?
-                    request.getParameter("fileSecretLevel") : "1"));
+            if (request.getParameter("fileSecretLevel") != null) {
+                if (request.getParameter("fileSecretLevel").equals("内部"))
+                    newfile.setFileSecretLevel(2);
+                else if (request.getParameter("fileSecretLevel").equals("C"))
+                    newfile.setFileSecretLevel(3);
+                else if (request.getParameter("fileSecretLevel").equals("B"))
+                    newfile.setFileSecretLevel(4);
+                else if (request.getParameter("fileSecretLevel").equals("A"))
+                    newfile.setFileSecretLevel(5);
+                else newfile.setFileSecretLevel(1);
+            }
             newfile.setFileAbstrcat((request.getParameter("abstrcat") != null) ?
                     request.getParameter("abstrcat") : "");
             newfile.setFileShare((request.getParameter("Share") != null) ? 1 : 0);
@@ -404,12 +422,15 @@ public class UserController {
             filedataService.saveFiledata(filedata);
             if (newfile.getFileShare().equals(1)) {
                 Filelimit filelimit = new Filelimit();
+                filelimit.setFileId(newfile.getFileId());
                 filelimit.setFileRead((request.getParameter("fileRead") != null) ? 1 : 0);
                 filelimit.setFileWrite((request.getParameter("fileWrite") != null) ? 1 : 0);
                 filelimit.setFilePrint((request.getParameter("filePrint") != null) ? 1 : 0);
-                filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null) ?
+                System.out.println("的值是：---"+ request.getParameter("fileReadTimes") + "，当前方法=UserController.uploadFile()");
+                filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null &&
+                        !("".equals(request.getParameter("fileReadTimes")))) ?
                         request.getParameter("fileReadTimes") : "-1"));
-                if (request.getParameter("fileLifeCycle") == null) {
+                if (request.getParameter("fileLifeCycle") == null || request.getParameter("fileLifeCycle").equals("")) {
                     filelimit.setFileLifeCycle(DateUtils.getDateAfter(356));
                 } else {
                     filelimit.setFileLifeCycle(DateUtils.strToDate(request.getParameter("fileLifeCycle"), "yyyy-MM-dd"));
@@ -556,16 +577,7 @@ public class UserController {
         map.put("fileUserId", ((User) request.getSession().getAttribute("loginUser")).getUserId());
         map.put("fileShare", 0);
         List<File> files = fileService.findFiles(map);
-//        List<User> users = new ArrayList<User>();
-//        List<File> fileList = new ArrayList<File>();
-//        for (File file : files) {
-//            if (file.getFileShare()-1==0) {
-//                fileList.add(file);
-//                users.add(userService.getUserById(file.getFileUserId()));
-//            }
-//        }
         request.getSession().setAttribute("PrivateFile", files);
-        //request.getSession().setAttribute("EnjoyFileUsers", users);
     }
 
     //近期共享文件
@@ -652,26 +664,7 @@ public class UserController {
     //和某个用户的聊天记录
     private void FindaUserMessage(HttpServletRequest request, Integer id) {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
-        List<Message> messageList = messageService.queryMessage(((User) request.getSession().getAttribute("loginUser")).getUserId(), id);
-        List<Message> messagesdesc = new ArrayList<Message>();
-        int i = 0;
-        int j = 0;
-        for (i = 0, j = 0; i < messageList.size() && j < messages.size(); ) {
-            if (DateUtils.isBeforeSpeciDate(messageList.get(i).getMsgSendtime(), messages.get(j).getMsgSendtime())) {
-                messagesdesc.add(messages.get(j));
-                j++;
-            } else {
-                messagesdesc.add(messageList.get(i));
-                i++;
-            }
-        }
-        if (i < messageList.size())
-            for (; i < messageList.size(); i++)
-                messagesdesc.add(messageList.get(i));
-        if (j < messages.size())
-            for (; j < messages.size(); j++)
-                messagesdesc.add(messages.get(j));
-        request.getSession().setAttribute("aUserMessage", messagesdesc);
+        request.getSession().setAttribute("aUserMessage", messages);
     }
 
 }
