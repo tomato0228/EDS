@@ -54,6 +54,7 @@
                 console.log(requestData.res);
                 if (requestData.res == 'yes') {
                     alert('用于找回密码的验证信息已发送到您的邮箱,请您前往邮箱进行验证!');
+                    window.location.href="${ctx}/user/tologin";
                 } else {
                     $("#userName").trigger("easyform-ajax", false);
                     $("#email").trigger("easyform-ajax", false);

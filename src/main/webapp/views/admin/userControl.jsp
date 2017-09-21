@@ -211,27 +211,20 @@
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
             <div class="pd-20">
-                <div class="text-c"> 日期范围：
-                    <input type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin"
-                           class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax"
-                           class="input-text Wdate" style="width:120px;">
+                <div class="text-c">
                     <select name="type" id="type">
                         <option value="0">用户名</option>
                         <option value="1">Tel</option>
                     </select>
                     <input type="text" class="input-text" style="width:250px" placeholder="输入用户名" id="name" name="name">
-                    <button type="submit" class="btn btn-success" id="1" name="1" onclick="search_user('${ctx}/views/admin/search_user.jsp')"><i class="icon-search"></i> 搜用户
+                    <button type="submit" class="btn btn-success" id="1" name="1"
+                            onclick="search_user('${ctx}/views/admin/search_user.jsp')"><i class="icon-search"></i> 搜用户
                     </button>
 
                 </div>
                 <div class="cl pd-5 bg-1 bk-gray mt-20">
-    <span class="l"><a href="javascript:;" onClick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
-    <a href="javascript:;" onClick="user_add('550','','添加用户','user-add.html')" class="btn btn-primary radius"><i
-            class="icon-plus"></i> 添加用户</a></span>
+                    <span class="l"><a href="javascript:;" onClick="datadel()" class="btn btn-danger radius"><i
+                            class="icon-trash"></i> 批量删除</a></span>
                     <span class="r">共有用户：<strong>${UserList.size()}</strong> 位</span>
                 </div>
                 <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -254,18 +247,19 @@
 
 
                     <tbody>
-                    <c:forEach items="${UserList}" var="item" >
+                    <c:forEach items="${UserList}" var="item">
                         <tr class="text-c">
                             <td><input type="checkbox" value="${item.userId}" name="chckBox"></td>
                             <td>${item.userId}</td>
-                            <td><img src="${ctx}${item.userPictureUrl}" width="40px" height="40px"/> </td>
+                            <td><img src="${ctx}${item.userPictureUrl}" width="40px" height="40px"/></td>
                             <td><u style="cursor:pointer" class="text-primary"
-                                   onclick="user_show('${item.userId}','800','800','${item.userName}的详细信息','${ctx}/views/admin/user-show.jsp')">${item.userName}</u></td>
+                                   onclick="user_show('${item.userId}','800','800','${item.userName}的详细信息','${ctx}/views/admin/user-show.jsp')">${item.userName}</u>
+                            </td>
                             <td><c:choose>
-                                <c:when test = "${item.userSex==1}">女</c:when>
-                                <c:when test = "${item.userSex==2}">男</c:when>
-                                <c:when test = "${item.userSex==0}">未知</c:when>
-                                </c:choose>
+                                <c:when test="${item.userSex==1}">女</c:when>
+                                <c:when test="${item.userSex==2}">男</c:when>
+                                <c:when test="${item.userSex==0}">未知</c:when>
+                            </c:choose>
                             </td>
                             <td>${item.userTel}</td>
                             <td>${item.userEmail}</td>
@@ -282,30 +276,27 @@
 
                             </td>
                             <td class="user-status"><span class="label label-success"><c:choose>
-                                <c:when test = "${item.userIsAccepted==0}">未认证</c:when>
-                                <c:when test = "${item.userIsAccepted==1}">已认证</c:when>
+                                <c:when test="${item.userIsAccepted==0}">未认证</c:when>
+                                <c:when test="${item.userIsAccepted==1}">已认证</c:when>
                             </c:choose>
                             </span>
                             </td>
                             <td class="f-14 user-manage">
                                 <c:choose>
                                     <c:when test="${item.userIsAccepted==0}">
-                               <a style="text-decoration:none" onClick="user_start(this,${item.userId})"
-                                                  href="javascript:;" title="认证"><i
-                                    class="icon-hand-down"></i></a></c:when>
-                                <c:when test="${item.userIsAccepted==1}">
-                                    <a style="text-decoration:none" onClick="user_stop(this,${item.userId})"
-                                       href="javascript:;" title="取消认证"><i
-                                            class="icon-hand-down"></i></a></c:when> </c:choose><a
-                                    title="编辑" href="javascript:;" onClick="user_edit('4','550','','编辑','user-add.html')"
-                                    class="ml-5"
-                                    style="text-decoration:none"><i class="icon-edit"></i></a> <a
-                                    style="text-decoration:none"
-                                    class="ml-5"
+                                        <a style="text-decoration:none" onClick="user_start(this,${item.userId})"
+                                           href="javascript:;" title="认证"><i
+                                                class="icon-hand-down"></i></a></c:when>
+                                    <c:when test="${item.userIsAccepted==1}">
+                                        <a style="text-decoration:none" onClick="user_stop(this,${item.userId})"
+                                           href="javascript:;" title="取消认证"><i
+                                                class="icon-hand-down"></i></a></c:when> </c:choose><a
+                                    style="text-decoration:none" class="ml-5"
                                     onClick="user_secretlevel_edit(${item.userId},${item.userSecretLevel},'370','228','修改密级','${ctx}/views/admin/user-secretlevel-edit.jsp')"
                                     href="javascript:;"
                                     title="修改密级"><i
-                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="user_del(this,${item.userId})"
+                                    class="icon-key"></i></a> <a title="删除" href="javascript:;"
+                                                                 onClick="user_del(this,${item.userId})"
                                                                  class="ml-5" style="text-decoration:none"><i
                                     class="icon-trash"></i></a></td>
                         </tr>

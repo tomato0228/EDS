@@ -214,28 +214,22 @@
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
             <div class="pd-20">
-                <div class="text-c"> 日期范围：
-                    <input type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin"
-                           class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax"
-                           class="input-text Wdate" style="width:120px;">
+                <div class="text-c">
                     <select name="type" id="type">
                         <option value="0">文件名</option>
                         <option value="1">用户名</option>
                         <option value="3">文件类型</option>
                     </select>
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入文件名 用户名" id="name" name="name">
-                    <button type="submit" class="btn btn-success" id="" name="" onclick="search_file('${ctx}/views/admin/search_file.jsp')"><i class="icon-search"></i> 搜文件
+                    <input type="text" class="input-text" style="width:250px" placeholder="输入文件名 用户名" id="name"
+                           name="name">
+                    <button type="submit" class="btn btn-success" id="" name=""
+                            onclick="search_file('${ctx}/views/admin/search_file.jsp')"><i class="icon-search"></i> 搜文件
                     </button>
 
                 </div>
                 <div class="cl pd-5 bg-1 bk-gray mt-20">
-    <span class="l"><a href="javascript:;" onClick="datadel_file()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
-    <a href="javascript:;" onClick="user_add('550','','添加文件','user-add.html')" class="btn btn-primary radius"><i
-            class="icon-plus"></i> 添加文件</a></span>
+                    <span class="l"><a href="javascript:;" onClick="datadel_file()" class="btn btn-danger radius"><i
+                            class="icon-trash"></i> 批量删除</a></span>
                     <span class="r">共有文件：<strong>${size}</strong> 个</span>
                 </div>
                 <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -257,23 +251,23 @@
 
 
                     <tbody>
-                    <c:forEach items="${Userfiles}" var="Useritem"  varStatus="loop">
+                    <c:forEach items="${Userfiles}" var="Useritem" varStatus="loop">
 
 
-                           <c:forEach items="${Useritem}" var="Fileitem">
-                               <tr class="text-c">
-                               <td><input type="checkbox" value="${Fileitem.fileId}" name="chckBox"></td>
-                               <td>${Namelist[loop.count-1]}</td>
-                            <td><u style="cursor:pointer" class="text-primary"
-                                   onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')"> ${fn:substring(Fileitem.fileName, 0, 10)}...
-                            </u></td>
-                            <td>${Fileitem.fileSize}</td>
-                            <td>${Fileitem.fileViewtimes}</td>
-                            <td>${Fileitem.fileDownloadtimes}</td>
-                            <td class="text-l">${Fileitem.fileType}</td>
-                            <td>${Fileitem.fileAbstrcat}</td>
-                            <td>${Fileitem.fileLoadTime}</td>
-                            <td class="user-status"><span class="label label-success">
+                        <c:forEach items="${Useritem}" var="Fileitem">
+                            <tr class="text-c">
+                                <td><input type="checkbox" value="${Fileitem.fileId}" name="chckBox"></td>
+                                <td>${Namelist[loop.count-1]}</td>
+                                <td><u style="cursor:pointer" class="text-primary"
+                                       onclick="user_show('${Fileitem.fileName}','800','800','${Fileitem.fileName}的详细信息','${ctx}/views/admin/user-show.jsp')"> ${fn:substring(Fileitem.fileName, 0, 10)}...
+                                </u></td>
+                                <td>${Fileitem.fileSize}</td>
+                                <td>${Fileitem.fileViewtimes}</td>
+                                <td>${Fileitem.fileDownloadtimes}</td>
+                                <td class="text-l">${Fileitem.fileType}</td>
+                                <td>${Fileitem.fileAbstrcat}</td>
+                                <td>${Fileitem.fileLoadTime}</td>
+                                <td class="user-status"><span class="label label-success">
                                 <c:choose>
                                     <c:when test="${Fileitem.fileSecretLevel==1}">普通</c:when>
                                     <c:when test="${Fileitem.fileSecretLevel==2}">内部</c:when>
@@ -282,25 +276,28 @@
                                     <c:when test="${Fileitem.fileSecretLevel==3}">A级</c:when>
                                 </c:choose>
                             </span>
-                            </td>
+                                </td>
 
-                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="file_download(this,${Fileitem.fileId})"
-                                                            href="javascript:;" title="认证"><i
-                                    class="icon-hand-down"></i></a>
+                                <td class="f-14 user-manage"><a style="text-decoration:none"
+                                                                onClick="file_download(this,${Fileitem.fileId})"
+                                                                href="javascript:;" title="认证"><i
+                                        class="icon-hand-down"></i></a>
 
-                                <a
-                                    title="编辑" href="javascript:;" onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
-                                    class="ml-5"
-                                    style="text-decoration:none"><i class="icon-edit"></i></a> <a
-                                    style="text-decoration:none"
-                                    class="ml-5"
-                                    onClick="user_password_edit('10001','370','228','修改密码','user-password-edit.html')"
-                                    href="javascript:;"
-                                    title="修改密级"><i
-                                    class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="file_del(this,${Fileitem.fileId})"
-                                                                 class="ml-5" style="text-decoration:none"><i
-                                    class="icon-trash"></i></a></td>
-                               </tr>
+                                    <a
+                                            title="编辑" href="javascript:;"
+                                            onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
+                                            class="ml-5"
+                                            style="text-decoration:none"><i class="icon-edit"></i></a> <a
+                                            style="text-decoration:none"
+                                            class="ml-5"
+                                            onClick="file_('10001','370','228','修改密码','user-password-edit.html')"
+                                            href="javascript:;"
+                                            title="修改密级"><i
+                                            class="icon-key"></i></a> <a title="删除" href="javascript:;"
+                                                                         onClick="file_del(this,${Fileitem.fileId})"
+                                                                         class="ml-5" style="text-decoration:none"><i
+                                            class="icon-trash"></i></a></td>
+                            </tr>
 
                         </c:forEach>
 

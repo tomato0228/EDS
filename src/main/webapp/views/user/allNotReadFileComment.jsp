@@ -62,7 +62,7 @@
 
                                     <img src="${ctx}/resources/img/prefix/${sessionScope.NotReadFileCommentFiles[loop.count-1].fileType}.png"
                                          class="img-rounded" width="70" style="margin:20px 35px;"
-                                         onclick="window.location.href='${ctx}/user/readComment-${FileComment.comRecevier}'">
+                                         onclick="window.location.href='${ctx}/user/fileInfo-${FileComment.comRecevier}'">
                                     <div class="blog-titleright">
                                         <c:choose>
                                             <c:when test="${fn:length(sessionScope.NotReadFileCommentFiles[loop.count-1].fileName) <= 10}">

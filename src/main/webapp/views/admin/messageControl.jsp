@@ -170,7 +170,7 @@
         <%
             }
         %>
-        <div id="xx" class="meun-item meun-item-active" ><img
+        <div id="xx" class="meun-item meun-item-active"><img
                 src="${ctx}/resources/images/icon_user_grey.png">消息管理
         </div>
         <div id="gr" class="meun-item" onclick="window.location.href='${ctx}/admin/PersonalSettings'"><img
@@ -211,20 +211,15 @@
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
             <div class="pd-20">
-                <div class="text-c"> 日期范围：
-                    <input type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin"
-                           class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax"
-                           class="input-text Wdate" style="width:120px;">
+                <div class="text-c">
                     <select name="type" id="type">
                         <option value="0">用户名</option>
                         <option value="1">消息内容</option>
                     </select>
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入用户名 消息内容" id="name" name="name">
-                    <button type="submit" class="btn btn-success" id="1" name="" onclick="search_msg('${ctx}/views/admin/search_msg.jsp')"><i class="icon-search"></i> 搜消息
+                    <input type="text" class="input-text" style="width:250px" placeholder="输入用户名 消息内容" id="name"
+                           name="name">
+                    <button type="submit" class="btn btn-success" id="1" name=""
+                            onclick="search_msg('${ctx}/views/admin/search_msg.jsp')"><i class="icon-search"></i> 搜消息
                     </button>
 
                 </div>
@@ -250,7 +245,7 @@
 
 
                     <tbody>
-                    <c:forEach items="${Messagelist}" var="item"  varStatus="loop" >
+                    <c:forEach items="${Messagelist}" var="item" varStatus="loop">
 
                         <tr class="text-c">
                             <td><input type="checkbox" value="1" name=""></td>
@@ -267,21 +262,23 @@
                             <td>${item.msgSendtime}</td>
 
                             <td class="user-status"><span class="label label-success"><c:choose>
-                                <c:when test = "${item.isRead==0}">未读</c:when>
-                                <c:when test = "${item.isRead==1}">已读</c:when>
+                                <c:when test="${item.isRead==0}">未读</c:when>
+                                <c:when test="${item.isRead==1}">已读</c:when>
                             </c:choose>
                             </span>
                             </td>
                             <td>
-                            <c:choose>
-                                <c:when test="${item.isRead==0}">
-                                    <a style="text-decoration:none" onClick="msg_edit(this,${item.isRead},${item.msgId})"
-                                       href="javascript:;" title="标记为已读"><i
-                                            class="icon-hand-down"></i></a></c:when>
-                                <c:when test="${item.isRead==1}">
-                                    <a style="text-decoration:none" onClick="msg_edit(this,${item.isRead},${item.msgId})"
-                                       href="javascript:;" title="标记为未读"><i
-                                            class="icon-hand-down"></i></a></c:when> </c:choose> </td>
+                                <c:choose>
+                                    <c:when test="${item.isRead==0}">
+                                        <a style="text-decoration:none"
+                                           onClick="msg_edit(this,${item.isRead},${item.msgId})"
+                                           href="javascript:;" title="标记为已读"><i
+                                                class="icon-hand-down"></i></a></c:when>
+                                    <c:when test="${item.isRead==1}">
+                                        <a style="text-decoration:none"
+                                           onClick="msg_edit(this,${item.isRead},${item.msgId})"
+                                           href="javascript:;" title="标记为未读"><i
+                                                class="icon-hand-down"></i></a></c:when> </c:choose></td>
                         </tr>
                     </c:forEach>
                     </tbody>

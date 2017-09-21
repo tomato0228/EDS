@@ -188,30 +188,30 @@
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">管理员名：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" name="name" placeholder="<%=name%>" style="margin-top: 7px;" disabled>
+                                <input type="" class="form-control input-sm duiqi" name="name" placeholder="<%=name%>" style="margin-top: 7px;height: auto;" disabled>
                             </div>
                         </div> <div class="form-group">
                         <label for="" class="col-xs-4 control-label">管理员ID：</label>
                         <div class="col-xs-5">
-                            <input type="" class="form-control input-sm duiqi" name="id" placeholder="<%=id%>" style="margin-top: 7px;" disabled>
+                            <input type="" class="form-control input-sm duiqi" name="id" placeholder="<%=id%>" style="margin-top: 7px;height: auto;" disabled>
                         </div>
                     </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">管理员权限：</label>
                             <div class="col-xs-5">
-                                <input type="" class="form-control input-sm duiqi" name="power" placeholder="<%=power%>" style="margin-top: 7px;" disabled>
+                                <input type="" class="form-control input-sm duiqi" name="power" placeholder="<%=power%>" style="margin-top: 7px;height: auto;" disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">联系电话：</label>
                             <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm duiqi" name="tel" id="tel" placeholder="<%=tel%>" style="margin-top: 7px;">
+                                <input type="text" class="form-control input-sm duiqi" name="tel" id="tel" placeholder="<%=tel%>" style="margin-top: 7px;height: auto;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">邮箱地址:</label>
                             <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm duiqi" name="email" id="email"  placeholder="<%=email%>" style="margin-top: 7px;">
+                                <input type="text" class="form-control input-sm duiqi" name="email" id="email"  placeholder="<%=email%>" style="margin-top: 7px;height: auto;">
                             </div>
                         </div>
                         <div class="form-group">
@@ -223,19 +223,19 @@
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">修改密码：</label>
                             <div class="col-xs-5">
-                                <input type="text" class="form-control input-sm duiqi" name="oldpw" id="oldpw" placeholder="原始密码" style="margin-top: 7px;">
+                                <input type="text" class="form-control input-sm duiqi" name="oldpw" id="oldpw" placeholder="原始密码" style="margin-top: 7px;height: auto;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">新密码：</label>
                             <div class="col-xs-5">
-                                <input type="password" class="form-control input-sm duiqi" name="newpw1" id="newpw1" placeholder="输入新密码" style="margin-top: 7px;">
+                                <input type="password" class="form-control input-sm duiqi" name="newpw1" id="newpw1" placeholder="输入新密码" style="margin-top: 7px;height: auto;">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="" class="col-xs-4 control-label">确认密码：</label>
                             <div class="col-xs-5">
-                                <input type="password" class="form-control input-sm duiqi"name="newpw2" id="newpw2" placeholder="确认密码" style="margin-top: 7px;">
+                                <input type="password" class="form-control input-sm duiqi"name="newpw2" id="newpw2" placeholder="确认密码" style="margin-top: 7px;height: auto;">
                             </div>
                         </div>
                         <div class="form-group text-right">

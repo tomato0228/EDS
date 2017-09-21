@@ -159,14 +159,7 @@
                    href="javascript:location.replace(location.href);" title="刷新"><i
                         class="icon-refresh"></i></a></nav>
             <div class="pd-20">
-                <div class="text-c"> 日期范围：
-                    <input type="text" onFocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin"
-                           class="input-text Wdate" style="width:120px;">
-                    -
-                    <input type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax"
-                           class="input-text Wdate" style="width:120px;">
+                <div class="text-c">
                     <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
                     <button type="submit" class="btn btn-success" id="1" name=""><i class="icon-search"></i> 搜用户
                     </button>
@@ -192,7 +185,7 @@
 
 
                     <tbody>
-                    <c:forEach items="${AdminList}" var="item" >
+                    <c:forEach items="${AdminList}" var="item">
                         <tr class="text-c">
                             <td><input type="checkbox" value="${item.adminId}" name="chckBox"></td>
                             <td>${item.adminId}</td>
@@ -202,30 +195,27 @@
 
                             <td class="user-status"><span class="label label-success"><c:choose>
 
-                                    <c:when test="${item.adminPower==1}">系统管理</c:when>
-                                    <c:when test="${item.adminPower==2}">管理员管理</c:when>
-                                    <c:when test="${item.adminPower==3}">文件管理</c:when>
-                                    <c:when test="${item.adminPower==4}">用户管理</c:when>
+                                <c:when test="${item.adminPower==1}">系统管理</c:when>
+                                <c:when test="${item.adminPower==2}">管理员管理</c:when>
+                                <c:when test="${item.adminPower==3}">文件管理</c:when>
+                                <c:when test="${item.adminPower==4}">用户管理</c:when>
 
                             </c:choose>
                             </span>
                             </td>
-                            <td class="f-14 user-manage"><a style="text-decoration:none" onClick="admin (this,${Fileitem.fileId})"
-                                                            href="javascript:;" title="认证"><i
-                                    class="icon-hand-down"></i></a>
-
-                                <a
-                                        title="编辑" href="javascript:;" onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
-                                        class="ml-5"
-                                        style="text-decoration:none"><i class="icon-edit"></i></a> <a
-                                        style="text-decoration:none"
-                                        class="ml-5"
-                                        onClick="admin_power_edit(${item.adminId},'370','228','修改密级','${ctx}/views/admin/admin-power-edit.jsp')"
-                                        href="javascript:;"
-                                        title="修改密级"><i
-                                        class="icon-key"></i></a> <a title="删除" href="javascript:;" onClick="admin_del(this,${item.adminId},${item.adminPower})"
-                                                                     class="ml-5" style="text-decoration:none"><i
-                                        class="icon-trash"></i></a></td>
+                            <td class="f-14 user-manage">
+                                <a style="text-decoration:none" class="ml-5"
+                                   onClick="admin_power_edit(${item.adminId},'370','228','修改密级','${ctx}/views/admin/admin-power-edit.jsp')"
+                                   href="javascript:;" title="修改密级"><i class="icon-key">
+                                </i></a>
+                                <a title="删除"
+                                   href="javascript:;"
+                                   onClick="admin_del(this,${item.adminId},${item.adminPower})"
+                                   class="ml-5"
+                                   style="text-decoration:none">
+                                    <i class="icon-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -264,7 +254,7 @@
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+                {"orderable": false, "aTargets": [0, 5, 6]}// 制定列不参与排序
             ]
         });
     </script>

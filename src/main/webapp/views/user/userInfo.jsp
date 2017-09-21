@@ -66,7 +66,7 @@
                                            varStatus="loop">
                                     <li>
                                             <%--查看--%>
-                                        <a href="#">
+                                        <a href="#" onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
                                                 <%--头像--%>
                                             <span class="photo">
                                             <img alt="avatar"
@@ -209,7 +209,7 @@
                         <!--共享文件-->
                         <li class="sub-menu">
                             <a href="javascript:;">
-                                <i class="fa fa-cloud"></i>
+                                <i class="fa fa-globe"></i>
                                 <span>共享文件</span>
                             </a>
                             <ul class="sub">

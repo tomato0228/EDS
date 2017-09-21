@@ -182,7 +182,7 @@ public class UserController {
                 comment.setIsRead(1);
                 commentService.updateComment(comment);
                 if (file.getFileShare() - 1 == 0) {
-                    map.addAttribute("fileInfoLimit", filelimitService.getFilelimitById(file.getFileUserId()));
+                    map.addAttribute("fileInfoLimit", filelimitService.getFilelimitById(file.getFileId()));
                 }
                 map.addAttribute("ThisComment", comment);
                 map.addAttribute("ThisFile", file);
@@ -724,13 +724,11 @@ public class UserController {
                 return "user/aboutUser";
             }
         } else return "error/404";
-
     }
 
     @RequestMapping("/myLog")
     public String myLog(HttpServletRequest request, ModelMap map) throws Exception {
         int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
-
         List<String> file = new ArrayList<String>();
         List<Log> loglist = logService.findLogByUserID(id);
         for (Log log : loglist) {
@@ -767,7 +765,6 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/search_Commonfile")
     public Map<String, Object> search_Commonfile(HttpServletRequest request) throws Exception {
-
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String name = request.getParameter("name");
         int type = Integer.parseInt(request.getParameter("type"));
@@ -776,17 +773,13 @@ public class UserController {
         List<List<File>> filelist = new ArrayList<List<File>>();
         List<String> namelist = new ArrayList<String>();
         if (type == 0) {
-
             filelist = SearchUtils.search_file_name(name, list);
         } else if (type == 1) {
             List<List<File>> results = new ArrayList<List<File>>();
-
             Pattern pattern = Pattern.compile(name);
-
             for (int i = 0; i < list.size(); i++) {
                 System.out.println("外");
                 List<File> result = new ArrayList<File>();
-
                 for (int j = 0; j < list.get(i).size(); j++) {
                     System.out.println("内");
                     Matcher matcher = pattern.matcher(userService.findUsernameBuId(list.get(i).get(j).getFileUserId()));
@@ -815,7 +808,6 @@ public class UserController {
             else
                 continue;
         }
-
         List<List<File>> List = new ArrayList<List<File>>();
         for (List<File> Filelist : filelist) {
             if (Filelist.size() != 0)
@@ -838,7 +830,6 @@ public class UserController {
         return resultMap;
     }
 
-
     @ResponseBody
     @RequestMapping("/search_Myfile")
     public Map<String, Object> search_Myfile(HttpServletRequest request) throws Exception {
@@ -857,11 +848,9 @@ public class UserController {
             filelist = SearchUtils.search_myfile_type(name, list);
         }
         request.getSession().setAttribute("filelist", filelist);
-
         resultMap.put("filelist", filelist);
         return resultMap;
     }
-
 
     @ResponseBody
     @RequestMapping("/search_mymsg")
@@ -877,16 +866,13 @@ public class UserController {
         List<Message> msglist = new ArrayList<Message>();
         List<String> senderlist = new ArrayList<String>();
         List<String> receicerlist = new ArrayList<String>();
-
         if (type == 0) {
-
             List results = new ArrayList();
             Pattern pattern = Pattern.compile(name);
             for (int i = 0; i < list.size(); i++) {
                 int senderid = list.get(i).getMsgSender();
                 if (senderid > 10000) {
                     Matcher matcher = pattern.matcher(userService.findUsernameBuId(senderid));
-
                     if (matcher.find()) {
                         results.add(list.get(i));
                     }
@@ -898,17 +884,13 @@ public class UserController {
                 }
             }
             msglist = results;
-
-
         } else if (type == 1) {
-
             List results = new ArrayList();
             Pattern pattern = Pattern.compile(name);
             for (int i = 0; i < list.size(); i++) {
                 int receiverid = list.get(i).getMsgReceiver();
                 if (receiverid > 10000) {
                     Matcher matcher = pattern.matcher(userService.findUsernameBuId(receiverid));
-
                     if (matcher.find()) {
                         results.add(list.get(i));
                     }
@@ -920,12 +902,9 @@ public class UserController {
                 }
             }
             msglist = results;
-
         } else {
             msglist = SearchUtils.search_msg_data(name, list);
-
         }
-
         for (Message message : msglist) {
             int senderid = message.getMsgSender();
             if (senderid < 10000)
@@ -933,7 +912,6 @@ public class UserController {
             else
                 senderlist.add(userService.findUsernameBuId(senderid));
         }
-
         for (Message message : msglist) {
             int receiverid = message.getMsgSender();
             if (receiverid < 10000)
@@ -941,9 +919,6 @@ public class UserController {
             else
                 receicerlist.add(userService.findUsernameBuId(receiverid));
         }
-
-
-        System.out.println(msglist.get(0).getMsgData());
         request.getSession().setAttribute("Messagelist", msglist);
         request.getSession().setAttribute("Senderlist", senderlist);
         request.getSession().setAttribute("Receiverlist", receicerlist);
@@ -951,7 +926,6 @@ public class UserController {
         resultMap.put("res", "yes");
         return resultMap;
     }
-
 
     @ResponseBody
     @RequestMapping("/search_Mycomment")
@@ -964,8 +938,6 @@ public class UserController {
         List<Comment> comlist = new ArrayList<Comment>();
         List<Comment> list = commentService.findCommentByfiles(files);
         List<String> file = new ArrayList<String>();
-
-
         List results = new ArrayList();
         Pattern pattern = Pattern.compile(name);
         for (int i = 0; i < list.size(); i++) {
@@ -974,12 +946,10 @@ public class UserController {
             if (matcher.find()) {
                 results.add(list.get(i));
             }
-
         }
         comlist = results;
         for (Comment comment : comlist) {
             file.add(fileService.getFileById(comment.getComRecevier()).getFileName());
-
         }
         resultMap.put("comlist", comlist);
         return resultMap;

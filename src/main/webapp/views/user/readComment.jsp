@@ -65,7 +65,7 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> 文件详情</h3>
+            <h3><i class="fa fa-angle-right"></i> ${sessionScope.loginUser.userName}的评论</h3>
             <div class="row mt">
                 <div class="col-lg-12">
                     <div class="col-lg-5">
@@ -134,7 +134,7 @@
                                     <i class="fa fa-user"></i>
                                 </button>
                                 <c:choose>
-                                    <c:when test="${(requestScope.ThisFile.fileShare == 1) && (!empty requestScope.ThisFileLimit) && (requestScope.ThisFileLimit.filePrint==1)}">
+                                    <c:when test="${(requestScope.ThisFile.fileShare == 1) && (!empty requestScope.fileInfoLimit) && (requestScope.fileInfoLimit.filePrint==1)}">
                                         <button class="btn btn-space btn-info pull-right" type="button"
                                                 style="margin-top: 15px"
                                                 onclick="window.location.href='${ctx}/user/download-${requestScope.ThisFile.fileId}'">

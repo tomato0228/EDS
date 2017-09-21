@@ -62,7 +62,7 @@
 
                                     <img src="${ctx}/resources/img/prefix/${sessionScope.notReadFileCommentFiles[loop.count-1].fileType}.png"
                                          class="img-rounded" width="70" style="margin:20px 35px;"
-                                         onclick="window.location.href='${ctx}/user/readComment-${FileComment.comRecevier}'">
+                                         onclick="window.location.href='${ctx}/user/fileInfo-${FileComment.comRecevier}'">
                                     <div class="blog-titleright">
                                         <c:choose>
                                             <c:when test="${fn:length(sessionScope.notReadFileCommentFiles[loop.count-1].fileName) <= 10}">
@@ -106,7 +106,7 @@
     <!--footer start-->
     <footer class="site-footer">
         <div class="text-center">
-            2014 - Alvarez.is
+            2017 - Limit. three silly
             <a href="#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>

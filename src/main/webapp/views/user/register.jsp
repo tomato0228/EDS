@@ -59,6 +59,7 @@
                     email: email
                 }, function (requestData) {
                     alert('注册成功!请登录您的邮箱进行验证');
+                    window.location.href="${ctx}/user/tologin";
                 });
             });
         }

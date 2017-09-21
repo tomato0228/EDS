@@ -304,7 +304,7 @@
                         <span>个人信息</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="#">信息查看</a></li>
+                        <li><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
                         <li><a href="#">个人简介</a></li>
                     </ul>
                 </li>
