@@ -33,7 +33,30 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+        function comment() {
+            var serverUrl = $('#serverUrl').val();
+            var fileInfoComment = $('#fileInfoComment').val();
+            if (fileInfoComment == null || trim(fileInfoComment) == "" || fileInfoComment.length <= 4) {
+                fileInfoComment = $('#fileInfoComment1').val();
+            }
+            if (fileInfoComment == null || trim(fileInfoComment) == "" || fileInfoComment.length <= 4) {
+                return false;
+            }
+            var url = serverUrl + '/user/fileInfoComment-${requestScope.fileInfo.fileId}';
+            $.post(url, {
+                fileInfoComment: fileInfoComment
+            }, function (requestData) {
+                window.location.reload();
+            });
+            return false;
+        }
 
+        //去掉最后的空格
+        function trim(str) {
+            return str.replace(/(^\s+)|(\s+$)/g, "");
+        }
+    </script>
 
 </head>
 <body>
@@ -48,146 +71,218 @@
             <h3><i class="fa fa-angle-right"></i> 文件详情</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <!--widget start-->
                         <section class="panel">
                             <div class="twt-feed blue-bg">
                                 <h1>
-                                    <c:set value="${fn:length(requestScope.fileInfo.fileName)}"
-                                    <c:choose>
-                                        <c:when test="${fn:length(requestScope.fileInfo.fileName) <= 15}">
-                                            <p class="user">${requestScope.fileInfo.fileName}</p>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <p class="user">${fn:substring(requestScope.fileInfo.fileName, 0, 15)}...</p>
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <c:set value="${fn:length(requestScope.fileInfo.fileName) - 36}"
+                                           var="length"></c:set>
+                                    <p class="user">${fn:substring(requestScope.fileInfo.fileName, 0, length)}</p>
                                 </h1>
-                                <p>jsmith@flatlab.com</p>
+                                <p>.${requestScope.fileInfo.fileType}</p>
                                 <a href="#">
-                                    <img src="${ctx}/resources/img/prefix/${requestScope.fileInfo.fileType}.png" >
+                                    <img src="${ctx}/resources/img/prefix/${requestScope.fileInfo.fileType}.png">
                                 </a>
                             </div>
                             <div style="margin-top: 55px;">
                                 <ul class="nav nav-pills nav-stacked">
-                                    <li><a href="javascript:;"> <i class="icon-time"></i> Mail Inbox <span class="label label-primary pull-right r-activity">19</span></a></li>
-                                    <li><a href="javascript:;"> <i class="icon-calendar"></i> Recent Activity <span class="label label-info pull-right r-activity">11</span></a></li>
-                                    <li><a href="javascript:;"> <i class="icon-bell-alt"></i> Notification <span class="label label-warning pull-right r-activity">03</span></a></li>
-                                    <li><a href="javascript:;"> <i class="icon-envelope-alt"></i> Message <span class="label label-success pull-right r-activity">10</span></a></li>
+                                    <li><a href="#"> <i class="fa fa-bookmark"></i> 编号：${requestScope.fileInfo.fileId}
+                                    </a></li>
+                                    <li><a href="#"> <i class="fa fa-user"></i> 作者：${requestScope.fileUser.userName}</a>
+                                    </li>
+                                    <li><a href="#"> <i class="fa fa-puzzle-piece"></i>
+                                        大小：${requestScope.fileInfo.fileSize}</a></li>
+                                    <li><a href="#"> <i class="fa fa-clock-o"></i>
+                                        上传时间：${fn:substring(requestScope.fileInfo.fileLoadTime, 0, 19)}</a></li>
+                                    <li><a href="#"> <i class="fa fa-key"></i> 密级等级：
+                                        <c:choose>
+                                            <c:when test="${requestScope.fileInfo.fileSecretLevel == 5}"> A级</c:when>
+                                            <c:when test="${requestScope.fileInfo.fileSecretLevel == 4}"> B级</c:when>
+                                            <c:when test="${requestScope.fileInfo.fileSecretLevel == 3}"> C级</c:when>
+                                            <c:when test="${requestScope.fileInfo.fileSecretLevel == 2}"> 内部</c:when>
+                                            <c:otherwise> 普通</c:otherwise>
+                                        </c:choose></a></li>
+                                    <li><a href="#"> <i class="fa fa-eye"></i>
+                                        查看次数：${requestScope.fileInfo.fileViewtimes}</a></li>
+                                    <li><a href="#"> <i class="fa fa-print"></i>
+                                        打印次数：${requestScope.fileInfo.filePrinttimes}</a></li>
+                                    <li><a href="#"> <i class="fa fa-download"></i>
+                                        下载次数：${requestScope.fileInfo.fileDownloadtimes}</a></li>
                                 </ul>
                             </div>
                             <div class="twt-write col-sm-12">
-                                <textarea class="form-control  t-text-area" rows="2" placeholder="Tweet Here"></textarea>
+                                <textarea class="form-control  t-text-area" rows="2"
+                                          placeholder="${requestScope.fileInfo.fileAbstrcat}"></textarea>
                             </div>
                             <footer class="twt-footer">
-                                <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
-                                    <i class="fa fa-pencil"></i>
-                                </button>
+                                <c:choose>
+                                    <c:when test="requestScope.fileInfo.fileShare == 0">
+                                        <button class="btn btn-space btn-white" data-toggle="button"
+                                                style="margin-top: 15px">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="btn btn-space btn-white" data-toggle="button"
+                                                style="margin-top: 15px">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <button class="btn btn-space btn-white" data-toggle="button" style="margin-top: 15px">
                                     <i class="fa fa-user"></i>
                                 </button>
-                                <button class="btn btn-space btn-info pull-right" type="button" style="margin-top: 15px">
-                                    <i class="fa fa-cloud-download"></i>
-                                    下载
-                                </button>
+                                <c:choose>
+                                    <c:when test="${(requestScope.fileInfo.fileShare == 1) && (!empty requestScope.fileInfoLimit) && (requestScope.fileInfoLimit.filePrint==1)}">
+                                        <button class="btn btn-space btn-info pull-right" type="button"
+                                                style="margin-top: 15px"
+                                                onclick="window.location.href='${ctx}/user/download-${requestScope.fileInfo.fileId}'">
+                                            <i class="fa fa-cloud-download"></i>
+                                            下载
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="btn btn-space btn-info pull-right" type="button"
+                                                style="margin-top: 15px">
+                                            <i class="fa fa-cloud-download"></i>
+                                            下载
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
                             </footer>
                         </section>
                         <!--widget end-->
                     </div>
+                    <c:choose>
+                        <c:when test="${fn:length(sessionScope.aFileComments) <= 6}">
+                            <c:set value="0" var="begin"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set value="${fn:length(sessionScope.aFileComments) - 6}" var="begin"/>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="col-lg-6">
                         <section class="panel">
                             <header class="panel-heading">
-                                Chats
+                                最近评论
                             </header>
                             <div class="panel-body">
                                 <div class="timeline-messages">
-                                    <!-- Comment -->
-                                    <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                                        <div class="message-body msg-in">
-                                            <span class="arrow"></span>
-                                            <div class="text">
-                                                <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
-                                                <p>Hello, How are you brother?</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /comment -->
-
-                                    <!-- Comment -->
-                                    <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
-                                        <div class="message-body msg-out">
-                                            <span class="arrow"></span>
-                                            <div class="text">
-                                                <p class="attribution"> <a href="#">Jonathan Smith</a> at 2:01pm, 13th April 2013</p>
-                                                <p>I'm Fine, Thank you. What about you? How is going on?</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /comment -->
-
-                                    <!-- Comment -->
-                                    <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                                        <div class="message-body msg-in">
-                                            <span class="arrow"></span>
-                                            <div class="text">
-                                                <p class="attribution"><a href="#">Jhon Doe</a> at 2:03pm, 13th April 2013</p>
-                                                <p>Yeah I'm fine too. Everything is going fine here.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /comment -->
-
-                                    <!-- Comment -->
-                                    <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
-                                        <div class="message-body msg-out">
-                                            <span class="arrow"></span>
-                                            <div class="text">
-                                                <p class="attribution"><a href="#">Jonathan Smith</a> at 2:05pm, 13th April 2013</p>
-                                                <p>well good to know that. anyway how much time you need to done your task?</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /comment -->
-                                    <!-- Comment -->
-                                    <div class="msg-time-chat">
-                                        <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                                        <div class="message-body msg-in">
-                                            <span class="arrow"></span>
-                                            <div class="text">
-                                                <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
-                                                <p>Hello, How are you brother?</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /comment -->
+                                    <c:choose>
+                                        <c:when test="${fn:length(sessionScope.aFileComments) == 0}">
+                                            该文件还没有评论...
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:forEach items="${sessionScope.aFileComments}" var="comment"
+                                                       varStatus="loop" begin="${begin}">
+                                                <!-- Comment -->
+                                                <div class="msg-time-chat">
+                                                    <a href="#" class="message-img"
+                                                       onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.aFileCommentUsers[loop.count-1+begin].userId}'">
+                                                        <img class="avatar"
+                                                             src="${sessionScope.aFileCommentUsers[loop.count-1+begin].userPictureUrl}"></a>
+                                                    <div class="message-body msg-in">
+                                                        <span class="arrow"></span>
+                                                        <div class="text">
+                                                            <p class="attribution"><a href="#"
+                                                                                      onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.aFileCommentUsers[loop.count-1+begin].userId}'">
+                                                                <c:choose>
+                                                                    <c:when test="${sessionScope.aFileCommentUsers[loop.count-1+begin].userId == requestScope.fileUser.userId}">
+                                                                        文件上传者
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        ${sessionScope.aFileCommentUsers[loop.count-1+begin].userName}
+                                                                    </c:otherwise>
+                                                                </c:choose></a>
+                                                                At&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(comment.comTime, 0, 19)}
+                                                            </p>
+                                                            <p>${comment.comData}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /comment -->
+                                            </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
-                                <div class="chat-form">
+                                <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
+                                <form class="chat-form">
                                     <div class="input-cont ">
-                                        <input type="text" class="form-control col-lg-12" placeholder="Type a message here...">
+                                        <input type="text" class="form-control col-lg-12"
+                                               placeholder="在这里输入评论......" id="fileInfoComment" name="fileInfoComment">
                                     </div>
                                     <div class="form-group">
                                         <div class="pull-right chat-features">
-                                            <a href="javascript:;">
-                                                <i class="icon-camera"></i>
-                                            </a>
-                                            <a href="javascript:;">
-                                                <i class="icon-link"></i>
-                                            </a>
-                                            <a class="btn btn-danger" href="javascript:;">留言</a>
+                                            <input class="btn btn-danger" value="留言" id="fileComment" type="button"
+                                                   onclick="comment()">
                                         </div>
                                     </div>
-
-                                </div>
+                                </form>
                             </div>
                         </section>
                     </div>
-
-
-
+                    <div class="col-lg-11">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                所有评论
+                            </header>
+                            <div class="panel-body">
+                                <div class="timeline-messages">
+                                    <c:choose>
+                                        <c:when test="${fn:length(sessionScope.aFileComments) == 0}">
+                                            该文件还没有评论...
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:forEach items="${sessionScope.aFileComments}" var="comment"
+                                                       varStatus="loop">
+                                                <!-- Comment -->
+                                                <div class="msg-time-chat">
+                                                    <a href="#" class="message-img"
+                                                       onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.aFileCommentUsers[loop.count-1].userId}'">
+                                                        <img class="avatar"
+                                                             src="${sessionScope.aFileCommentUsers[loop.count-1].userPictureUrl}"></a>
+                                                    <div class="message-body msg-in">
+                                                        <span class="arrow"></span>
+                                                        <div class="text">
+                                                            <p class="attribution"><a href="#"
+                                                                                      onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.aFileCommentUsers[loop.count-1].userId}'">
+                                                                <c:choose>
+                                                                    <c:when test="${sessionScope.aFileCommentUsers[loop.count-1].userId == requestScope.fileUser.userId}">
+                                                                        文件上传者
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        ${sessionScope.aFileCommentUsers[loop.count-1].userName}
+                                                                    </c:otherwise>
+                                                                </c:choose></a>
+                                                                At&nbsp;&nbsp;&nbsp;&nbsp;${fn:substring(comment.comTime, 0, 19)}
+                                                            </p>
+                                                            <p>${comment.comData}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /comment -->
+                                            </c:forEach>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <form class="chat-form">
+                                    <div class="input-cont ">
+                                        <input type="text" class="form-control col-lg-12"
+                                               placeholder="在这里输入评论......" id="fileInfoComment1"
+                                               name="fileInfoComment1">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="pull-right chat-features">
+                                            <input class="btn btn-danger" value="留言" id="fileComment1" type="button"
+                                                   onclick="comment()">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
 
                 </div>
             </div>

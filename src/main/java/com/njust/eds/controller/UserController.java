@@ -49,8 +49,6 @@ public class UserController {
 
     @Autowired
     private FilelimitService filelimitService;
-    @Autowired
-    private LogService logService;
 
     @ResponseBody
     @RequestMapping("/checkUserName")
@@ -105,9 +103,30 @@ public class UserController {
     public String viewFileInfo(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
         File file = fileService.getFileById(fileId);
         if (file != null) {
+            if (file.getFileShare() - 1 == 0) {
+                map.addAttribute("fileInfoLimit", filelimitService.getFilelimitById(fileId));
+            }
             map.addAttribute("fileInfo", file);
+            map.addAttribute("fileUser", userService.getUserById(file.getFileUserId()));
+            file.setFileViewtimes(file.getFileViewtimes() + 1);
+            fileService.updateFile(file);
+            FindaFileComments(request, fileId);
             return "user/fileInfo";
         } else return "error/404";
+    }
+
+    @RequestMapping("/fileInfoComment-{fileId}")
+    public String fileInfoComment(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
+        File file = fileService.getFileById(fileId);
+        String fileInfoComment = request.getParameter("fileInfoComment");
+        if (fileInfoComment != null && !"".equals(fileInfoComment)) {
+            Comment comment = new Comment();
+            comment.setComSender(((User) request.getSession().getAttribute("loginUser")).getUserId());
+            comment.setComRecevier(fileId);
+            comment.setComData(fileInfoComment);
+            commentService.addComment(comment);
+        }
+        return viewFileInfo(map, request, fileId);
     }
 
     @RequestMapping("/enjoyFile")
@@ -378,7 +397,7 @@ public class UserController {
             String filename = file.getOriginalFilename();
             String prefix = filename.substring(filename.lastIndexOf(".") + 1);
             //修改后的文件名
-            String fileUUIDname = filename.substring(0, filename.lastIndexOf(".") - 1) + UUIDUtils.getUUID();
+            String fileUUIDname = filename.substring(0, filename.lastIndexOf(".")) + UUIDUtils.getUUID();
             //修改后的文件名(带后缀)
             String NewFileName = fileUUIDname + "." + prefix;
             newfile.setFileName(NewFileName);
@@ -441,7 +460,7 @@ public class UserController {
         return "user/newFile";
     }
 
-    @RequestMapping(value = "/download/{fileId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/download-{fileId}")
     public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("fileId") int fileId) throws Exception {
         Filedata filedata = filedataService.getFiledataById(fileId);
         if (filedata != null) {
@@ -614,28 +633,16 @@ public class UserController {
         List<Message> messages = messageService.queryMessage(id, ((User) request.getSession().getAttribute("loginUser")).getUserId());
         request.getSession().setAttribute("aUserMessage", messages);
     }
+
+    //某个文件的评论
+    private void FindaFileComments(HttpServletRequest request, Integer id) {
+        List<Comment> commentList = commentService.findCommentByRecevierId(id);
+        List<User> userList = new ArrayList<User>();
+        for (Comment c : commentList) {
+            userList.add(userService.getUserById(c.getComSender()));
+        }
+        request.getSession().setAttribute("aFileCommentUsers", userList);
+        request.getSession().setAttribute("aFileComments", commentList);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

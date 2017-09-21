@@ -11,7 +11,7 @@ public class Comment {
     private int comSender;
     private int comRecevier;
     private String comData;
-    private Date comTime;
+    private Date comTime = new Date();
     private int isRead = 0;
 
     @Id
