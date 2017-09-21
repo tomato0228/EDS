@@ -77,4 +77,7 @@ public class MessageServiceImpl implements MessageService {
         return messageDao.findMessagesByRecevierId(id);
     }
 
+    public void msg_edit(int id ,int isread){
+        messageDao.msg_edit(id,isread);
+    }
 }

@@ -27,4 +27,6 @@ public interface MessageDao {
     public Message findMessageByRecevierName(String recevierName);
 
     public Message findMessageByisRead(int Read);
+
+    public void msg_edit(int id ,int isread);
 }
