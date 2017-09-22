@@ -352,7 +352,7 @@ public class UserController {
         if (type != null && "register".equals(type)) {
             return "user/validateRegister1";
         }
-        return "user/validateInfo";
+        return "user/changePasswordOne";
     }
 
     @ResponseBody

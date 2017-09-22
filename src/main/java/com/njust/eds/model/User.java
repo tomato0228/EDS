@@ -23,7 +23,7 @@ public class User {
     private Date userValidateOverDate;
     private String userUserNameEncodes;
     private Integer userIsEmailValidated = 0;
-    private String userPictureUrl = "${ctx}/resources/img/userPicture/ui-sam.jpg";
+    private String userPictureUrl = "/resources/img/userPicture/ui-sam.jpg";
     private String userProfile;
 
 

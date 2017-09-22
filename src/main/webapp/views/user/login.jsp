@@ -45,9 +45,8 @@
             var serverUrl = $('#serverUrl').val();
             var userName = $('#userName').val();
             var password = $('#password').val();
-            if (userName == null || password == null || trim(userName) == "" || trim(password) == "") {
+            if (!loginRule(userName, password))
                 return false;
-            }
             $.post(serverUrl + '/user/login', {
                 userName: userName,
                 password: password
@@ -65,7 +64,20 @@
         function trim(str) {
             return str.replace(/(^\s+)|(\s+$)/g, "");
         }
+
+        function loginRule(userName, password) {
+            if (userName == null || password == null || trim(userName) == "" || trim(password) == "")
+                return false;
+            var userNamerule = /^([\u4e00-\u9fa5]{2,7})|([\u4e00-\u9fa5A-Za-z0-9]{4,16})$/;//正则表达式
+            var pwdrule = /^[a-zA-Z]\w{5,17}$/;
+            if (!userNamerule.test(userName))
+                return false;
+            if (!pwdrule.test(password))
+                return false;
+            return true;
+        }
     </script>
+
 </head>
 <body class="loading">
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
@@ -84,15 +96,19 @@
                     <form id="reg-form">
                         <table>
                             <tr>
-                                <td><div style="font-size: 1.3em">用户名</div></td>
+                                <td>
+                                    <div style="font-size: 1.3em">用户名</div>
+                                </td>
                                 <td><input name="userName" type="text" id="userName"
-                                           data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
-                                           data-message="用户名必须为4—16位的英文字母或数字"
+                                           data-easyform="length:2 16;char-chinese;;real-time;ajax:ajax_demo(1);"
+                                           data-message="用户名必须为2—7位的中文或4-16位中英文或数字"
                                            data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名或密码错误!">
                                 </td>
                             </tr>
                             <tr>
-                                <td><div style="font-size: 1.3em">密码</div></td>
+                                <td>
+                                    <div style="font-size: 1.3em">密码</div>
+                                </td>
                                 <td><input name="password" type="password" id="password"
                                            data-easyform="length:6 16;"
                                            data-message="密码必须为6—16位"
