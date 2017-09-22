@@ -1,8 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: tomato
-  Date: 2017/9/19
-  Time: 上午11:34
+  Date: 2017/9/18
+  Time: 下午10:22
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: tomato
+  Date: 2017/9/18
+  Time: 上午1:00
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -26,15 +33,13 @@
     <link href="${ctx}/resources/css/userstyle.css" rel="stylesheet">
     <link href="${ctx}/resources/css/style-responsive.css" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="${ctx}/resources/Search/css/demo.css"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/resources/Search/css/style5.css"/>
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
 </head>
 <body>
 
@@ -45,34 +50,44 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> 从我的文件中搜索</h3>
+            <h3><i class="fa fa-angle-right"></i>搜索结果</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-                    <div class="search">
-                        <button id="btn-search-close" class="btn btn--search-close" aria-label="Close search form">
-                            <svg class="icon icon--cross">
-                                <use xlink:href="#icon-cross"></use>
-                            </svg>
-                        </button>
-                        <form class="search__form" action="search_Myfile">
-                            <input id="search-input" class="search__input" name="name" type="search" placeholder=""
-                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="height: 256px"/>
-                            <div class="controls">
-                                <input id='type0' type="radio" name='type' value="0" checked='checked' />
-                                <label for="type0">文件名</label>
-                                <input id='type1' type="radio" name='type' value="1"/>
-                                <label for="type1">文件内容</label>
-                                <input id='type2' type="radio" name='type' value="2"/>
-                                <label for="type2">文件类型</label>
+                    <c:forEach items="${sessionScope.Userfiles}" var="filelist" varStatus="loop">
+                        <c:forEach items="${filelist}" var="Fileitem">
+                        <!-- TWITTER PANEL -->
+                        <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                            <div class="weather-2 pn">
+                                <div class="weather-2-header">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-xs-6">
+                                            <p class="user">${sessionScope.Namelist[loop.count-1]}</p>
+                                        </div>
+                                        <div class="col-sm-6 col-xs-6 goright">
+                                            <p class="small">${fn:substring(Fileitem.fileLoadTime, 0, 16)}</p>
+                                        </div>
+                                    </div>
+                                </div><!-- /weather-2 header -->
+                                <div class="row centered">
+                                    <img src="${ctx}/resources/img/prefix/${Fileitem.fileType}.png" class="img-rounded" width="100"
+                                         onclick="window.location.href='${ctx}/user/fileInfo-${Fileitem.fileId}'">
+                                </div>
+                                <br>
+                                <div class="row centered" style="font-size: 1.2em">
+                                    <c:choose>
+                                        <c:when test="${fn:length(Fileitem.fileName) <= 25}">
+                                            <p class="user">${Fileitem.fileName}</p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p class="user">${fn:substring(Fileitem.fileName, 0, 25)}...</p>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
                             </div>
-                            <button class="btn btn--search">
-                                <svg class="icon icon--search">
-                                    <use xlink:href="#icon-search"></use>
-                                </svg>
-                            </button>
-                        </form>
-                    </div><!-- /search -->
-
+                        </div>
+                        </c:forEach>
+                        <!-- /col-md-4 -->
+                    </c:forEach><!-- 1st ROW OF PANELS -->
                 </div>
             </div>
 
@@ -103,7 +118,7 @@
 <script class="include" type="text/javascript" src="${ctx}/resources/js/jquery.dcjqaccordion.2.7.js"></script>
 <script src="${ctx}/resources/js/jquery.scrollTo.min.js"></script>
 <script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
-<script src="${ctx}/resources/Search/js/demo5.js"></script>
+
 <!--common script for all pages-->
 <script src="${ctx}/resources/js/common-scripts.js"></script>
 

@@ -259,7 +259,7 @@
                     </a>
                     <ul class="sub">
                         <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/findFile'">搜索文件</a></li>
+                        <li><a href="#" onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
                     </ul>
                 </li>
                 <!--文件-->

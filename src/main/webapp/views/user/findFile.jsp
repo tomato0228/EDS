@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/Search/css/demo.css"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/Search/css/style5.css"/>
 
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -45,7 +46,7 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper site-min-height">
-            <h3><i class="fa fa-angle-right"></i> 我的共享文件</h3>
+            <h3><i class="fa fa-angle-right"></i> 从所有共享文件中搜索</h3>
             <div class="row mt">
                 <div class="col-lg-12">
                     <div class="search">
@@ -54,9 +55,17 @@
                                 <use xlink:href="#icon-cross"></use>
                             </svg>
                         </button>
-                        <form class="search__form" action="">
-                            <input id="search-input" class="search__input" name="search" type="search" placeholder=""
+                        <form class="search__form" action="search_Commonfile">
+                            <input id="search-input" class="search__input" name="name" type="search" placeholder=""
                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="height: 256px"/>
+                            <div class="controls">
+                                <input id='type0' type="radio" name='type' value="0" checked='checked' />
+                                <label for="type0">文件名</label>
+                                <input id='type1' type="radio" name='type' value="1"/>
+                                <label for="type1">用户名</label>
+                                <input id='type2' type="radio" name='type' value="2"/>
+                                <label for="type2">文件类型</label>
+                            </div>
                             <button class="btn btn--search">
                                 <svg class="icon icon--search">
                                     <use xlink:href="#icon-search"></use>

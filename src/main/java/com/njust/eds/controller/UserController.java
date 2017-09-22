@@ -163,7 +163,25 @@ public class UserController {
     @RequestMapping("/findMyFile")
     public String findFile(HttpServletRequest request) {
         //FindwebEnjoyFile(request);
+        return "user/findMyFile";
+    }
+
+    @RequestMapping("/findWebFile")
+    public String findWebFile(HttpServletRequest request) {
+        //FindwebEnjoyFile(request);
         return "user/findFile";
+    }
+
+    @RequestMapping("/findMessage")
+    public String findMessage(HttpServletRequest request) {
+        //FindwebEnjoyFile(request);
+        return "user/findMessage";
+    }
+
+    @RequestMapping("/findComment")
+    public String findComment(HttpServletRequest request) {
+        //FindwebEnjoyFile(request);
+        return "user/findComment";
     }
 
     @RequestMapping("/notReadFileComment")
@@ -762,9 +780,8 @@ public class UserController {
         return;
     }
 
-    @ResponseBody
     @RequestMapping("/search_Commonfile")
-    public Map<String, Object> search_Commonfile(HttpServletRequest request) throws Exception {
+    public String search_Commonfile(HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String name = request.getParameter("name");
         int type = Integer.parseInt(request.getParameter("type"));
@@ -772,6 +789,7 @@ public class UserController {
         List<List<File>> list = fileService.findUserFiles();
         List<List<File>> filelist = new ArrayList<List<File>>();
         List<String> namelist = new ArrayList<String>();
+
         if (type == 0) {
             filelist = SearchUtils.search_file_name(name, list);
         } else if (type == 1) {
@@ -794,12 +812,16 @@ public class UserController {
         } else {
             filelist = SearchUtils.search_file_type(name, list);
         }
+
+
         for (List<File> Filelist : filelist) {
+            List<File> dellist=new ArrayList<File>();
             for (File File : Filelist) {
                 if (File.getFileShare() == 0) {
-                    Filelist.remove(File);
+                  dellist.add(File);
                 }
             }
+            Filelist.removeAll(dellist);
         }
         int size = 0;
         for (List<File> Filelist : filelist) {
@@ -827,12 +849,12 @@ public class UserController {
         request.getSession().setAttribute("Namelist", namelist);
         request.getSession().setAttribute("size", size);
         resultMap.put("Userfiles", list);
-        return resultMap;
+        return "user/findWebfile_result" ;
     }
 
-    @ResponseBody
+
     @RequestMapping("/search_Myfile")
-    public Map<String, Object> search_Myfile(HttpServletRequest request) throws Exception {
+    public String search_Myfile(HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String name = request.getParameter("name");
         int type = Integer.parseInt(request.getParameter("type"));
@@ -849,13 +871,12 @@ public class UserController {
         }
         request.getSession().setAttribute("filelist", filelist);
         resultMap.put("filelist", filelist);
-        return resultMap;
+        return "user/findMyFile_result";
     }
 
-    @ResponseBody
     @RequestMapping("/search_mymsg")
-    public Map<String, Object> search_msg(HttpServletRequest request) throws Exception {
-        int id = ((Admin) request.getSession().getAttribute("loginAdmin")).getAdminId();
+    public String search_msg(HttpServletRequest request) throws Exception {
+        int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
         System.out.println(id);
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String name = request.getParameter("name");
@@ -864,8 +885,8 @@ public class UserController {
         List<Message> list = messageService.findMessagesById(id);
         System.out.println(list);
         List<Message> msglist = new ArrayList<Message>();
-        List<String> senderlist = new ArrayList<String>();
-        List<String> receicerlist = new ArrayList<String>();
+        List<User> senderlist = new ArrayList<User>();
+        List<User> receicerlist = new ArrayList<User>();
         if (type == 0) {
             List results = new ArrayList();
             Pattern pattern = Pattern.compile(name);
@@ -907,37 +928,34 @@ public class UserController {
         }
         for (Message message : msglist) {
             int senderid = message.getMsgSender();
-            if (senderid < 10000)
-                senderlist.add(adminService.findAdminnameById(senderid));
-            else
-                senderlist.add(userService.findUsernameBuId(senderid));
+
+                senderlist.add(userService.getUserById(senderid));
         }
         for (Message message : msglist) {
-            int receiverid = message.getMsgSender();
-            if (receiverid < 10000)
-                receicerlist.add(adminService.findAdminnameById(receiverid));
-            else
-                receicerlist.add(userService.findUsernameBuId(receiverid));
+            int receiverid = message.getMsgReceiver();
+
+                receicerlist.add(userService.getUserById(receiverid));
         }
         request.getSession().setAttribute("Messagelist", msglist);
         request.getSession().setAttribute("Senderlist", senderlist);
         request.getSession().setAttribute("Receiverlist", receicerlist);
+
         resultMap.put("msglist", msglist);
         resultMap.put("res", "yes");
-        return resultMap;
+        return "user/findMessage_result";
     }
 
-    @ResponseBody
+
     @RequestMapping("/search_Mycomment")
-    public Map<String, Object> search_Mycomment(HttpServletRequest request) throws Exception {
+    public String search_Mycomment(HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String name = request.getParameter("name");
-        int type = Integer.parseInt(request.getParameter("type"));
         int id = ((User) request.getSession().getAttribute("loginUser")).getUserId();
         List<File> files = fileService.findFileByUserId(id);
         List<Comment> comlist = new ArrayList<Comment>();
         List<Comment> list = commentService.findCommentByfiles(files);
-        List<String> file = new ArrayList<String>();
+        List<User> senderlist = new ArrayList<User>();
+        List<File> filelist = new ArrayList<File>();
         List results = new ArrayList();
         Pattern pattern = Pattern.compile(name);
         for (int i = 0; i < list.size(); i++) {
@@ -949,9 +967,14 @@ public class UserController {
         }
         comlist = results;
         for (Comment comment : comlist) {
-            file.add(fileService.getFileById(comment.getComRecevier()).getFileName());
+            filelist.add(fileService.getFileById(comment.getComRecevier()));
+            senderlist.add(userService.getUserById(comment.getComSender()));
         }
-        resultMap.put("comlist", comlist);
-        return resultMap;
+
+        request.getSession().setAttribute("Comlist",comlist);
+        request.getSession().setAttribute("Senderlist",senderlist);
+        request.getSession().setAttribute("Filelist",filelist);
+
+        return "user/findComment_result";
     }
 }
