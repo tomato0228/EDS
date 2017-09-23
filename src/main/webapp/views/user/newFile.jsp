@@ -13,7 +13,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
     <title>EDS</title>
 
@@ -26,6 +26,9 @@
     <link href="${ctx}/resources/css/userstyle.css" rel="stylesheet">
     <link href="${ctx}/resources/css/style-responsive.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="${ctx}/resources/js/data/datedropper.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/resources/js/data/timedropper.min.css">
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -33,35 +36,6 @@
     <![endif]-->
 </head>
 <body>
-<style>
-    .everyWeekDay .weekday, .everyDay .days { /*解决span不支持width属性*/
-        display: -moz-inline-box;
-        display: inline-block;
-        margin: 5px 0 0 20px;
-        text-align: center;
-        width: 20px;
-        border: 1px solid #F7F7F7;
-        cursor: pointer;
-    }
-
-    .marginTop {
-        margin-top: 5px;
-    }
-
-    .selectStyle {
-        padding-left: 10px;
-        border: none;
-        border-radius: 3px;
-        outline: none;
-        appearance: none;
-        -moz-appearance: none;
-        -webkit-appearance: none;
-        margin: 0 10px 0 10px;
-        width: 60px;
-        border-color: #0FB9EF;
-        color: #0FB9EF;
-    }
-</style>
 <script type="text/javascript">
     window.onload = function () {
         var test = document.getElementById("Share");
@@ -94,7 +68,7 @@
                             </tr>
                             <tr>
                                 <td>文件描述:</td>
-                                <td><textarea name="abstrcat" rows="10" cols="80" class="form-control"></textarea></td>
+                                <td><textarea name="abstrcat" rows="7" cols="80" class="form-control"></textarea></td>
                             </tr>
                             <tr>
                                 <td>文件秘级</td>
@@ -134,6 +108,13 @@
                                 <td>
                                     <table style="border-collapse:separate; border-spacing:10px;">
                                         <tr>
+                                            <td>生命周期</td>
+                                            <td>
+                                                <input type="text" class="input" id="fileLifeCycle" >
+
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>是否只读</td>
                                             <td>
                                                 <input type="checkbox" id="fileRead" name="fileRead"/>
@@ -157,14 +138,6 @@
                                                 <input type="text" placeholder="-1为无限次" id="fileReadTimes"
                                                        style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;"
                                                        name="fileReadTimes">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>生命周期</td>
-                                            <td>
-                                                <input type="text" id="fileLifeCycle"
-                                                       style="background-color: #cfcfcf;border: none;border-radius: 5px;height: 25px;padding-left: 10px;outline:none;"
-                                                       readonly="readonly" onfocus="showDate()" name="fileLifeCycle"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -212,7 +185,10 @@
 <script src="${ctx}/resources/js/bootstrap-switch.js"></script>
 
 <%--日期选择器--%>
-<script type="text/javascript" src="${ctx}/resources/js/dateJs.fei.js"></script>
+
+<script src="${ctx}/resources/js/data/datedropper.min.js"></script>
+<script src="${ctx}/resources/js/data/timedropper.min.js"></script>
+
 <script>
     //custom select box
 
@@ -221,7 +197,13 @@
     });
 
 </script>
-
+<script>
+    $("#fileLifeCycle").dateDropper({
+        animate: false,
+        format: 'Y-m-d',
+        maxYear: '2020'
+    });
+</script>
 </body>
 </html>
 
