@@ -672,7 +672,7 @@
             // (string | mandatory) the heading of the notification
             title: '欢迎来到 EDS!',
             // (string | mandatory) the text inside the notification
-            text: '这里有最安全的加密算法，保证你的文件不会被非授权用户获取到，超强的双重加密与日志系统将时时刻刻保证你的文档安全，若喜欢，欢迎<a href="#" target="_blank" style="color:#ffd777">捐赠作者</a>.',
+            text: '这里有最安全的加密算法，保证你的文件不会被非授权用户获取到，超强的双重加密与日志系统将时时刻刻保证你的文档安全，若喜欢，欢迎<a href="#" onclick="window.location.href=\'${ctx}/user/donate\'"  target="_blank" style="color:#ffd777">捐赠作者</a>.',
             // (string | optional) the image to display on the left
             image: '${sessionScope.loginUser.userPictureUrl}',
             // (bool | optional) if you want it to fade out on its own or just sit there

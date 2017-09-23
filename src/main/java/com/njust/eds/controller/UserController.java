@@ -67,6 +67,11 @@ public class UserController {
         return "isOK";
     }
 
+    @RequestMapping("/donate")
+    public String donate() {
+        return "EDS/donate";
+    }
+
     @RequestMapping("/toRegister")
     public String toRegister() {
         return "user/register";
@@ -364,10 +369,32 @@ public class UserController {
             String password = MD5Util.getMD5(request.getParameter("password"));
             user.setUserPassword(password);
             userService.updateUser(user);
-
             resultMap.put("updateRes", "ok");
         }
 
+        return resultMap;
+    }
+
+    @RequestMapping("/changePasswordTwo")
+    public String changePasswordTwo(HttpServletRequest request) {
+        return "user/changePasswordTwo";
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateUserPasswordTwo")
+    public Map<String, Object> updateUserPasswordTwo(ModelMap map, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        User user = (User)request.getSession().getAttribute("loginUser");
+        if (user == null) {
+            resultMap.put("updatepwd", "no");
+        } else if (!MD5Util.getMD5(request.getParameter("oldpassword")).equals(user.getUserPassword())){
+            resultMap.put("updatepwd", "not");
+        } else {
+            String password = MD5Util.getMD5(request.getParameter("password"));
+            user.setUserPassword(password);
+            userService.updateUser(user);
+            resultMap.put("updatepwd", "ok");
+        }
         return resultMap;
     }
 
@@ -970,7 +997,6 @@ public class UserController {
         resultMap.put("Userfiles", list);
         return "user/findWebfile_result";
     }
-
 
     @RequestMapping("/search_Myfile")
     public String search_Myfile(HttpServletRequest request) throws Exception {
