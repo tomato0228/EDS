@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -1021,4 +1022,7 @@ public class UserController {
 
         return "user/findComment_result";
     }
+
+
+
 }
