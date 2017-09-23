@@ -456,7 +456,7 @@
                                                 <div class="blog-title">${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</div>
 
                                                 <img src="${ctx}/resources/img/prefix/${sessionScope.notReadFileCommentFiles[loop.count-1].fileType}.png"
-                                                     class="img-rounded" width="70" style="margin:20px 35px;"
+                                                     class="img-rounded" width="70" style="margin:20px;"
                                                      onclick="window.location.href='${ctx}/user/fileInfo-${FileComment.comRecevier}'">
                                                 <div class="blog-titleright">
                                                     <c:choose>
@@ -472,11 +472,11 @@
                                             <div class="blog-text">
                                                 <p style="font-size: 1.2em">
                                                     <c:choose>
-                                                        <c:when test="${fn:length(FileComment.comData) <= 75}">
+                                                        <c:when test="${fn:length(FileComment.comData) <= 35}">
                                                             ${FileComment.comData}
                                                         </c:when>
                                                         <c:otherwise>
-                                                            ${fn:substring(FileComment.comData, 0, 75)}...
+                                                            ${fn:substring(FileComment.comData, 0, 35)}...
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <a href="#"
@@ -541,11 +541,11 @@
                                                        onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
                                                             ${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</a>
                                                     <c:choose>
-                                                        <c:when test="${fn:length(FileComment.comData) <= 15}">
+                                                        <c:when test="${fn:length(FileComment.comData) <= 25}">
                                                             ${FileComment.comData}
                                                         </c:when>
                                                         <c:otherwise>
-                                                            ${fn:substring(FileComment.comData, 0, 15)}...
+                                                            ${fn:substring(FileComment.comData, 0, 25)}...
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <br/>
@@ -591,11 +591,11 @@
                                                         ${sessionScope.notReadMessagesSender[loop.count-1].userName}</a><br/>
                                                     <muted>
                                                         <c:choose>
-                                                            <c:when test="${fn:length(message.msgData) <= 15}">
+                                                            <c:when test="${fn:length(message.msgData) <= 25}">
                                                                 ${message.msgData}
                                                             </c:when>
                                                             <c:otherwise>
-                                                                ${fn:substring(message.msgData, 0, 15)}...
+                                                                ${fn:substring(message.msgData, 0, 25)}...
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </muted>

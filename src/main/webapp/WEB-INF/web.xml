@@ -3,12 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <display-name>sshM</display-name>
+    <display-name>EDS</display-name>
 
     <welcome-file-list>
         <welcome-file>views/user/login.jsp</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/views/error/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/views/error/500.jsp</location>
+    </error-page>
     <!-- spring配置文件名称与位置 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>

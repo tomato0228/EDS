@@ -102,4 +102,14 @@ public class Log {
         result = 31 * result + (logSignature != null ? logSignature.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+                "logTime=" + logTime +
+                ", logUserId=" + logUserId +
+                ", logOptype=" + logOptype +
+                ", logFileId=" + logFileId +
+                '}';
+    }
 }

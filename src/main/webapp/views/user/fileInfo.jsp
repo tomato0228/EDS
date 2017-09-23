@@ -49,12 +49,26 @@
             }, function (requestData) {
                 window.location.reload();
             });
-            return false;
         }
 
         //去掉最后的空格
         function trim(str) {
             return str.replace(/(^\s+)|(\s+$)/g, "");
+        }
+        function fileAbstrcat() {
+
+            var serverUrl = $('#serverUrl').val();
+            var fileAbstrcat=$('#fileAbstrcat').val();
+            if (fileAbstrcat ==null || trim(fileAbstrcat) == '')
+                return false;
+
+            var url = serverUrl + '/user/updateFileAbstrcat-${requestScope.fileInfo.fileId}';
+            $.post(url, {
+                fileAbstrcat: fileAbstrcat
+            }, function (requestData) {
+                alert("99");
+                window.location.reload();
+            });
         }
     </script>
 
@@ -112,14 +126,20 @@
                                 </ul>
                             </div>
                             <div class="twt-write col-sm-12">
-                                <textarea class="form-control  t-text-area" rows="2"
+                                <textarea class="form-control  t-text-area" rows="2" id="fileAbstrcat" name="fileAbstrcat"
                                           placeholder="${requestScope.fileInfo.fileAbstrcat}"></textarea>
                             </div>
                             <footer class="twt-footer">
                                 <c:choose>
-                                    <c:when test="requestScope.fileInfo.fileShare == 0">
+                                    <c:when test="${(requestScope.fileInfo.fileShare == 1) && sessionScope.loginUser.userSecretLevel >= requestScope.fileInfo.fileSecretLevel && (!empty requestScope.fileInfoLimit) && (requestScope.fileInfoLimit.fileWrite==1)}">
                                         <button class="btn btn-space btn-white" data-toggle="button"
-                                                style="margin-top: 15px">
+                                                style="margin-top: 15px" onclick="fileAbstrcat()">
+                                            <i class="fa fa-pencil"></i>
+                                        </button>
+                                    </c:when>
+                                    <c:when test="${sessionScope.loginUser.userId == requestScope.fileInfo.fileUserId}">
+                                        <button class="btn btn-space btn-white" data-toggle="button"
+                                                style="margin-top: 15px" onclick="fileAbstrcat()">
                                             <i class="fa fa-pencil"></i>
                                         </button>
                                     </c:when>
@@ -136,7 +156,15 @@
                                     <i class="fa fa-user"></i>
                                 </button>
                                 <c:choose>
-                                    <c:when test="${(requestScope.fileInfo.fileShare == 1) && (!empty requestScope.fileInfoLimit) && (requestScope.fileInfoLimit.filePrint==1)}">
+                                    <c:when test="${(requestScope.fileInfo.fileShare == 1) && sessionScope.loginUser.userSecretLevel >= requestScope.fileInfo.fileSecretLevel && (!empty requestScope.fileInfoLimit) && (requestScope.fileInfoLimit.filePrint==1)}">
+                                        <button class="btn btn-space btn-info pull-right" type="button"
+                                                style="margin-top: 15px"
+                                                onclick="window.location.href='${ctx}/user/download-${requestScope.fileInfo.fileId}'">
+                                            <i class="fa fa-cloud-download"></i>
+                                            下载
+                                        </button>
+                                    </c:when>
+                                    <c:when test="${sessionScope.loginUser.userId == requestScope.fileInfo.fileUserId}">
                                         <button class="btn btn-space btn-info pull-right" type="button"
                                                 style="margin-top: 15px"
                                                 onclick="window.location.href='${ctx}/user/download-${requestScope.fileInfo.fileId}'">
@@ -148,10 +176,18 @@
                                         <button class="btn btn-space btn-info pull-right" type="button"
                                                 style="margin-top: 15px">
                                             <i class="fa fa-cloud-download"></i>
-                                            下载
+                                            不可下载
                                         </button>
                                     </c:otherwise>
                                 </c:choose>
+                                <c:if test="${sessionScope.loginUser.userId == requestScope.fileInfo.fileUserId}">
+                                    <button class="btn btn-space btn-info pull-right" type="button"
+                                            style="margin-top: 15px;font-size: 1.2em"
+                                            onclick="window.location.href='${ctx}/user/deleteFile-${requestScope.fileInfo.fileId}'">
+                                        <i class="fa fa-trash-o"></i>
+                                        删除
+                                    </button>
+                                </c:if>
                             </footer>
                         </section>
                         <!--widget end-->

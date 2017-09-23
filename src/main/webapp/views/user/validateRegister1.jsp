@@ -39,7 +39,6 @@
         </div>
     </div>
 </div>
-${validateRes} <br> 8s后会自动跳转到首页....
 <script type="text/javascript">
     var userId = $('#userId').val();
     var serverUrl = $('#serverUrl').val();
