@@ -95,7 +95,7 @@
                             <table>
                                 <tr>
                                     <td>用户名</td>
-                                    <td><input name="adminName" type="text" id="adminName" onkeydown=KeyDown()
+                                    <td><input name="adminName" type="text"  onkeydown=KeyDown() id="adminName"
                                                data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
                                                data-message="用户名必须为4—16位的英文字母或数字"
                                                data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名或密码错误!">
@@ -103,7 +103,7 @@
                                 </tr>
                                 <tr>
                                     <td>密码</td>
-                                    <td><input name="password" type="password" id="password" onkeydown=KeyDown()
+                                    <td><input name="password" type="password" onkeydown=KeyDown() id="password"
                                                data-easyform="length:6 16;ajax:ajax_demo(1);"
                                                data-message="密码必须为6—16位"
                                                data-easytip="class:easy-blue;" data-message-ajax="用户名或密码错误!"></td>
