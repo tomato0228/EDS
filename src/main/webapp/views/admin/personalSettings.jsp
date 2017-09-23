@@ -22,6 +22,7 @@
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/css/H-ui.css"/>
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/css/H-ui.admin.css"/>
     <link type="text/css" rel="stylesheet" href="${ctx}/resources/fonts/font-awesome.min.css"/>
+    <link rel="stylesheet" href="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.css">
     <script src="${ctx}/resources/js/jquery.min.js"></script>
     <script src="${ctx}/resources/js/bootstrap.min.js"></script>
     <script>
@@ -292,5 +293,7 @@
         }
     %>
 </div>
+    <script src="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.js"></script>
+    <script src="${ctx}/resources/SweetAlert2/lib/es6-promise.min.js"></script>
 </body>
 </html>

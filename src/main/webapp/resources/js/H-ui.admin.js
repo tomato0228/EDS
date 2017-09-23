@@ -448,27 +448,37 @@ function admin_edit(password,adminid) {
 
             if(oldpw==""||newpw1==""||newpw2=="")
             {
-                alert("请完整填写密码！");
+                swal('请完整填写密码！')
             }
             else if(pwcheck==0){
-                alert("原始密码错误，请重新输入！");
+                swal('原始密码错误，请重新输入！')
+
             }
             else{
-            	if(newpw1==newpw2)
-				{
+            	if(newpw1==newpw2) {
+                    if (!pswRule(newpw1, newpw2)) {
 
-                    $.post('/admin/admin_edit',
-                        {
-							"newpw":newpw2,
-							"adminid":adminid
-                        },function (requestdata) {
-							window.location.reload();
-                        }
-                    );
-				}
+                        swal(
+                            '密码格式错误!',
+                            '密码必须为6—16位的数字和字母组合!',
+                            'error'
+                        )
+
+                    }
+                    else {
+                        $.post('/admin/admin_edit',
+                            {
+                                "newpw": newpw2,
+                                "adminid": adminid
+                            }, function (requestdata) {
+                                window.location.reload();
+                            }
+                        );
+                    }
+                }
 				else
 				{
-					alert("两次输入不一致！")
+                    swal('两次输入不一致!')
 				}
             }
 
@@ -613,7 +623,15 @@ function admin_edit_save100(adminid){
     var email=document.getElementById("email").value;
     if(tel==""&&email=="")
     {
-        alert("请至少修改一项！");
+        swal('请至少修改一项')
+    }
+    else if(!emailRule(email))
+    {
+        swal(
+            '邮箱格式错误!',
+            '',
+            'error'
+        )
     }
     else{ $.post('/admin/admin_edit2',
         {
@@ -626,6 +644,32 @@ function admin_edit_save100(adminid){
     );
     }
 
+}
+function trim(str) {
+    return str.replace(/(^\s+)|(\s+$)/g, "");
+}
+
+function pswRule(password, password2) {
+    if ( password == null || password2 == null ||trim(password) == "" || trim(password2) == "" )
+        return false;
+    var pwdrule = /^[a-zA-Z]\w{5,17}$/;
+
+    if (password != password2)
+        return false;
+    if (!pwdrule.test(password))
+        return false;
+    return true;
+}
+
+function emailRule(email) {
+
+    if (email == null ||trim(email) == "")
+        return false;
+    var emailrule = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+
+    if (!emailrule.test(email))
+        return false;
+    return true;
 }
 /*管理员-删除*/
 function admin_del(obj,id,power){
