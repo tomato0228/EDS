@@ -10,8 +10,13 @@
     <link rel="stylesheet" href="${ctx}/resources/js/easyform/easyform.css">
     <link rel="stylesheet" href="${ctx}/resources/css/tab.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/css/component.css"/>
+    <link rel="stylesheet" href="${ctx}/resources/css/loading/css/animate.css">
+    <link rel="stylesheet" href="${ctx}/resources/css/loading/css/global.css">
+    <link rel="stylesheet" href="${ctx}/resources/css/loading/css/loading.css">
+    <link rel="stylesheet" href="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.css">
     <script type="text/javascript" src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/easyform/easyform.js"></script>
+
     <title>EDS—忘记密码</title>
 
     <script type="text/javascript">
@@ -41,18 +46,30 @@
             if (!forgetPasswordRule(userName,email))
                 return false;
             var url = serverUrl + '/user/findPassword';
+
+            loading4();
             $.post(url, {
                 userName: userName,
                 email: email
             }, function (requestData) {
                 console.log(requestData.res);
                 if (requestData.res == 'yes') {
-                    alert('用于找回密码的验证信息已发送到您的邮箱,请您前往邮箱进行验证!');
-                    window.location.href="${ctx}/user/tologin";
+                    removeLoading('test');
+                    swal(
+                        '发送成功!',
+                        '用于找回密码的验证信息已发送到您的邮箱,请您前往邮箱进行验证!',
+                        'success'
+                    )
+
                 } else {
+                    removeLoading('test');
                     $("#userName").trigger("easyform-ajax", false);
                     $("#email").trigger("easyform-ajax", false);
-                    alert('您填写的用户名与邮箱不匹配,请填写准确以用于找回密码!');
+                    swal(
+                        '发送失败!',
+                        '您填写的用户名与邮箱不匹配,请填写准确以用于找回密码!',
+                        'error'
+                    )
                 }
                 return false;
             });
@@ -77,6 +94,25 @@
                 return false;
             return true;
         }
+        function loading4() {
+            $('body').loading({
+                loadingWidth:240,
+                title:'请稍等!',
+                name:'test',
+                discription:'正在发送邮件...',
+                direction:'column',
+                type:'origin',
+                originBg:'#71EA71',
+                originDivWidth:40,
+                originDivHeight:40,
+                originWidth:6,
+                originHeight:6,
+                smallLoading:false,
+                loadingBg:'#389A81',
+                loadingMaskBg:'rgba(123,122,222,0.2)'
+            });
+
+        }
     </script>
 
     <script>
@@ -90,8 +126,35 @@
             }
         }
     </script>
+    <style>
+        body,html{
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-</head>
+        .div-btn{
+            width: 100%;
+            max-width: 560px;
+            /*margin:200px auto; */
+        }
+
+        .div-btn div{
+            margin: 10px 0 ;
+        }
+
+        .test-div{
+            width: 300px;
+            height: 300px;
+            margin:20px auto;
+            border: 1px solid #aaa;
+            position: relative;
+        }
+    </style>
+
+
+    </head>
 <body>
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
 <div class="container demo-2">
@@ -112,8 +175,8 @@
                                         <div style="color: #ffffff ; font-size: 2em">用户名</div>
                                     </td>
                                     <td><input name="userName" type="text" onkeydown=KeyDown() id="userName"
-                                               data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
-                                               data-message="用户名必须为4—16位的英文字母或数字"
+                                               data-easyform="length:4 16;char-chinese;;real-time;ajax:ajax_demo(1);"
+                                               data-message="用户名必须为2—7位的中文或4-16位中英文或数字"
                                                data-easytip="position:top;class:easy-blue;"
                                                data-message-ajax="用户名与邮箱不匹配!">
                                     </td>
@@ -133,7 +196,6 @@
                             <div class="buttons" style="margin-top: 50px;">
                                 <input sty value="找回密码" type="submit" name="btnsubmit"
                                        style="margin-right:50px; margin-top:20px; font-size: 1.5em">
-                                <div class="spinner"></div>
                                 <input value="登 录" type="button"
                                        style="margin-right:40px; margin-top:20px; font-size: 1.5em"
                                        onclick="window.location.href='${ctx}/user/tologin'">
@@ -146,9 +208,14 @@
         </div>
     </div>
 </div>
+
+<script src="${ctx}/resources/css/loading/js/loading.js"></script>
 <script src="${ctx}/resources/js/TweenLite.min.js"></script>
 <script src="${ctx}/resources/js/EasePack.min.js"></script>
 <script src="${ctx}/resources/js/rAF.js"></script>
 <script src="${ctx}/resources/js/demo-2.js"></script>
+<script src="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.js"></script>
+<script src="${ctx}/resources/SweetAlert2/lib/es6-promise.min.js"></script>
+
 </body>
 </html>
