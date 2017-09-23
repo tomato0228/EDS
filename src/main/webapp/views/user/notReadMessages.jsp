@@ -43,7 +43,6 @@
             <h3><i class="fa fa-angle-right"></i> 我的未读消息</h3>
             <div class="row mt">
                 <div class="col-lg-12">
-
                     <c:forEach items="${sessionScope.notReadMessages}" var="message" varStatus="loop">
                         <div class="col-lg-4 col-md-4 col-sm-4 mb">
                             <!-- WHITE PANEL - TOP USER -->

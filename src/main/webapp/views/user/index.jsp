@@ -40,727 +40,611 @@
 </head>
 
 <body>
-
-<section id="container">
-    <!-- **********************************************************************************************************************************************************
-    TOP BAR CONTENT & NOTIFICATIONS
-    *********************************************************************************************************************************************************** -->
-    <!--header start-->
-    <header class="header black-bg">
-        <div class="sidebar-toggle-box">
-            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-        </div>
-        <!--logo start-->
-        <a href="#" class="logo"><b>EDS</b></a>
-        <!--logo end-->
-        <div class="nav notify-row" id="top_menu">
-            <!--  通知 start -->
-            <ul class="nav top-menu">
-                <!-- 文件评论 start -->
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.jsp#">
-                        <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">${fn:length(sessionScope.notReadFileComments)}</span>
-                    </a>
-                    <ul class="dropdown-menu extended tasks-bar">
-                        <div class="notify-arrow notify-arrow-green"></div>
-                        <li>
-                            <p class="green">你有 ${fn:length(sessionScope.notReadFileComments)} 条新评论</p>
+<c:choose>
+    <c:when test="${!empty sessionScope.loginUser}">
+        <section id="container">
+            <!-- **********************************************************************************************************************************************************
+            TOP BAR CONTENT & NOTIFICATIONS
+            *********************************************************************************************************************************************************** -->
+            <!--header start-->
+            <header class="header black-bg">
+                <div class="sidebar-toggle-box">
+                    <div class="fa fa-bars tooltips" data-placement="right"
+                         data-original-title="Toggle Navigation"></div>
+                </div>
+                <!--logo start-->
+                <a href="#" class="logo" onclick="window.location.href='${ctx}/user/index'"><b>EDS</b></a>
+                <!--logo end-->
+                <div class="nav notify-row" id="top_menu">
+                    <!--  通知 start -->
+                    <ul class="nav top-menu">
+                        <!-- 文件评论 start -->
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-tasks"></i>
+                                <span class="badge bg-theme">${fn:length(sessionScope.notReadFileComments)}</span>
+                            </a>
+                            <ul class="dropdown-menu extended inbox">
+                                <div class="notify-arrow notify-arrow-green"></div>
+                                <li>
+                                    <p class="green">你有 ${fn:length(sessionScope.notReadFileComments)} 条新评论</p>
+                                </li>
+                                <c:forEach items="${sessionScope.notReadFileComments}" var="comment" end="4"
+                                           varStatus="loop">
+                                    <li>
+                                            <%--查看--%>
+                                        <a href="#"
+                                           onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
+                                                <%--头像--%>
+                                            <span class="photo">
+                                            <img alt="avatar"
+                                                 src="${sessionScope.notReadFileCommentsSender[loop.count-1].userPictureUrl}">
+                                        </span>
+                                            <span class="subject">
+                                            <%--名字--%>
+                                            <span class="from">${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</span>
+                                            <%--时间--%>
+                                            <span class="time">
+                                                <fmt:formatDate value="${comment.comTime}" type="time"
+                                                                timeStyle="medium"/>
+                                            </span>
+                                        </span>
+                                                <%--内容--%>
+                                            <span class="message">
+                                            <c:choose>
+                                                <c:when test="${fn:length(comment.comData) <= 14}">
+                                                    ${comment.comData}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${fn:substring(comment.comData, 0, 14)}...
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </span>
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                                <li class="external">
+                                    <a href="#"
+                                       onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <div class="task-info">
-                                    <div class="desc">DashGum Admin Panel</div>
-                                    <div class="percent">40%</div>
-                                </div>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                        <span class="sr-only">40% Complete (success)</span>
-                                    </div>
-                                </div>
+                        <!-- 文件评论 end -->
+                        <!-- inbox dropdown start-->
+                        <li id="header_inbox_bar" class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="badge bg-theme">${fn:length(sessionScope.notReadMessages)}</span>
+                            </a>
+                            <ul class="dropdown-menu extended inbox">
+                                <div class="notify-arrow notify-arrow-green"></div>
+                                <li>
+                                    <p class="green">你有 ${fn:length(sessionScope.notReadMessages)} 条新消息</p>
+                                </li>
+                                <c:forEach items="${sessionScope.notReadMessages}" var="Message" end="4"
+                                           varStatus="loop">
+                                    <li>
+                                            <%--查看--%>
+                                        <a href="#">
+                                                <%--头像--%>
+                                            <span class="photo">
+                                                <img alt="avatar"
+                                                     src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
+                                            </span>
+                                            <span class="subject">
+                                            <%--名字--%>
+                                            <span class="from">${sessionScope.notReadMessagesSender[loop.count-1].userName}</span>
+                                            <%--时间--%>
+                                            <span class="time">
+                                                <fmt:formatDate value="${Message.msgSendtime}" type="time"
+                                                                timeStyle="medium"/>
+                                            </span>
+                                        </span>
+                                                <%--内容--%>
+                                            <span class="message">
+                                            <c:choose>
+                                                <c:when test="${fn:length(Message.msgData) <= 14}">
+                                                    ${Message.msgData}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${fn:substring(Message.msgData, 0, 14)}...
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </span>
+                                        </a>
+                                    </li>
+                                </c:forEach>
+                                <li>
+                                    <a href="#"
+                                       onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- inbox dropdown end -->
+                    </ul>
+                    <!--  通知 end -->
+                </div>
+                <div class="top-menu">
+                    <ul class="nav pull-right top-menu">
+                        <li><a class="logout" href="#" onclick="window.location.href='${ctx}/user/logout'">注 销</a></li>
+                    </ul>
+                </div>
+            </header>
+            <!--header end-->
+
+            <!-- **********************************************************************************************************************************************************
+            MAIN SIDEBAR MENU
+            *********************************************************************************************************************************************************** -->
+            <!--sidebar start-->
+            <aside>
+                <div id="sidebar" class="nav-collapse ">
+                    <!-- sidebar menu start-->
+                    <ul class="sidebar-menu" id="nav-accordion">
+                        <!--头像-->
+                        <p class="centered">
+                            <a href="#" onclick="window.location.href = '${ctx}/user/userPicture'">
+                                <c:choose>
+                                    <c:when test="${empty sessionScope.loginUser.userPictureUrl}">
+                                        <img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle" width="60">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="${sessionScope.loginUser.userPictureUrl}" class="img-circle"
+                                             width="60">
+                                    </c:otherwise>
+                                </c:choose>
+                            </a>
+                        </p>
+                        <!--用户名-->
+                        <h5 class="centered">${sessionScope.loginUser.userName}</h5>
+
+                        <!--主页-->
+                        <li class="mt">
+                            <a class="active" href="#" onclick="window.location.href='${ctx}/user/index'">
+                                <i class="fa fa-home"></i>
+                                <span>主  页</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <div class="task-info">
-                                    <div class="desc">Database Update</div>
-                                    <div class="percent">60%</div>
-                                </div>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60% Complete (warning)</span>
-                                    </div>
-                                </div>
+                        <!--消息-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-comments-o"></i>
+                                <span>我的消息</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findMessage'">搜索消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a>
+                                </li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <div class="task-info">
-                                    <div class="desc">Product Development</div>
-                                    <div class="percent">80%</div>
-                                </div>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="80"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        <span class="sr-only">80% Complete</span>
-                                    </div>
-                                </div>
+                        <!--共享文件-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-globe"></i>
+                                <span>共享文件</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <div class="task-info">
-                                    <div class="desc">Payments Sent</div>
-                                    <div class="percent">70%</div>
-                                </div>
-                                <div class="progress progress-striped">
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 70%">
-                                        <span class="sr-only">70% Complete (Important)</span>
-                                    </div>
-                                </div>
+                        <!--文件-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-th"></i>
+                                <span>我的文件</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
+                            </ul>
                         </li>
-                        <li class="external">
-                            <a href="#">查看所有评论</a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- 文件评论 end -->
-                <!-- inbox dropdown start-->
-                <li id="header_inbox_bar" class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.jsp#">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-theme">${fn:length(sessionScope.notReadMessages)}</span>
-                    </a>
-                    <ul class="dropdown-menu extended inbox">
-                        <div class="notify-arrow notify-arrow-green"></div>
-                        <li>
-                            <p class="green">你有 ${fn:length(sessionScope.notReadMessages)} 条新消息</p>
-                        </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-zac.jpg"></span>
-                                <span class="subject">
-                                    <span class="from">Zac Snider</span>
-                                    <span class="time">
-                                        <jsp:useBean id="Timestamp" class="java.util.Date"/>
-                                        <fmt:formatDate value="${Timestamp}" type="time" timeStyle="medium"/>
-                                    </span>
-                                    </span>
-                                <span class="message">
-                                        Hi mate, how is everything?
-                                    </span>
+                        <!--文件评论-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-tasks"></i>
+                                <span>文件评论</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a>
+                                </li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-divya.jpg"></span>
-                                <span class="subject">
-                                    <span class="from">Divya Manian</span>
-                                    <span class="time">40 mins.</span>
-                                    </span>
-                                <span class="message">
-                                     Hi, I need your help with this.
-                                    </span>
+                        <!--日志系统-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>我的日志</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/myLog'">我的日志</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/myFileLog'">文件日志</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-danro.jpg"></span>
-                                <span class="subject">
-                                    <span class="from">Dan Rogers</span>
-                                    <span class="time">2 hrs.</span>
-                                    </span>
-                                <span class="message">
-                                        Love your new Dashboard.
-                                    </span>
+                        <!--个人信息-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class=" fa fa-bar-chart-o"></i>
+                                <span>个人信息</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">
-                                <span class="photo"><img alt="avatar" src="${ctx}/resources/img/ui-sherman.jpg"></span>
-                                <span class="subject">
-                                    <span class="from">Dj Sherman</span>
-                                    <span class="time">4 hrs.</span>
-                                    </span>
-                                <span class="message">
-                                        Please, answer asap.
-                                    </span>
+                        <!--系统信息-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-desktop"></i>
+                                <span>系统信息</span>
                             </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="index.jsp#">查看所有消息</a>
+                        <!--设置-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-cogs"></i>
+                                <span>设  置</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a>
+                                </li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </li>
-                <!-- inbox dropdown end -->
-            </ul>
-            <!--  通知 end -->
-        </div>
-        <div class="top-menu">
-            <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="#" onclick="window.location.href='${ctx}/user/logout'">注  销</a></li>
-            </ul>
-        </div>
-    </header>
-    <!--header end-->
+                    <!-- sidebar menu end-->
+                </div>
+            </aside>
+            <!--sidebar end-->
 
-    <!-- **********************************************************************************************************************************************************
-    MAIN SIDEBAR MENU
-    *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
-    <aside>
-        <div id="sidebar" class="nav-collapse ">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
-
-                <!--头像-->
-                <p class="centered">
-                    <a href="#" onclick="window.location.href = '${ctx}/user/userPicture'">
-                        <c:choose>
-                            <c:when test="${sessionScope.loginUser.userPictureUrl} == null">
-                                <img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle" width="60">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="${sessionScope.loginUser.userPictureUrl}" class="img-circle" width="60">
-                            </c:otherwise>
-                        </c:choose>
-                    </a>
-                </p>
-                <!--用户名-->
-                <h5 class="centered">${sessionScope.loginUser.userName}</h5>
-
-                <!--主页-->
-                <li class="mt">
-                    <a class="active" href="#"  onclick="window.location.href='${ctx}/user/index'">
-                        <i class="fa fa-home"></i>
-                        <span>主  页</span>
-                    </a>
-                </li>
-                <!--消息-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-comments-o"></i>
-                        <span>我的消息</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#"  onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
-                    </ul>
-                </li>
-                <!--共享文件-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-globe"></i>
-                        <span>共享文件</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
-                    </ul>
-                </li>
-                <!--文件-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-th"></i>
-                        <span>我的文件</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
-                    </ul>
-                </li>
-                <!--文件评论-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-tasks"></i>
-                        <span>文件评论</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
-                    </ul>
-                </li>
-                <!--日志系统-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-book"></i>
-                        <span>我的日志</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/myLog'">我的日志</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/myFileLog'">文件日志</a></li>
-                    </ul>
-                </li>
-                <!--个人信息-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class=" fa fa-bar-chart-o"></i>
-                        <span>个人信息</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
-                        <li><a href="#">个人简介</a></li>
-                    </ul>
-                </li>
-                <!--系统信息-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-desktop"></i>
-                        <span>系统信息</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#">系统介绍</a></li>
-                        <li><a href="#">作者介绍</a></li>
-                    </ul>
-                </li>
-                <!--设置-->
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="fa fa-cogs"></i>
-                        <span>设  置</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="#">密码修改</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
-                        <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">信息修改</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
-    <!--sidebar end-->
-
-    <!-- **********************************************************************************************************************************************************
-    MAIN CONTENT
-    *********************************************************************************************************************************************************** -->
-    <!--main content start-->
-    <section id="main-content">
-        <section class="wrapper">
-
-            <div class="row">
-                <div class="col-lg-9 main-chart">
-
-                    <div class="row mtbox">
-                        <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
-                            <div class="box1">
-                                <span class="li_eye"></span>
-                                <h3>933</h3>
-                            </div>
-                            <p>共记 933 次查看你的共享文档.</p>
-                        </div>
-                        <div class="col-md-2 col-sm-2 box0">
-                            <div class="box1">
-                                <span class="li_cloud"></span>
-                                <h3>+48</h3>
-                            </div>
-                            <p>你上传了 48 个共享文档.</p>
-                        </div>
-                        <div class="col-md-2 col-sm-2 box0">
-                            <div class="box1">
-                                <span class="li_stack"></span>
-                                <h3>23</h3>
-                            </div>
-                            <p>你总共有 23 个私人文件.</p>
-                        </div>
-                        <div class="col-md-2 col-sm-2 box0">
-                            <div class="box1">
-                                <span class="li_note"></span>
-                                <h3>+10</h3>
-                            </div>
-                            <p>你共享的文件有 10 条评论.</p>
-                        </div>
-                        <div class="col-md-2 col-sm-2 box0">
-                            <div class="box1">
-                                <span class="li_data"></span>
-                                <h3>OK!</h3>
-                            </div>
-                            <p>你还没有获得认证，请及时完善个人信息</p>
-                        </div>
-
-                    </div><!-- /row mt -->
-
-
-                    <div class="row mt">
-                        <!-- SERVER STATUS PANELS -->
-                        <div class="col-md-4 col-sm-4 mb">
-                            <div class="white-panel pn donut-chart">
-                                <div class="white-header">
-                                    <h5>SERVER LOAD</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><i class="fa fa-database"></i> 70%</p>
-                                    </div>
-                                </div>
-                                <canvas id="serverstatus01" height="120" width="120"></canvas>
-                                <script>
-                                    var doughnutData = [
-                                        {
-                                            value: 70,
-                                            color: "#68dff0"
-                                        },
-                                        {
-                                            value: 30,
-                                            color: "#fdfdfd"
-                                        }
-                                    ];
-                                    var myDoughnut = new Chart(document.getElementById("serverstatus01").getContext("2d")).Doughnut(doughnutData);
-                                </script>
-                            </div>
-                            <! --/grey-panel -->
-                        </div><!-- /col-md-4-->
-
-
-                        <div class="col-md-4 col-sm-4 mb">
-                            <div class="white-panel pn">
-                                <div class="white-header">
-                                    <h5>TOP PRODUCT</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6 col-xs-6 goleft">
-                                        <p><i class="fa fa-heart"></i> 122</p>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-6"></div>
-                                </div>
-                                <div class="centered">
-                                    <img src="${ctx}/resources/img/product.png" width="120">
-                                </div>
-                            </div>
-                        </div><!-- /col-md-4 -->
-
-                        <div class="col-md-4 mb">
-                            <!-- WHITE PANEL - TOP USER -->
-                            <div class="white-panel pn">
-                                <div class="white-header">
-                                    <h5>TOP USER</h5>
-                                </div>
-                                <div class="row">
-
-                                </div>
-                                <p><img src="${ctx}/resources/img/ui-zac.jpg" class="img-circle" width="100"></p>
-                                <p><b>Zac Snider</b></p>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p class="small mt">MEMBER SINCE</p>
-                                        <p>2012</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="small mt">TOTAL SPEND</p>
-                                        <p>$ 47,60</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- /col-md-4 -->
-
-
-                    </div><!-- /row -->
-
+            <!-- **********************************************************************************************************************************************************
+            MAIN CONTENT
+            *********************************************************************************************************************************************************** -->
+            <!--main content start-->
+            <section id="main-content">
+                <section class="wrapper">
 
                     <div class="row">
-                        <!-- TWITTER PANEL -->
-                        <div class="col-md-4 mb">
-                            <div class="darkblue-panel pn">
-                                <div class="darkblue-header">
-                                    <h5>DROPBOX STATICS</h5>
-                                </div>
-                                <canvas id="serverstatus02" height="120" width="120"></canvas>
-                                <script>
-                                    var doughnutData = [
-                                        {
-                                            value: 60,
-                                            color: "#68dff0"
-                                        },
-                                        {
-                                            value: 40,
-                                            color: "#444c57"
-                                        }
-                                    ];
-                                    var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
-                                </script>
-                                <p>April 17, 2014</p>
-                                <footer>
-                                    <div class="pull-left">
-                                        <h5><i class="fa fa-hdd-o"></i> 17 GB</h5>
+                        <div class="col-lg-9 main-chart">
+
+                            <div class="row mtbox">
+                                <div class="col-md-2 col-sm-2 col-md-offset-1 box0">
+                                    <div class="box1">
+                                        <span class="li_eye"></span>
+                                        <h3>${sessionScope.EnjoyFilesViewtimes}</h3>
                                     </div>
-                                    <div class="pull-right">
-                                        <h5>60% Used</h5>
+                                    <p>共记 ${sessionScope.EnjoyFilesViewtimes} 次查看你的共享文档.</p>
+                                </div>
+                                <div class="col-md-2 col-sm-2 box0">
+                                    <div class="box1">
+                                        <span class="li_cloud"></span>
+                                        <h3>${fn:length(sessionScope.EnjoyFiles)}</h3>
                                     </div>
-                                </footer>
-                            </div>
-                            <! -- /darkblue panel -->
-                        </div><!-- /col-md-4 -->
-
-
-                        <div class="col-md-4 mb">
-                            <!-- INSTAGRAM PANEL -->
-                            <div class="instagram-panel pn">
-                                <i class="fa fa-instagram fa-4x"></i>
-                                <p>@THISISYOU<br/>
-                                    5 min. ago
-                                </p>
-                                <p><i class="fa fa-comment"></i> 18 | <i class="fa fa-heart"></i> 49</p>
-                            </div>
-                        </div><!-- /col-md-4 -->
-
-                        <div class="col-md-4 col-sm-4 mb">
-                            <!-- REVENUE PANEL -->
-                            <div class="darkblue-panel pn">
-                                <div class="darkblue-header">
-                                    <h5>REVENUE</h5>
+                                    <p>你上传了 ${fn:length(sessionScope.EnjoyFiles)} 个共享文档.</p>
                                 </div>
-                                <div class="chart mt">
-                                    <div class="sparkline" data-type="line" data-resize="true" data-height="75"
-                                         data-width="90%" data-line-width="1" data-line-color="#fff"
-                                         data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff"
-                                         data-spot-radius="4"
-                                         data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
+                                <div class="col-md-2 col-sm-2 box0">
+                                    <div class="box1">
+                                        <span class="li_stack"></span>
+                                        <h3>${fn:length(sessionScope.PrivateFile)}</h3>
+                                    </div>
+                                    <p>你总共有 ${fn:length(sessionScope.PrivateFile)} 个私人文件.</p>
                                 </div>
-                                <p class="mt"><b>$ 17,980</b><br/>Month Income</p>
-                            </div>
-                        </div><!-- /col-md-4 -->
-
-                    </div><!-- /row -->
-
-                    <div class="row mt">
-                        <!--CUSTOM CHART START -->
-                        <div class="border-head">
-                            <h3>VISITS</h3>
-                        </div>
-                        <div class="custom-bar-chart">
-                            <ul class="y-axis">
-                                <li><span>10.000</span></li>
-                                <li><span>8.000</span></li>
-                                <li><span>6.000</span></li>
-                                <li><span>4.000</span></li>
-                                <li><span>2.000</span></li>
-                                <li><span>0</span></li>
-                            </ul>
-                            <div class="bar">
-                                <div class="title">JAN</div>
-                                <div class="value tooltips" data-original-title="8.500" data-toggle="tooltip"
-                                     data-placement="top">85%
+                                <div class="col-md-2 col-sm-2 box0">
+                                    <div class="box1">
+                                        <span class="li_note"></span>
+                                        <h3>${sessionScope.commentsSize}</h3>
+                                    </div>
+                                    <p>你共享的文件有 ${sessionScope.commentsSize} 条评论.</p>
                                 </div>
-                            </div>
-                            <div class="bar ">
-                                <div class="title">FEB</div>
-                                <div class="value tooltips" data-original-title="5.000" data-toggle="tooltip"
-                                     data-placement="top">50%
+                                <div class="col-md-2 col-sm-2 box0">
+                                    <c:choose>
+                                        <c:when test="${sessionScope.loginUser.userIsAccepted == 0}">
+                                            <div class="box1">
+                                                <span class="li_data"></span>
+                                                <h3>NO!</h3>
+                                            </div>
+                                            <p>你还没有获得认证，请及时完善个人信息</p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="box1">
+                                                <span class="li_data"></span>
+                                                <h3>OK!</h3>
+                                            </div>
+                                            <p>恭喜你，你已经获得认证！</p>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
-                            </div>
-                            <div class="bar ">
-                                <div class="title">MAR</div>
-                                <div class="value tooltips" data-original-title="6.000" data-toggle="tooltip"
-                                     data-placement="top">60%
+
+                            </div><!-- /row mt -->
+
+
+                            <div class="row mt">
+                                <c:forEach items="${sessionScope.PrivateFile}" var="privateFile" end="2">
+                                    <!-- SERVER STATUS PANELS -->
+                                    <div class="col-md-4 col-sm-4 mb">
+                                        <div class="white-panel pn donut-chart">
+                                            <div class="white-header">
+                                                <h5>
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(privateFile.fileName) <= 15}">
+                                                            ${privateFile.fileName}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${fn:substring(privateFile.fileName, 0, 15)}...
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6 col-xs-6 goleft">
+                                                    <p><i class="fa fa-clock-o"></i>${fn:substring(privateFile.fileLoadTime, 0, 16)}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row centered">
+                                                <img src="${ctx}/resources/img/prefix/${privateFile.fileType}.png"
+                                                     class="img-rounded" width="100"
+                                                     onclick="window.location.href='${ctx}/user/fileInfo-${privateFile.fileId}'">
+                                            </div>
+                                        </div>
+                                        <! --/grey-panel -->
+                                    </div>
+                                    <!-- /col-md-4-->
+                                </c:forEach><!-- 1st ROW OF PANELS -->
+                            </div><!-- /row -->
+
+
+                            <div class="row">
+                                <c:forEach items="${sessionScope.notReadMessages}" var="message" varStatus="loop" end="2">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                                        <!-- WHITE PANEL - TOP USER -->
+                                        <div class="white-panel pn">
+                                            <div class="white-header">
+                                                <h5>${sessionScope.notReadMessagesSender[loop.count-1].userName}</h5>
+                                            </div>
+                                            <p><img src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}"
+                                                    class="img-circle" width="70"
+                                                    onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.notReadMessagesSender[loop.count-1].userId}'">
+                                            </p>
+                                            <p><b>${fn:substring(message.msgSendtime, 5, 16)}</b></p>
+                                            <div class="row centered">
+                                                <div class=" col-md-offset-1 col-md-10">
+                                                    <a class="small mt" href="#"
+                                                       onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.notReadMessagesSender[loop.count-1].userId}'">
+                                                        Read This Message
+                                                    </a>
+                                                    <p>
+                                                        <c:choose>
+                                                            <c:when test="${fn:length(message.msgData) <= 15}">
+                                                                ${message.msgData}
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${fn:substring(message.msgData, 0, 15)}...
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /col-md-4 -->
+                                </c:forEach>
+                            </div><!-- /row -->
+
+
+                            <div class="row">
+                                <c:forEach items="${sessionScope.notReadFileComments}" var="FileComment" varStatus="loop" end="2">
+                                    <! -- Blog Panel -->
+                                    <div class="col-lg-4 col-md-4 col-sm-4 mb">
+                                        <div class="content-panel pn">
+                                            <div id="blog-bg">
+                                                <img src="${sessionScope.notReadFileCommentsSender[loop.count-1].userPictureUrl}"
+                                                     class="img-circle" width="70" style="margin:20px 35px;"
+                                                     onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
+
+                                                <div class="blog-title">${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</div>
+
+                                                <img src="${ctx}/resources/img/prefix/${sessionScope.notReadFileCommentFiles[loop.count-1].fileType}.png"
+                                                     class="img-rounded" width="70" style="margin:20px 35px;"
+                                                     onclick="window.location.href='${ctx}/user/fileInfo-${FileComment.comRecevier}'">
+                                                <div class="blog-titleright">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(sessionScope.notReadFileCommentFiles[loop.count-1].fileName) <= 10}">
+                                                            ${FileComment.comData}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${fn:substring(sessionScope.notReadFileCommentFiles[loop.count-1].fileName, 0, 10)}...
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
+                                            </div>
+                                            <div class="blog-text">
+                                                <p style="font-size: 1.2em">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(FileComment.comData) <= 75}">
+                                                            ${FileComment.comData}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${fn:substring(FileComment.comData, 0, 75)}...
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <a href="#"
+                                                       onclick="window.location.href='${ctx}/user/readComment-${FileComment.comId}'">
+                                                        Read This
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /col-md-4-->
+                                </c:forEach>
+                            </div><!-- /row -->
+
+                        </div><!-- /col-lg-9 END SECTION MIDDLE -->
+
+
+                        <!-- **********************************************************************************************************************************************************
+                        RIGHT SIDEBAR CONTENT
+                        *********************************************************************************************************************************************************** -->
+
+                        <div class="col-lg-3 ds">
+                            <!--COMPLETED ACTIONS DONUTS CHART-->
+                            <h3>最近评论</h3>
+                            <c:choose>
+                                <c:when test="${fn:length(sessionScope.notReadFileComments) == 0}">
+                                    <!-- First Action -->
+                                    <div class="desc">
+                                        <div class="thumb">
+                                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                                        </div>
+                                        <div class="details">
+                                            <p>
+                                                <muted>系统提醒</muted>
+                                                <br/>
+                                                <a href="#">最近没有评论</a> 快去共享文件吧.<br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${sessionScope.notReadFileComments}" var="FileComment" varStatus="loop"
+                                               end="5">
+                                        <div class="desc" href="#"
+                                             onclick="window.location.href='${ctx}/user/readComment-${FileComment.comId}'">
+                                            <div class="thumb">
+                                                <img class="img-circle"
+                                                     src="${sessionScope.notReadFileCommentsSender[loop.count-1].userPictureUrl}"
+                                                     width="35px"
+                                                     height="35px"
+                                                     align=""
+                                                     onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
+                                            </div>
+                                            <div class="details">
+                                                <p>
+                                                    <muted>
+                                                        <fmt:formatDate value="${FileComment.comTime}" type="time"
+                                                                        timeStyle="medium"/>
+                                                    </muted>
+                                                    <br/>
+                                                    <a href="#"
+                                                       onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
+                                                            ${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</a>
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(FileComment.comData) <= 15}">
+                                                            ${FileComment.comData}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${fn:substring(FileComment.comData, 0, 15)}...
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <br/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <! -- Blog Panel -->
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- USERS ONLINE SECTION -->
+                            <h3>最近消息</h3>
+                            <c:choose>
+                                <c:when test="${fn:length(sessionScope.notReadMessages) == 0}">
+                                    <!-- First Action -->
+                                    <div class="desc">
+                                        <div class="thumb">
+                                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
+                                        </div>
+                                        <div class="details">
+                                            <p>
+                                                <muted>系统提醒</muted>
+                                                <br/>
+                                                <a href="#">最近没有消息</a> 快去和别人发消息吧.<br/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach items="${sessionScope.notReadMessages}" var="message" varStatus="loop" end="5">
+                                        <div class="desc" href="#"
+                                             onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.notReadMessagesSender[loop.count-1].userId}'">
+                                            <div class="thumb">
+                                                <img class="img-circle"
+                                                     src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}"
+                                                     width="35px"
+                                                     height="35px"
+                                                     onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.notReadMessagesSender[loop.count-1].userId}'">
+                                            </div>
+                                            <div class="details">
+                                                <p><a href="#"
+                                                      src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
+                                                        ${sessionScope.notReadMessagesSender[loop.count-1].userName}</a><br/>
+                                                    <muted>
+                                                        <c:choose>
+                                                            <c:when test="${fn:length(message.msgData) <= 15}">
+                                                                ${message.msgData}
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                ${fn:substring(message.msgData, 0, 15)}...
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </muted>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
+                            <!-- 日历-->
+                            <div id="calendar" class="mb">
+                                <div class="panel green-panel no-margin">
+                                    <div class="panel-body">
+                                        <div id="date-popover" class="popover top"
+                                             style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                                            <div class="arrow"></div>
+                                            <h3 class="popover-title" style="disadding: none;"></h3>
+                                            <div id="date-popover-content" class="popover-content"></div>
+                                        </div>
+                                        <div id="my-calendar"></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="bar ">
-                                <div class="title">APR</div>
-                                <div class="value tooltips" data-original-title="4.500" data-toggle="tooltip"
-                                     data-placement="top">45%
-                                </div>
-                            </div>
-                            <div class="bar">
-                                <div class="title">MAY</div>
-                                <div class="value tooltips" data-original-title="3.200" data-toggle="tooltip"
-                                     data-placement="top">32%
-                                </div>
-                            </div>
-                            <div class="bar ">
-                                <div class="title">JUN</div>
-                                <div class="value tooltips" data-original-title="6.200" data-toggle="tooltip"
-                                     data-placement="top">62%
-                                </div>
-                            </div>
-                            <div class="bar">
-                                <div class="title">JUL</div>
-                                <div class="value tooltips" data-original-title="7.500" data-toggle="tooltip"
-                                     data-placement="top">75%
-                                </div>
-                            </div>
-                        </div>
-                        <!--custom chart end-->
-                    </div><!-- /row -->
+                            </div><!-- / 日历 -->
 
-                </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                        </div><!-- /col-lg-3 -->
+                    </div>
+                    <! --/row -->
+                </section>
+            </section>
 
-
-                <!-- **********************************************************************************************************************************************************
-                RIGHT SIDEBAR CONTENT
-                *********************************************************************************************************************************************************** -->
-
-                <div class="col-lg-3 ds">
-                    <!--COMPLETED ACTIONS DONUTS CHART-->
-                    <h3>最近评论</h3>
-
-                    <!-- First Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p>
-                                <muted>2 Minutes Ago</muted>
-                                <br/>
-                                <a href="#">James Brown</a> subscribed to your newsletter.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Second Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p>
-                                <muted>3 Hours Ago</muted>
-                                <br/>
-                                <a href="#">Diana Kennedy</a> purchased a year subscription.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Third Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p>
-                                <muted>7 Hours Ago</muted>
-                                <br/>
-                                <a href="#">Brandon Page</a> purchased a year subscription.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fourth Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p>
-                                <muted>11 Hours Ago</muted>
-                                <br/>
-                                <a href="#">Mark Twain</a> commented your post.<br/>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fifth Action -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <span class="badge bg-theme"><i class="fa fa-clock-o"></i></span>
-                        </div>
-                        <div class="details">
-                            <p>
-                                <muted>18 Hours Ago</muted>
-                                <br/>
-                                <a href="#">Daniel Pratt</a> purchased a wallet in your store.<br/>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- USERS ONLINE SECTION -->
-                    <h3>最近消息</h3>
-                    <!-- First Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-divya.jpg" width="35px" height="35px"
-                                 align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">DIVYA MANIAN</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Second Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-sherman.jpg" width="35px" height="35px"
-                                 align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">DJ SHERMAN</a><br/>
-                                <muted>I am Busy</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Third Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-danro.jpg" width="35px" height="35px"
-                                 align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">DAN ROGERS</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fourth Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-zac.jpg" width="35px" height="35px"
-                                 align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">Zac Sniders</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Fifth Member -->
-                    <div class="desc">
-                        <div class="thumb">
-                            <img class="img-circle" src="${ctx}/resources/img/ui-sam.jpg" width="35px" height="35px"
-                                 align="">
-                        </div>
-                        <div class="details">
-                            <p><a href="#">Marcel Newman</a><br/>
-                                <muted>Available</muted>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- 日历-->
-                    <div id="calendar" class="mb">
-                        <div class="panel green-panel no-margin">
-                            <div class="panel-body">
-                                <div id="date-popover" class="popover top"
-                                     style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-                                    <div class="arrow"></div>
-                                    <h3 class="popover-title" style="disadding: none;"></h3>
-                                    <div id="date-popover-content" class="popover-content"></div>
-                                </div>
-                                <div id="my-calendar"></div>
-                            </div>
-                        </div>
-                    </div><!-- / 日历 -->
-
-                </div><!-- /col-lg-3 -->
-            </div>
-            <! --/row -->
+            <!--main content end-->
+            <!--footer start-->
+            <footer class="site-footer">
+                <div class="text-center">
+                    2017 - Limit. three silly
+                    <a href="#" class="go-top">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+            </footer>
+            <!--footer end-->
         </section>
-    </section>
-
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            2014 - Alvarez.is
-            <a href="index.jsp#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
-</section>
+    </c:when>
+    <c:otherwise>
+        <script>
+            window.location.href = "${ctx}/user/tologin";
+        </script>
+    </c:otherwise>
+</c:choose>
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="${ctx}/resources/js/jquery.js"></script>

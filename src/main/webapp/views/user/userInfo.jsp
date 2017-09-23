@@ -189,7 +189,7 @@
 
                         <!--主页-->
                         <li class="mt">
-                            <a href="#">
+                            <a href="#" onclick="window.location.href='${ctx}/user/index'">
                                 <i class="fa fa-home"></i>
                                 <span>主  页</span>
                             </a>

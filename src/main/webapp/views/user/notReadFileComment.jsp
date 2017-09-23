@@ -92,7 +92,8 @@
                             </div>
                         </div>
                         <!-- /col-md-4-->
-                    </c:forEach><!-- 1st ROW OF PANELS -->
+                    </c:forEach>
+                    <!-- 1st ROW OF PANELS -->
                 </div>
             </div>
 

@@ -9,6 +9,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" isELIgnored="false" contentType="text/html; utf-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -56,7 +57,7 @@
                                 <i class="fa fa-tasks"></i>
                                 <span class="badge bg-theme">${fn:length(sessionScope.notReadFileComments)}</span>
                             </a>
-                            <ul class="dropdown-menu extended tasks-bar">
+                            <ul class="dropdown-menu extended inbox">
                                 <div class="notify-arrow notify-arrow-green"></div>
                                 <li>
                                     <p class="green">你有 ${fn:length(sessionScope.notReadFileComments)} 条新评论</p>
@@ -65,7 +66,7 @@
                                            varStatus="loop">
                                     <li>
                                             <%--查看--%>
-                                        <a href="#">
+                                        <a href="#" onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
                                                 <%--头像--%>
                                             <span class="photo">
                                             <img alt="avatar"
@@ -83,11 +84,11 @@
                                                 <%--内容--%>
                                             <span class="message">
                                             <c:choose>
-                                                <c:when test="${fn:length(comment.comData)} <= 30">
+                                                <c:when test="${fn:length(comment.comData) <= 14}">
                                                     ${comment.comData}
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${fn:substring(comment.comData, 0, 30)}...
+                                                    ${fn:substring(comment.comData, 0, 14)}...
                                                 </c:otherwise>
                                             </c:choose>
                                         </span>
@@ -95,7 +96,7 @@
                                     </li>
                                 </c:forEach>
                                 <li class="external">
-                                    <a href="#">查看所有评论</a>
+                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
                                 </li>
                             </ul>
                         </li>
@@ -118,26 +119,26 @@
                                         <a href="#">
                                                 <%--头像--%>
                                             <span class="photo">
-                                            <img alt="avatar"
-                                                 src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
-                                        </span>
+                                                <img alt="avatar"
+                                                     src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
+                                            </span>
                                             <span class="subject">
                                             <%--名字--%>
                                             <span class="from">${sessionScope.notReadMessagesSender[loop.count-1].userName}</span>
                                             <%--时间--%>
                                             <span class="time">
-                                                <fmt:formatDate value="${Message.comTime}" type="time"
+                                                <fmt:formatDate value="${Message.msgSendtime}" type="time"
                                                                 timeStyle="medium"/>
                                             </span>
                                         </span>
                                                 <%--内容--%>
                                             <span class="message">
                                             <c:choose>
-                                                <c:when test="${fn:length(Message.msgData)} <= 30">
+                                                <c:when test="${fn:length(Message.msgData) <= 14}">
                                                     ${Message.msgData}
                                                 </c:when>
                                                 <c:otherwise>
-                                                    ${fn:substring(Message.msgData, 0, 30)}...
+                                                    ${fn:substring(Message.msgData, 0, 14)}...
                                                 </c:otherwise>
                                             </c:choose>
                                         </span>
@@ -145,7 +146,7 @@
                                     </li>
                                 </c:forEach>
                                 <li>
-                                    <a href="#">查看所有消息</a>
+                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
                                 </li>
                             </ul>
                         </li>
@@ -169,12 +170,11 @@
                 <div id="sidebar" class="nav-collapse ">
                     <!-- sidebar menu start-->
                     <ul class="sidebar-menu" id="nav-accordion">
-
                         <!--头像-->
                         <p class="centered">
                             <a href="#" onclick="window.location.href = '${ctx}/user/userPicture'">
                                 <c:choose>
-                                    <c:when test="${sessionScope.loginUser.userPictureUrl} == null">
+                                    <c:when test="${empty sessionScope.loginUser.userPictureUrl}">
                                         <img src="${ctx}/resources/img/ui-sam.jpg" class="img-circle" width="60">
                                     </c:when>
                                     <c:otherwise>
@@ -189,7 +189,7 @@
 
                         <!--主页-->
                         <li class="mt">
-                            <a href="#">
+                            <a href="#" onclick="window.location.href='${ctx}/user/index'">
                                 <i class="fa fa-home"></i>
                                 <span>主  页</span>
                             </a>
@@ -201,9 +201,20 @@
                                 <span>我的消息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">新建消息</a></li>
-                                <li><a href="#">未读消息</a></li>
-                                <li><a href="#">所有消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findMessage'">搜索消息</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
+                            </ul>
+                        </li>
+                        <!--共享文件-->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-globe"></i>
+                                <span>共享文件</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
                             </ul>
                         </li>
                         <!--文件-->
@@ -213,10 +224,11 @@
                                 <span>我的文件</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">新建文件</a></li>
-                                <li><a href="#">近期文件</a></li>
-                                <li><a href="#">共享文件</a></li>
-                                <li><a href="#">私人文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
                             </ul>
                         </li>
                         <!--文件评论-->
@@ -226,8 +238,9 @@
                                 <span>文件评论</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">未读评论</a></li>
-                                <li><a href="#">所有评论</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
                             </ul>
                         </li>
                         <!--日志系统-->
@@ -237,8 +250,8 @@
                                 <span>我的日志</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">我的日志</a></li>
-                                <li><a href="#">文件日志</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/myLog'">我的日志</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/myFileLog'">文件日志</a></li>
                             </ul>
                         </li>
                         <!--个人信息-->
@@ -248,8 +261,8 @@
                                 <span>个人信息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">信息查看</a></li>
-                                <li><a href="#">个人简介</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
                             </ul>
                         </li>
                         <!--系统信息-->
@@ -259,8 +272,8 @@
                                 <span>系统信息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">系统介绍</a></li>
-                                <li><a href="#">作者介绍</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
+                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
                             </ul>
                         </li>
                         <!--设置-->
@@ -270,9 +283,10 @@
                                 <span>设  置</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#">密码修改</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
-                                <li class="active"><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a></li>
+                                <li class="active"><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -290,10 +304,10 @@
                     <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
                     <div class="row mt">
                         <div class="col-lg-12">
-                            <p>Place your content here.</p>
+
+
                         </div>
                     </div>
-
                 </section>
                 <! --/wrapper -->
             </section>
@@ -303,8 +317,8 @@
             <!--footer start-->
             <footer class="site-footer">
                 <div class="text-center">
-                    2014 - Alvarez.is
-                    <a href="userInfo.jsp#" class="go-top">
+                    2017 - Limit. three silly
+                    <a href="#" class="go-top">
                         <i class="fa fa-angle-up"></i>
                     </a>
                 </div>

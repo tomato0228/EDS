@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -415,6 +414,8 @@ public class UserController {
 
     @RequestMapping("/index")
     public String index(HttpServletRequest request) {
+        removeSession(request);
+        indexSession(request);
         FindNotReadFileComments(request, false);
         FindNotReadUserMessages(request, false);
         return "user/index";
@@ -440,8 +441,8 @@ public class UserController {
 
     @RequestMapping("/logout")
     public String tologout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.removeAttribute("loginUser");
+        removeSession(request);
+        request.getSession().removeAttribute("loginUser");
         return "user/login";
     }
 
@@ -598,6 +599,8 @@ public class UserController {
                 users.add(userService.getUserById(c.getComSender()));
             }
         }
+        if (all)
+            request.getSession().setAttribute("commentsSize",comments.size());
         request.getSession().setAttribute("notReadFileComments", comments);
         request.getSession().setAttribute("notReadFileCommentsSender", users);
         request.getSession().setAttribute("notReadFileCommentFiles", fileList);
@@ -649,9 +652,12 @@ public class UserController {
         map.put("fileShare", 1);
         List<File> files = fileService.findFiles(map);
         List<Integer> EnjoyFileComment = new ArrayList<Integer>();
+        int count = 0;
         for (File f : files) {
+            count += f.getFileViewtimes();
             EnjoyFileComment.add(commentService.findCommentByRecevierId(f.getFileId()).size());
         }
+        request.getSession().setAttribute("EnjoyFilesViewtimes", count);
         request.getSession().setAttribute("EnjoyFiles", files);
         request.getSession().setAttribute("EnjoyFileComment", EnjoyFileComment);
     }
@@ -717,6 +723,45 @@ public class UserController {
         }
         request.getSession().setAttribute("aFileCommentUsers", userList);
         request.getSession().setAttribute("aFileComments", commentList);
+    }
+
+    //index
+    private void indexSession(HttpServletRequest request){
+        FindNotReadFileComments(request,true);
+        FindPrivateFile(request);
+        FindEnjoyFile(request);
+    }
+
+    //removeSession
+    private void removeSession(HttpServletRequest request){
+        request.getSession().removeAttribute("commentsSize");
+        request.getSession().removeAttribute("notReadFileComments");
+        request.getSession().removeAttribute("notReadFileCommentsSender");
+        request.getSession().removeAttribute("notReadFileCommentFiles");
+        request.getSession().removeAttribute("notReadMessages");
+        request.getSession().removeAttribute("notReadMessagesSender");
+        request.getSession().removeAttribute("RecentFiles");
+        request.getSession().removeAttribute("RecentFileUsers");
+        request.getSession().removeAttribute("EnjoyFilesViewtimes");
+        request.getSession().removeAttribute("EnjoyFiles");
+        request.getSession().removeAttribute("EnjoyFileComment");
+        request.getSession().removeAttribute("PrivateFile");
+        request.getSession().removeAttribute("WebRecentFiles");
+        request.getSession().removeAttribute("WebRecentFileUsers");
+        request.getSession().removeAttribute("WebEnjoyFile");
+        request.getSession().removeAttribute("WebEnjoyFileUsers");
+        request.getSession().removeAttribute("aUserMessage");
+        request.getSession().removeAttribute("aFileCommentUsers");
+        request.getSession().removeAttribute("aFileComments");
+        request.getSession().removeAttribute("Comlist");
+        request.getSession().removeAttribute("Senderlist");
+        request.getSession().removeAttribute("Filelist");
+        request.getSession().removeAttribute("Messagelist");
+        request.getSession().removeAttribute("Senderlist");
+        request.getSession().removeAttribute("Receiverlist");
+        request.getSession().removeAttribute("Userfiles");
+        request.getSession().removeAttribute("Namelist");
+        request.getSession().removeAttribute("size");
     }
 
     @ResponseBody
@@ -944,7 +989,6 @@ public class UserController {
         resultMap.put("res", "yes");
         return "user/findMessage_result";
     }
-
 
     @RequestMapping("/search_Mycomment")
     public String search_Mycomment(HttpServletRequest request) throws Exception {
