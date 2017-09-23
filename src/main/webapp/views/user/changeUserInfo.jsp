@@ -13,10 +13,11 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+    <link rel="stylesheet" type="text/css" href="${ctx}/resources/js/data/datedropper.css">
+    <link rel="stylesheet" type="text/css" href="${ctx}/resources/js/data/timedropper.min.css">
     <link rel="stylesheet" href="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.css">
 
 
@@ -62,7 +63,7 @@
             var Email = $('#Email').val();
             var sex = $('input[name="sex"]:checked').val();
             var Tel = $('#Tel').val();
-            var fileLifeCycle = $('#fileLifeCycle').val();
+            var Birthday = $('#Birthday').val();
             var Profile = $('#Profile').val();
             var company = $('#Company').val();
 
@@ -76,7 +77,7 @@
                     sex: sex,
                     Tel: Tel,
                     company: company,
-                    fileLifeCycle: fileLifeCycle,
+                    Birthday: Birthday,
                     Profile: Profile
                 }, function (requestData) {
                     if (requestData.res == 'yes') {
@@ -122,7 +123,10 @@
             return true;
         }
     </script>
-
+    <style type="text/css">
+        .demo{margin:80px auto 40px auto;width:320px}
+        .input{padding:6px;border:1px solid #d3d3d3}
+    </style>
 </head>
 <body>
 <c:choose>
@@ -501,6 +505,8 @@
                                     <label class="col-sm-1 col-sm-1 control-label"><p class="net">生日</p></label>
                                     <div class="col-sm-5">
 
+                                            <p>请选择日期：<input type="text" class="input" id="Birthday" name="Birthday" value="${fn:substring(sessionScope.loginUser.userBirthday,0,10)}"/></p><br/>
+
                                     </div>
                                 </div>
 
@@ -594,7 +600,8 @@
 <script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
 <script src="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.js"></script>
 <script src="${ctx}/resources/SweetAlert2/lib/es6-promise.min.js"></script>
-
+<script src="${ctx}/resources/js/data/datedropper.min.js"></script>
+<script src="${ctx}/resources/js/data/timedropper.min.js"></script>
 
 <!--common script for all pages-->
 <script src="${ctx}/resources/js/common-scripts.js"></script>
@@ -602,7 +609,13 @@
 <!--script for this page-->
 
 <%--日期选择器--%>
-
+<script>
+    $("#Birthday").dateDropper({
+        animate: false,
+        format: 'Y-m-d',
+        maxYear: '2020'
+    });
+</script>
 <script>
     //custom select box
 

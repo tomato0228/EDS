@@ -1133,7 +1133,7 @@ public class UserController {
         String realName=request.getParameter("realName");
         String company=request.getParameter("company");
         int sex=Integer.parseInt(request.getParameter("sex"));
-        Date Birthday=DateUtils.strToDate(request.getParameter("fileLifeCycle"), "yyyy-MM-dd");
+        Date Birthday=DateUtils.strToDate(request.getParameter("Birthday"), "yyyy-MM-dd");
 
         User user=userService.getUserById(((User) request.getSession().getAttribute("loginUser")).getUserId());
         user.setUserEmail(Email);
