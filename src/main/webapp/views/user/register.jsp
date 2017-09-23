@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="${ctx}/resources/js/easyform/easyform.css">
     <link rel="stylesheet" href="${ctx}/resources/css/tab.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/resources/css/component.css"/>
+    <link rel="stylesheet" href="${ctx}/resources/css/loading/css/animate.css">
+    <link rel="stylesheet" href="${ctx}/resources/css/loading/css/global.css">
+    <link rel="stylesheet" href="${ctx}/resources/css/loading/css/loading.css">
+    <link rel="stylesheet" href="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.css">
     <script type="text/javascript" src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/easyform/easyform.js"></script>
     <title>EDS—用户注册</title>
@@ -48,18 +52,24 @@
             var email = $('#email').val();
             if (!registerRule(userName, password, password2, email))
                 return false;
+
             $.post(serverUrl + '/user/checkUserName', {userName: userName}, function (requestData) {
                 if (requestData == 'isExist') {
                     $("#userName").trigger("easyform-ajax", false);
                     return false;
                 }
+                loading5();
                 $.post(serverUrl + '/user/register', {
                     userName: userName,
                     password: password,
                     email: email
                 }, function (requestData) {
-                    alert('注册成功!请登录您的邮箱进行验证');
-                    window.location.href = "${ctx}/user/tologin";
+                    removeLoading('test');
+                    swal(
+                        '注册成功!',
+                        '请您前往邮箱进行验证!',
+                        'success'
+                    )
                 });
             });
         }
@@ -85,6 +95,25 @@
                 return false;
             return true;
         }
+        function loading5() {
+            $('body').loading({
+                loadingWidth:240,
+                title:'请稍等!',
+                name:'test',
+                discription:'正在发送邮件...',
+                direction:'column',
+                type:'origin',
+                originBg:'#71EA71',
+                originDivWidth:40,
+                originDivHeight:40,
+                originWidth:6,
+                originHeight:6,
+                smallLoading:false,
+                loadingBg:'#389A81',
+                loadingMaskBg:'rgba(123,122,222,0.2)'
+            });
+
+        }
     </script>
 </head>
 <body>
@@ -107,8 +136,8 @@
                                         <div style="font-size: 1.2em">用户名</div>
                                     </td>
                                     <td><input name="userName" type="text" id="userName"
-                                               data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
-                                               data-message="用户名必须为4—16位的英文字母或数字"
+                                               data-easyform="length:4 16;char-chinese;;real-time;ajax:ajax_demo(1);"
+                                               data-message="用户名必须为2—7位的中文或4-16位中英文或数字"
                                                data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名已存在!">
                                     </td>
                                 </tr>
@@ -153,9 +182,12 @@
         </div>
     </div>
 </div>
+<script src="${ctx}/resources/css/loading/js/loading.js"></script>
 <script src="${ctx}/resources/js/TweenLite.min.js"></script>
 <script src="${ctx}/resources/js/EasePack.min.js"></script>
 <script src="${ctx}/resources/js/rAF.js"></script>
 <script src="${ctx}/resources/js/demo-3.js"></script>
+<script src="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.js"></script>
+<script src="${ctx}/resources/SweetAlert2/lib/es6-promise.min.js"></script>
 </body>
 </html>
