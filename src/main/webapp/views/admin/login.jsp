@@ -64,6 +64,19 @@
             return str.replace(/(^\s+)|(\s+$)/g, "");
         }
     </script>
+
+    <script>
+        function KeyDown()
+        {
+            if (event.keyCode == 13)
+            {
+                event.returnValue=false;
+                event.cancel = true;
+                form.btnsubmit.click();
+            }
+        }
+    </script>
+
 </head>
 <body>
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
@@ -78,11 +91,11 @@
                         <br>
                     </div>
                     <div class="form-div">
-                        <form id="reg-form">
+                        <form id="reg-form" name="form">
                             <table>
                                 <tr>
                                     <td>用户名</td>
-                                    <td><input name="adminName" type="text" id="adminName"
+                                    <td><input name="adminName" type="text" id="adminName" onkeydown=KeyDown()
                                                data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);"
                                                data-message="用户名必须为4—16位的英文字母或数字"
                                                data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名或密码错误!">
@@ -90,14 +103,14 @@
                                 </tr>
                                 <tr>
                                     <td>密码</td>
-                                    <td><input name="password" type="password" id="password"
+                                    <td><input name="password" type="password" id="password" onkeydown=KeyDown()
                                                data-easyform="length:6 16;ajax:ajax_demo(1);"
                                                data-message="密码必须为6—16位"
                                                data-easytip="class:easy-blue;" data-message-ajax="用户名或密码错误!"></td>
                                 </tr>
                             </table>
                             <div class="buttons" style="margin-top: 50px;">
-                                <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px;">
+                                <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px;" name="btnsubmit">
                                 <input value="用 户" type="button" style="margin-right:45px; margin-top:20px;"
                                        onclick="window.location.href='${ctx}/user/tologin'">
                             </div>

@@ -107,11 +107,11 @@
                             <div class="panel-body profile-activity">
                                 <%--<h5 class="pull-right">12 August 2013</h5>--%>
                                 <c:choose>
-                                <c:when test="${fn:length(sessionScope.aUserMessage) <= 8}">
+                                <c:when test="${fn:length(sessionScope.aUserMessage) <= 5}">
                                     <c:set value="0" var="begin"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:set value="${fn:length(sessionScope.aUserMessage) - 8}" var="begin"/>
+                                    <c:set value="${fn:length(sessionScope.aUserMessage) - 5}" var="begin"/>
                                 </c:otherwise>
                                 </c:choose>
                                 <c:forEach items="${sessionScope.aUserMessage}" var="message" begin="${begin}">
@@ -127,7 +127,7 @@
                                             <div class="panel-body">
                                                 <div class="arrow"></div>
                                                     <%--<i class="fa fa-clock-o"></i>--%>
-                                                <h4>${fn:substring(message.msgSendtime, 5, 16)}</h4>
+                                                <h4 >${fn:substring(message.msgSendtime, 5, 16)}</h4>
                                                 <p>${message.msgData}</p>
                                             </div>
                                         </div>

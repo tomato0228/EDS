@@ -78,6 +78,15 @@
         }
     </script>
 
+    <script>
+        function KeyDown() {
+            if (event.keyCode == 13) {
+                event.returnValue = false;
+                event.cancel = true;
+                form.btnsubmit.click();
+            }
+        }
+    </script>
 </head>
 <body class="loading">
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>
@@ -93,13 +102,13 @@
                     <br>
                 </div>
                 <div class="form-div">
-                    <form id="reg-form">
+                    <form id="reg-form" name="form">
                         <table>
                             <tr>
                                 <td>
                                     <div style="font-size: 1.3em">用户名</div>
                                 </td>
-                                <td><input name="userName" type="text" id="userName"
+                                <td><input name="userName" type="text" id="userName" onkeydown=KeyDown()
                                            data-easyform="length:2 16;char-chinese;;real-time;ajax:ajax_demo(1);"
                                            data-message="用户名必须为2—7位的中文或4-16位中英文或数字"
                                            data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名或密码错误!">
@@ -109,14 +118,15 @@
                                 <td>
                                     <div style="font-size: 1.3em">密码</div>
                                 </td>
-                                <td><input name="password" type="password" id="password"
+                                <td><input name="password" type="password" id="password" onkeydown=KeyDown()
                                            data-easyform="length:6 16;"
                                            data-message="密码必须为6—16位"
                                            data-easytip="class:easy-blue;" data-message-ajax="用户名或密码错误!"></td>
                             </tr>
                         </table>
                         <div class="buttons" style="margin-top: 50px;">
-                            <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px; font-size: 1em">
+                            <input value="登 录" type="submit" style="margin-right:20px; margin-top:20px; font-size: 1em"
+                                   name="btnsubmit">
                             <input value="注 册" type="button" style="margin-right:45px; margin-top:20px; font-size: 1em"
                                    onclick="window.location.href='${ctx}/user/toRegister'"><br>
                             <span class="copyright"><a href="${ctx}/user/forgetPassword">ForgetPassword</a>.</span>

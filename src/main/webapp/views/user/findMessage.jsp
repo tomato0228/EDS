@@ -57,17 +57,13 @@
                         <form class="search__form" action="search_mymsg">
                             <input id="search-input" class="search__input" name="name" type="search" placeholder=""
                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="height: 256px"/>
-                            <div class="radio-check">
-                                <input id='type0' type="radio" name='type' value="0" checked='checked' />
-                                <label for="type0">发送者</label>
-                            </div>
-                            <div class="radio-check">
-                                <input id='type1' type="radio" name='type' value="1" checked='checked' />
-                                <label for="type1">接收者</label>
-                            </div>
-                            <div class="radio-check">
-                                <input id='type2' type="radio" name='type' value="2" checked='checked' />
-                                <label for="type2">消息内容</label>
+                            <div class="radio-check col-lg-offset-1" style="margin-top: 40px;font-size: 3em">
+                                <input id='type0' type="radio" name='type' value="0" checked='checked'/>
+                                <label for="type0" class="col-lg-offset-1">发送者</label>
+                                <input id='type1' type="radio" name='type' value="1" />
+                                <label for="type1" class="col-lg-offset-3">接收者</label>
+                                <input id='type2' type="radio" name='type' value="2" />
+                                <label for="type2" class="col-lg-offset-5">消息内容</label>
                             </div>
                             <button class="btn btn--search">
                                 <svg class="icon icon--search">

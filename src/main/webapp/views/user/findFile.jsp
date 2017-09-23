@@ -38,7 +38,66 @@
     <![endif]-->
 </head>
 <body>
-<style> .radio-check { position: relative; height: 35px; } .radio-check > input { position: absolute; left: 0; top: 0; width: 20px; height:20px; opacity: 0; } .radio-check > label { position: absolute; left: 30px; line-height: 20px; top: 0px; } .radio-check > label:before { content: ''; position: absolute; left: -30px; top: 0px; display: inline-block; width: 20px; height: 20px; border-radius: 50%; border: 1px solid #ddd; transition: all 0.3s ease; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; } .radio-check > label:after { content: ''; position: absolute; left: -30px; top: 0px; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; margin-left: 6px; transition: all 0.3s ease; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; } .radio-check input[type='radio']:checked + label:before { border-color: #eaba82; } .radio-check input[type='radio']:checked + label:after { background: #eaba82; } </style>
+<style>
+    .radio-check {
+        position: relative;
+        height: 35px;
+    }
+
+    .radio-check > input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        opacity: 0;
+    }
+
+    .radio-check > label {
+        position: absolute;
+        left: 30px;
+        line-height: 20px;
+        top: 0px;
+    }
+
+    .radio-check > label:before {
+        content: '';
+        position: absolute;
+        left: -30px;
+        top: 0px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+    }
+
+    .radio-check > label:after {
+        content: '';
+        position: absolute;
+        left: -30px;
+        top: 0px;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-top: 6px;
+        margin-left: 6px;
+        transition: all 0.3s ease;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+    }
+
+    .radio-check input[type='radio']:checked + label:before {
+        border-color: #eaba82;
+    }
+
+    .radio-check input[type='radio']:checked + label:after {
+        background: #eaba82;
+    } </style>
 
 
 <section id="container">
@@ -59,19 +118,16 @@
                         </button>
                         <form class="search__form" action="search_Commonfile">
                             <input id="search-input" class="search__input" name="name" type="search" placeholder=""
-                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" style="height: 256px"/>
+                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                                   style="height: 256px"/>
                             <br>
-                            <div class="radio-check">
-                                <input id='type0' type="radio" name='type' value="0" checked='checked' />
-                                <label for="type0">文件名</label>
-                            </div>
-                            <div class="radio-check">
-                                    <input id='type1' type="radio" name='type' value="1" checked='checked' />
-                                    <label for="type1">用户名</label>
-                            </div>
-                            <div class="radio-check">
-                                <input id='type2' type="radio" name='type' value="2" checked='checked' />
-                                <label for="type2">文件类型</label>
+                            <div class="radio-check col-lg-offset-1" style="margin-top: 40px;font-size: 3em">
+                                <input id='type0' type="radio" name='type' value="0" checked='checked'/>
+                                <label for="type0" class="col-lg-offset-1">文件名</label>
+                                <input id='type1' type="radio" name='type' value="1" />
+                                <label for="type1" class="col-lg-offset-3">用户名</label>
+                                <input id='type2' type="radio" name='type' value="2" />
+                                <label for="type2" class="col-lg-offset-5">文件类型</label>
                             </div>
 
                             <button class="btn btn--search">

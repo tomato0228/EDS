@@ -59,7 +59,7 @@
                                 <div class="row centered">
                                     <div class=" col-md-offset-1 col-md-10">
                                         <a class="small mt" href="#"
-                                           onclick="window.location.href='${ctx}/user/userMessage-${sessionScope.notReadMessagesSender[loop.count-1].userId}'">
+                                           onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.notReadMessagesSender[loop.count-1].userId}'">
                                             Read This Message
                                         </a>
                                         <p>

@@ -49,7 +49,8 @@
                             <!-- WHITE PANEL - TOP USER -->
                             <div class="white-panel pn">
                                 <div class="white-header">
-                                    <h5>发送者：${sessionScope.Senderlist[loop.count-1].userName} &emsp;  接收者：${sessionScope.Receiverlist[loop.count-1].userName}</h5>
+                                    <h5>发送者：${sessionScope.Senderlist[loop.count-1].userName} &emsp;
+                                        接收者：${sessionScope.Receiverlist[loop.count-1].userName}</h5>
                                 </div>
                                 <p><img src="${sessionScope.Senderlist[loop.count-1].userPictureUrl}"
                                         class="img-circle" width="70"
@@ -62,11 +63,20 @@
                                 <p><b>${fn:substring(message.msgSendtime, 5, 16)}</b></p>
                                 <div class="row centered">
                                     <div class=" col-md-offset-1 col-md-10">
-
-                                        <a class="small mt" href="#"
-                                           onclick="window.location.href='${ctx}/user/userMessage-${sessionScope.Senderlist[loop.count-1].userId}'">
-                                            Read This Message
-                                        </a>
+                                        <c:choose>
+                                            <c:when test="${sessionScope.Senderlist[loop.count-1].userId==sessionScope.loginUser.userId}">
+                                                <a class="small mt" href="#"
+                                                   onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.Receiverlist[loop.count-1].userId}'">
+                                                    Read This Message
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a class="small mt" href="#"
+                                                   onclick="window.location.href='${ctx}/user/aboutUser-${sessionScope.Senderlist[loop.count-1].userId}'">
+                                                    Read This Message
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <p>
                                             <c:choose>
                                                 <c:when test="${fn:length(message.msgData) <= 15}">
