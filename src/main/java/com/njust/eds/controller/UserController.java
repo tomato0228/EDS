@@ -1123,6 +1123,41 @@ public class UserController {
         return "user/findComment_result";
     }
 
+    @ResponseBody
+    @RequestMapping("/User_edit")
+    public  Map<String,Object> User_edit(HttpServletRequest request) throws Exception{
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String Email=request.getParameter("Email");
+        String Tel=request.getParameter("Tel");
+        String Profile=request.getParameter("Profile");
+        String realName=request.getParameter("realName");
+        String company=request.getParameter("company");
+        int sex=Integer.parseInt(request.getParameter("sex"));
+        Date Birthday=DateUtils.strToDate(request.getParameter("fileLifeCycle"), "yyyy-MM-dd");
+
+        User user=userService.getUserById(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        user.setUserEmail(Email);
+        user.setUserTel(Tel);
+        if (Profile!=null&&!"".equals(Profile))
+            user.setUserProfile(Profile);
+        user.setUserRealname(realName);
+        user.setUserSex(sex);
+        user.setUserBirthday(Birthday);
+        user.setUserCompany(company);
+        userService.updateUser(user);
+
+        User currentUser = userService.queryUser(user);
+        if (currentUser != null) {
+            resultMap.put("LoginUserId", currentUser.getUserId());
+            resultMap.put("res", "yes");
+            HttpSession session = request.getSession();
+            session.setAttribute("loginUser", currentUser);
+        } else {
+            resultMap.put("res", "no");
+        }
+        return resultMap;
+    }
+
 
 
 }
