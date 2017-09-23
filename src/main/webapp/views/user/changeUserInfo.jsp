@@ -15,7 +15,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <c:set value="${pageContext.request.contextPath }" var="ctx"></c:set>
-    <title>EDS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <link rel="stylesheet" href="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.css">
+
 
     <!-- Bootstrap core CSS -->
     <link href="${ctx}/resources/css/userbootstrap.css" rel="stylesheet">
@@ -31,6 +34,95 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <![endif]-->
+    <title>EDS</title>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var v = $('#reg-form').easyform();
+            $('#demo-form').easyform();
+            v.is_submit = false;
+            v.error = function (ef, i, r) {
+                //console.log("Error事件：" + i.id + "对象的值不符合" + r + "规则");
+            };
+            v.success = function (ef) {
+                //console.log("成功");
+            };
+            v.complete = function (ef) {
+                console.log("完成");
+            };
+            $('#tip-test1').easytip();
+            $('#tip-test2').easytip();
+            $('#tip-test3').easytip();
+            $('#tip-test4').easytip();
+        });
+
+        function ajax_demo(p) {
+            var realName = $('#Name').val();
+            var Email = $('#Email').val();
+            var sex = $('input[name="sex"]:checked').val();
+            var Tel = $('#Tel').val();
+            var fileLifeCycle = $('#fileLifeCycle').val();
+            var Profile = $('#Profile').val();
+            var company = $('#Company').val();
+
+            if (!editRule(realName, Email)) {
+                return false;
+            }
+            else {
+                $.post('/user/User_edit', {
+                    Email: Email,
+                    realName: realName,
+                    sex: sex,
+                    Tel: Tel,
+                    company: company,
+                    fileLifeCycle: fileLifeCycle,
+                    Profile: Profile
+                }, function (requestData) {
+                    if (requestData.res == 'yes') {
+                        window.location.reload();
+                    } else {
+                        $("#userName").trigger("easyform-ajax", false);
+                        $("#password").trigger("easyform-ajax", false);
+                    }
+                });
+            }
+        }
+
+        //去掉最后的空格
+        function trim(str) {
+            return str.replace(/(^\s+)|(\s+$)/g, "");
+        }
+
+        function editRule(Name, Email) {
+            if (Name == "" || Email == "") {
+                swal(
+                    '邮箱或姓名不能为空!'
+                )
+                return false;
+            }
+            var userNamerule = /^([\u4e00-\u9fa5]{2,7})|([\u4e00-\u9fa5A-Za-z0-9]{4,16})$/;//正则表达式
+            var emailrule = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            if (!userNamerule.test(Name)) {
+                swal(
+                    '错误!',
+                    '姓名必须为2—7位的中文或4-16位中英文!',
+                    'error'
+                )
+                return false;
+            }
+            if (!emailrule.test(Email)) {
+                swal(
+                    '错误!',
+                    '邮件格式错误!',
+                    'error'
+                )
+                return false;
+            }
+            return true;
+        }
+    </script>
+
 </head>
 <body>
 <c:choose>
@@ -66,7 +158,8 @@
                                            varStatus="loop">
                                     <li>
                                             <%--查看--%>
-                                        <a href="#" onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
+                                        <a href="#"
+                                           onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
                                                 <%--头像--%>
                                             <span class="photo">
                                             <img alt="avatar"
@@ -96,7 +189,8 @@
                                     </li>
                                 </c:forEach>
                                 <li class="external">
-                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
+                                    <a href="#"
+                                       onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
                                 </li>
                             </ul>
                         </li>
@@ -146,7 +240,8 @@
                                     </li>
                                 </c:forEach>
                                 <li>
-                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
+                                    <a href="#"
+                                       onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
                                 </li>
                             </ul>
                         </li>
@@ -202,7 +297,8 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/findMessage'">搜索消息</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a>
+                                </li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
                             </ul>
                         </li>
@@ -214,7 +310,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
                             </ul>
                         </li>
                         <!--文件-->
@@ -225,7 +321,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
@@ -238,9 +334,11 @@
                                 <span>文件评论</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a>
+                                </li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a>
+                                </li>
                             </ul>
                         </li>
                         <!--日志系统-->
@@ -261,8 +359,8 @@
                                 <span>个人信息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
                             </ul>
                         </li>
                         <!--系统信息-->
@@ -272,8 +370,8 @@
                                 <span>系统信息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
                             </ul>
                         </li>
                         <!--设置-->
@@ -283,9 +381,11 @@
                                 <span>设  置</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a>
+                                </li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
-                                <li class="active"><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
+                                <li class="active"><a href="#"
+                                                      onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
                                 </li>
                             </ul>
                         </li>
@@ -299,15 +399,165 @@
             MAIN CONTENT
             *********************************************************************************************************************************************************** -->
             <!--main content start-->
+
             <section id="main-content">
                 <section class="wrapper site-min-height">
-                    <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
+                    <h3><i class="fa fa-angle-right"></i> Write down your information here.</h3>
                     <div class="row mt">
                         <div class="col-lg-12">
 
 
+                            <style>
+                                .net {
+                                    font-family: SansSerif;
+                                    font-size: 16px;
+                                    color: #61686b;
+                                }
+
+                                .size {
+                                    font-size: 15px;
+                                }
+                            </style>
+
+                            <div class="form-horizontal style-form">
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">ID号</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" id="userId" name="userId" type="text"
+                                               placeholder="" value="${sessionScope.loginUser.userId}"
+
+                                               readonly>
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">用户名</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="userName" name="userName"
+                                               type="text" value="${sessionScope.loginUser.userName}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">真实姓名</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Name" name="Name" type="text"
+                                               value="${sessionScope.loginUser.userRealname}">
+                                    </div>
+                                    <label class="col-sm-offset-1-1 col-sm-1 control-label"><p class="net">性别</p>
+                                    </label>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.loginUser.userSex==1}">
+                                            <div class="col-sm-5">
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="1" checked>男</label>
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="0">女</label>
+                                                <label class="col-sm-3 size"><input type="radio" name="sex"
+                                                                                    value="2">unknown</label>
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${sessionScope.loginUser.userSex==0}">
+                                            <div class="col-sm-5">
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="1">男</label>
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="0" checked>女</label>
+                                                <label class="col-sm-3 size"><input type="radio" name="sex"
+                                                                                    value="2">unknown</label>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="col-sm-5">
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="1">男</label>
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="0">女</label>
+                                                <label class="col-sm-3 size"><input type="radio" name="sex"
+                                                                                    value="2"
+                                                                                    checked>unknown</label>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-2 control-label"><p class="net">邮箱</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Email" name="Email" type="text"
+                                               value="${sessionScope.loginUser.userEmail}"
+                                              >
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">电话</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Tel" name="Tel" type="text"
+                                               value="${sessionScope.loginUser.userTel}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">单位</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Company" name="Company"
+                                               type="text" value="${sessionScope.loginUser.userCompany}">
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">生日</p></label>
+                                    <div class="col-sm-5">
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">密级</p></label>
+                                    <div class="col-sm-5">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==1}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="普通"
+                                                       readonly>
+                                            </c:when>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==2}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="内部"
+                                                       readonly>
+                                            </c:when>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==3}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="C"
+                                                       readonly>
+                                            </c:when>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==4}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="B"
+                                                       readonly>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="A"
+                                                       readonly>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                        <label class="col-sm-1 col-sm-1 control-label"><p class="net">创建时间</p></label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control round-form" name="" type="text"
+                                                   placeholder="${sessionScope.loginUser.userCreateTime}" readonly>
+                                        </div>
+                                </div>
+
+                                <div class="form-group container">
+                                            <label class="col-sm-1 col-sm-1 control-label"><p class="net">个人简介</p>
+                                            </label>
+                                            <div class="col-sm-5">
+                                                <textarea class="form-control" rows="6" id="Profile" name="Profile"
+                                                          placeholder="${sessionScope.loginUser.userProfile}"></textarea>
+                                            </div>
+                                    <div class="buttons col-lg-offset-8" style="margin-top: 50px;">
+                                        <input value="确 定" type="submit" onclick="ajax_demo(1)"
+                                               style="margin-right:20px; margin-top:20px; font-size: 1.5em">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </section>
                 <! --/wrapper -->
             </section>
@@ -334,6 +584,7 @@
 </c:choose>
 
 <!-- js placed at the end of the document so the pages load faster -->
+
 <script src="${ctx}/resources/js/jquery.js"></script>
 <script src="${ctx}/resources/js/userbootstrap.min.js"></script>
 <script src="${ctx}/resources/js/jquery-ui-1.9.2.custom.min.js"></script>
@@ -341,11 +592,16 @@
 <script class="include" type="text/javascript" src="${ctx}/resources/js/jquery.dcjqaccordion.2.7.js"></script>
 <script src="${ctx}/resources/js/jquery.scrollTo.min.js"></script>
 <script src="${ctx}/resources/js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="${ctx}/resources/SweetAlert2/dist/sweetalert2.min.js"></script>
+<script src="${ctx}/resources/SweetAlert2/lib/es6-promise.min.js"></script>
+
 
 <!--common script for all pages-->
 <script src="${ctx}/resources/js/common-scripts.js"></script>
 
 <!--script for this page-->
+
+<%--日期选择器--%>
 
 <script>
     //custom select box

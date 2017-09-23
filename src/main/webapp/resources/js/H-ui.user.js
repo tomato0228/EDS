@@ -25,3 +25,8 @@ function Log_del(logid) {
         }
     );
 }
+
+/*修改用户信息*/
+function User_edit() {
+    
+}
