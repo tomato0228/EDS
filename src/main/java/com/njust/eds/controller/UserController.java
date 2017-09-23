@@ -68,6 +68,11 @@ public class UserController {
         return "isOK";
     }
 
+    @RequestMapping("/donate")
+    public String donate() {
+        return "EDS/donate";
+    }
+
     @RequestMapping("/toRegister")
     public String toRegister() {
         return "user/register";
@@ -115,8 +120,17 @@ public class UserController {
             }
             map.addAttribute("fileInfo", file);
             map.addAttribute("fileUser", userService.getUserById(file.getFileUserId()));
-            file.setFileViewtimes(file.getFileViewtimes() + 1);
-            fileService.updateFile(file);
+            if (((User) request.getSession().getAttribute("loginUser")).getUserId() != file.getFileUserId()) {
+                file.setFileViewtimes(file.getFileViewtimes() + 1);
+                fileService.updateFile(file);
+                Log log = new Log();
+                log.setLogUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+                log.setLogFileId(fileId);
+                log.setLogOptype(3);
+                log.setLogTime(DateUtils.getCurrentDate());
+                log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                logService.addLog(log);
+            }
             FindaFileComments(request, fileId);
             return "user/fileInfo";
         } else return "error/404";
@@ -134,6 +148,57 @@ public class UserController {
             commentService.addComment(comment);
         }
         return viewFileInfo(map, request, fileId);
+    }
+
+    @RequestMapping("/updateFileAbstrcat-{fileId}")
+    public String updateFileAbstrcat(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
+        File file = fileService.getFileById(fileId);
+        System.out.println("111的值是：---"+ 111 + "，当前方法=UserController.updateFileAbstrcat()");
+        if (file != null && request.getParameter("fileAbstrcat") != null) {
+            System.out.println("222的值是：---"+ 222 + "，当前方法=UserController.updateFileAbstrcat()");
+            if (file.getFileShare() == 0 && file.getFileUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId()){
+                file.setFileAbstrcat(request.getParameter("fileAbstrcat"));
+                fileService.updateFile(file);
+                Log log = new Log();
+                log.setLogUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+                log.setLogOptype(5);
+                log.setLogFileId(fileId);
+                log.setLogTime(DateUtils.getCurrentDate());
+                log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                logService.addLog(log);
+            }
+            else if (file.getFileShare() == 1 ) {
+                Filelimit filelimit = filelimitService.getFilelimitById(fileId);
+                if (filelimit.getFileWrite()==1 && ((User) request.getSession().getAttribute("loginUser")).getUserSecretLevel() >= file.getFileSecretLevel()){
+                    file.setFileAbstrcat(request.getParameter("fileAbstrcat"));
+                    fileService.updateFile(file);
+                    Log log = new Log();
+                    log.setLogUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+                    log.setLogFileId(fileId);
+                    log.setLogOptype(5);
+                    log.setLogTime(DateUtils.getCurrentDate());
+                    log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                    logService.addLog(log);
+                }
+            }
+            return viewFileInfo(map,request,fileId);
+        } else return "error/404";
+    }
+
+    @RequestMapping("/deleteFile-{fileId}")
+    public String deleteFile(HttpServletRequest request, @PathVariable Integer fileId) {
+        File file = fileService.getFileById(fileId);
+        if (file != null && file.getFileUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId()) {
+            Log log = new Log();
+            log.setLogUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+            log.setLogFileId(fileId);
+            log.setLogOptype(2);
+            log.setLogTime(DateUtils.getCurrentDate());
+            log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+            logService.addLog(log);
+            fileService.deletFile(file);
+            return index(request);
+        } else return "error/404";
     }
 
     @RequestMapping("/enjoyFile")
@@ -174,13 +239,11 @@ public class UserController {
 
     @RequestMapping("/findMessage")
     public String findMessage(HttpServletRequest request) {
-        //FindwebEnjoyFile(request);
         return "user/findMessage";
     }
 
     @RequestMapping("/findComment")
     public String findComment(HttpServletRequest request) {
-        //FindwebEnjoyFile(request);
         return "user/findComment";
     }
 
@@ -307,10 +370,32 @@ public class UserController {
             String password = MD5Util.getMD5(request.getParameter("password"));
             user.setUserPassword(password);
             userService.updateUser(user);
-
             resultMap.put("updateRes", "ok");
         }
 
+        return resultMap;
+    }
+
+    @RequestMapping("/changePasswordTwo")
+    public String changePasswordTwo(HttpServletRequest request) {
+        return "user/changePasswordTwo";
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateUserPasswordTwo")
+    public Map<String, Object> updateUserPasswordTwo(ModelMap map, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        User user = (User)request.getSession().getAttribute("loginUser");
+        if (user == null) {
+            resultMap.put("updatepwd", "no");
+        } else if (!MD5Util.getMD5(request.getParameter("oldpassword")).equals(user.getUserPassword())){
+            resultMap.put("updatepwd", "not");
+        } else {
+            String password = MD5Util.getMD5(request.getParameter("password"));
+            user.setUserPassword(password);
+            userService.updateUser(user);
+            resultMap.put("updatepwd", "ok");
+        }
         return resultMap;
     }
 
@@ -505,7 +590,6 @@ public class UserController {
                 filelimit.setFileRead((request.getParameter("fileRead") != null) ? 1 : 0);
                 filelimit.setFileWrite((request.getParameter("fileWrite") != null) ? 1 : 0);
                 filelimit.setFilePrint((request.getParameter("filePrint") != null) ? 1 : 0);
-                System.out.println("的值是：---" + request.getParameter("fileReadTimes") + "，当前方法=UserController.uploadFile()");
                 filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null &&
                         !("".equals(request.getParameter("fileReadTimes")))) ?
                         request.getParameter("fileReadTimes") : "-1"));
@@ -516,6 +600,13 @@ public class UserController {
                 }
                 filelimitService.saveFilelimit(filelimit);
             }
+            Log log = new Log();
+            log.setLogUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+            log.setLogFileId(newfile.getFileId());
+            log.setLogOptype(1);
+            log.setLogTime(DateUtils.getCurrentDate());
+            log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+            logService.addLog(log);
         }
         return "user/newFile";
     }
@@ -525,20 +616,30 @@ public class UserController {
         Filedata filedata = filedataService.getFiledataById(fileId);
         if (filedata != null) {
             File file = fileService.getFileById(filedata.getFileId());
-            String key = file.getFileSecretKey();
-            byte[] UNAESFILE = base64Decode(aesDecryptByBytes(filedata.getFileData(), key));
-            String filename = file.getFileName();
-            HttpHeaders headers = new HttpHeaders();
-            //下载显示的文件名，解决中文名称乱码问题
-            String downloadFielName = new String(filename.getBytes("UTF-8"), "iso-8859-1");
-            //通知浏览器以attachment（下载方式）打开图片
-            headers.setContentDispositionFormData("attachment", downloadFielName);
-            //application/octet-stream ： 二进制流数据（最常见的文件下载）。
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            file.setFileDownloadtimes(file.getFileDownloadtimes() + 1);
-            file.setFilePrinttimes(file.getFilePrinttimes() + 1);
-            fileService.updateFile(file);
-            return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
+            if (((User) request.getSession().getAttribute("loginUser")).getUserSecretLevel() >= file.getFileSecretLevel()) {
+                String key = file.getFileSecretKey();
+                byte[] UNAESFILE = base64Decode(aesDecryptByBytes(filedata.getFileData(), key));
+                String filename = file.getFileName();
+                HttpHeaders headers = new HttpHeaders();
+                //下载显示的文件名，解决中文名称乱码问题
+                String downloadFielName = new String(filename.getBytes("UTF-8"), "iso-8859-1");
+                //通知浏览器以attachment（下载方式）打开图片
+                headers.setContentDispositionFormData("attachment", downloadFielName);
+                //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                file.setFileDownloadtimes(file.getFileDownloadtimes() + 1);
+                file.setFilePrinttimes(file.getFilePrinttimes() + 1);
+                fileService.updateFile(file);
+                Log log = new Log();
+                log.setLogUserId(((User) request.getSession().getAttribute("loginUser")).getUserId());
+                log.setLogFileId(fileId);
+                log.setLogOptype(4);
+                log.setLogTime(DateUtils.getCurrentDate());
+                log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                logService.addLog(log);
+                return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
+            }
+            return null;
         }
         return null;
     }
@@ -601,7 +702,7 @@ public class UserController {
             }
         }
         if (all)
-            request.getSession().setAttribute("commentsSize",comments.size());
+            request.getSession().setAttribute("commentsSize", comments.size());
         request.getSession().setAttribute("notReadFileComments", comments);
         request.getSession().setAttribute("notReadFileCommentsSender", users);
         request.getSession().setAttribute("notReadFileCommentFiles", fileList);
@@ -727,14 +828,14 @@ public class UserController {
     }
 
     //index
-    private void indexSession(HttpServletRequest request){
-        FindNotReadFileComments(request,true);
+    private void indexSession(HttpServletRequest request) {
+        FindNotReadFileComments(request, true);
         FindPrivateFile(request);
         FindEnjoyFile(request);
     }
 
     //removeSession
-    private void removeSession(HttpServletRequest request){
+    private void removeSession(HttpServletRequest request) {
         request.getSession().removeAttribute("commentsSize");
         request.getSession().removeAttribute("notReadFileComments");
         request.getSession().removeAttribute("notReadFileCommentsSender");
@@ -861,10 +962,10 @@ public class UserController {
 
 
         for (List<File> Filelist : filelist) {
-            List<File> dellist=new ArrayList<File>();
+            List<File> dellist = new ArrayList<File>();
             for (File File : Filelist) {
                 if (File.getFileShare() == 0) {
-                  dellist.add(File);
+                    dellist.add(File);
                 }
             }
             Filelist.removeAll(dellist);
@@ -895,9 +996,8 @@ public class UserController {
         request.getSession().setAttribute("Namelist", namelist);
         request.getSession().setAttribute("size", size);
         resultMap.put("Userfiles", list);
-        return "user/findWebfile_result" ;
+        return "user/findWebfile_result";
     }
-
 
     @RequestMapping("/search_Myfile")
     public String search_Myfile(HttpServletRequest request) throws Exception {
@@ -975,12 +1075,12 @@ public class UserController {
         for (Message message : msglist) {
             int senderid = message.getMsgSender();
 
-                senderlist.add(userService.getUserById(senderid));
+            senderlist.add(userService.getUserById(senderid));
         }
         for (Message message : msglist) {
             int receiverid = message.getMsgReceiver();
 
-                receicerlist.add(userService.getUserById(receiverid));
+            receicerlist.add(userService.getUserById(receiverid));
         }
         request.getSession().setAttribute("Messagelist", msglist);
         request.getSession().setAttribute("Senderlist", senderlist);
@@ -1016,9 +1116,9 @@ public class UserController {
             senderlist.add(userService.getUserById(comment.getComSender()));
         }
 
-        request.getSession().setAttribute("Comlist",comlist);
-        request.getSession().setAttribute("Senderlist",senderlist);
-        request.getSession().setAttribute("Filelist",filelist);
+        request.getSession().setAttribute("Comlist", comlist);
+        request.getSession().setAttribute("Senderlist", senderlist);
+        request.getSession().setAttribute("Filelist", filelist);
 
         return "user/findComment_result";
     }

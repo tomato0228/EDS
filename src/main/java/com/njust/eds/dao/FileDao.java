@@ -23,6 +23,4 @@ public interface FileDao {
     public List<List<File>>findUserFiles();
 
     public void deletFile(File file);
-
-
 }

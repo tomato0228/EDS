@@ -456,7 +456,7 @@
                                                 <div class="blog-title">${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</div>
 
                                                 <img src="${ctx}/resources/img/prefix/${sessionScope.notReadFileCommentFiles[loop.count-1].fileType}.png"
-                                                     class="img-rounded" width="70" style="margin:20px 35px;"
+                                                     class="img-rounded" width="70" style="margin:20px;"
                                                      onclick="window.location.href='${ctx}/user/fileInfo-${FileComment.comRecevier}'">
                                                 <div class="blog-titleright">
                                                     <c:choose>
@@ -472,11 +472,11 @@
                                             <div class="blog-text">
                                                 <p style="font-size: 1.2em">
                                                     <c:choose>
-                                                        <c:when test="${fn:length(FileComment.comData) <= 75}">
+                                                        <c:when test="${fn:length(FileComment.comData) <= 35}">
                                                             ${FileComment.comData}
                                                         </c:when>
                                                         <c:otherwise>
-                                                            ${fn:substring(FileComment.comData, 0, 75)}...
+                                                            ${fn:substring(FileComment.comData, 0, 35)}...
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <a href="#"
@@ -541,11 +541,11 @@
                                                        onclick="window.location.href='${ctx}/user/aboutUser-${FileComment.comSender}'">
                                                             ${sessionScope.notReadFileCommentsSender[loop.count-1].userName}</a>
                                                     <c:choose>
-                                                        <c:when test="${fn:length(FileComment.comData) <= 15}">
+                                                        <c:when test="${fn:length(FileComment.comData) <= 25}">
                                                             ${FileComment.comData}
                                                         </c:when>
                                                         <c:otherwise>
-                                                            ${fn:substring(FileComment.comData, 0, 15)}...
+                                                            ${fn:substring(FileComment.comData, 0, 25)}...
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <br/>
@@ -591,11 +591,11 @@
                                                         ${sessionScope.notReadMessagesSender[loop.count-1].userName}</a><br/>
                                                     <muted>
                                                         <c:choose>
-                                                            <c:when test="${fn:length(message.msgData) <= 15}">
+                                                            <c:when test="${fn:length(message.msgData) <= 25}">
                                                                 ${message.msgData}
                                                             </c:when>
                                                             <c:otherwise>
-                                                                ${fn:substring(message.msgData, 0, 15)}...
+                                                                ${fn:substring(message.msgData, 0, 25)}...
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </muted>
@@ -672,7 +672,7 @@
             // (string | mandatory) the heading of the notification
             title: '欢迎来到 EDS!',
             // (string | mandatory) the text inside the notification
-            text: '这里有最安全的加密算法，保证你的文件不会被非授权用户获取到，超强的双重加密与日志系统将时时刻刻保证你的文档安全，若喜欢，欢迎<a href="#" target="_blank" style="color:#ffd777">捐赠作者</a>.',
+            text: '这里有最安全的加密算法，保证你的文件不会被非授权用户获取到，超强的双重加密与日志系统将时时刻刻保证你的文档安全，若喜欢，欢迎<a href="#" onclick="window.location.href=\'${ctx}/user/donate\'"  target="_blank" style="color:#ffd777">捐赠作者</a>.',
             // (string | optional) the image to display on the left
             image: '${sessionScope.loginUser.userPictureUrl}',
             // (bool | optional) if you want it to fade out on its own or just sit there

@@ -43,13 +43,14 @@
         });
 
         function ajax_demo(p) {
+            var serverUrl = $('#serverUrl').val();
             var password = $('#password').val();
             var password2 = $('#password2').val();
             var id = $('#userId').val();
             if (!changePasswordOneRule(password, password2))
                 return false;
             $.post(serverUrl + '/user/updateUserPassword/' + parseInt(id), {
-                password: newPassword
+                password: password
             }, function (requestData) {
                 if (requestData.updateRes == 'ok') {
                     alert('密码修改成功!');
@@ -95,53 +96,53 @@
                                 <br>
                             </div>
                             <div class="form-div">
-                            <form id="reg-form">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <div style=" font-size: 2em">用户名</div>
-                                        </td>
-                                        <td><input type="text" value="${valiUser.userName}" readonly="readonly"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div style=" font-size: 1.5em">新密码</div>
-                                        </td>
-                                        <td><input name="password" type="password" id="password"
-                                                   data-easyform="length:6 16;ajax:ajax_demo(1);"
-                                                   data-message="密码必须为6—16位"
-                                                   data-easytip="class:easy-blue;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div style=" font-size: 1.5em">确认密码</div>
-                                        </td>
-                                        <td><input name="password2" type="password" id="password2"
-                                                   data-easyform="length:6 16;equal:#password;"
-                                                   data-message="两次密码输入要一致" data-easytip="class:easy-blue;"></td>
-                                    </tr>
-                                </table>
-                                <div class="buttons" style="margin-top: 50px;">
-                                    <input sty value="更改密码" type="submit"
-                                           style="margin-right:50px; margin-top:20px; font-size: 1.5em">
-                                    <input value="登 录" type="button"
-                                           style="margin-right:40px; margin-top:20px; font-size: 1.5em"
-                                           onclick="window.location.href='${ctx}/user/tologin'">
-                                </div>
-                                <br class="clear">
-                            </form>
+                                <form id="reg-form">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <div style=" font-size: 2em">用户名</div>
+                                            </td>
+                                            <td><input type="text" value="${valiUser.userName}" readonly="readonly"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style=" font-size: 1.5em">新密码</div>
+                                            </td>
+                                            <td><input name="password" type="password" id="password"
+                                                       data-easyform="length:6 16;ajax:ajax_demo(1);"
+                                                       data-message="密码必须为6—16位"
+                                                       data-easytip="class:easy-blue;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style=" font-size: 1.5em">确认密码</div>
+                                            </td>
+                                            <td><input name="password2" type="password" id="password2"
+                                                       data-easyform="length:6 16;equal:#password;"
+                                                       data-message="两次密码输入要一致" data-easytip="class:easy-blue;"></td>
+                                        </tr>
+                                    </table>
+                                    <div class="buttons" style="margin-top: 50px;">
+                                        <input sty value="更改密码" type="submit"
+                                               style="margin-right:50px; margin-top:20px; font-size: 1.5em">
+                                        <input value="登 录" type="button"
+                                               style="margin-right:40px; margin-top:20px; font-size: 1.5em"
+                                               onclick="window.location.href='${ctx}/user/tologin'">
+                                    </div>
+                                    <br class="clear">
+                                </form>
                             </div>
                         </c:when>
                         <c:otherwise>
-                        <div class="form-div">
-                            <p align="center" style="font-size: 2em">&nbsp;${validateRes}</p>
-                            <div align="center">
-                                <input value="登 录" type="button"
-                                       style="margin-left:40px; margin-top:0px; font-size: 1.5em"
-                                       onclick="window.location.href='${ctx}/user/tologin'">
+                            <div class="form-div">
+                                <p align="center" style="font-size: 2em">&nbsp;${validateRes}</p>
+                                <div align="center">
+                                    <input value="登 录" type="button"
+                                           style="margin-left:40px; margin-top:0px; font-size: 1.5em"
+                                           onclick="window.location.href='${ctx}/user/tologin'">
+                                </div>
                             </div>
-                        </div>
                         </c:otherwise>
                     </c:choose>
                 </div>

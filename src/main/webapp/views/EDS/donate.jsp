@@ -1,6 +1,13 @@
 <%--
   Created by IntelliJ IDEA.
   User: tomato
+  Date: 2017/9/23
+  Time: 下午7:04
+  To change this template use File | Settings | File Templates.
+--%>
+<%--
+  Created by IntelliJ IDEA.
+  User: tomato
   Date: 2017/9/14
   Time: 下午4:38
   To change this template use File | Settings | File Templates.
@@ -66,7 +73,8 @@
                                            varStatus="loop">
                                     <li>
                                             <%--查看--%>
-                                        <a href="#" onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
+                                        <a href="#"
+                                           onclick="window.location.href='${ctx}/user/readComment-${comment.comId}'">
                                                 <%--头像--%>
                                             <span class="photo">
                                             <img alt="avatar"
@@ -96,7 +104,8 @@
                                     </li>
                                 </c:forEach>
                                 <li class="external">
-                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
+                                    <a href="#"
+                                       onclick="window.location.href='${ctx}/user/notReadFileComment'">查看所有未读评论</a>
                                 </li>
                             </ul>
                         </li>
@@ -120,7 +129,7 @@
                                                 <%--头像--%>
                                             <span class="photo">
                                                 <img alt="avatar"
-                                                 src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
+                                                     src="${sessionScope.notReadMessagesSender[loop.count-1].userPictureUrl}">
                                             </span>
                                             <span class="subject">
                                             <%--名字--%>
@@ -146,7 +155,8 @@
                                     </li>
                                 </c:forEach>
                                 <li>
-                                    <a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
+                                    <a href="#"
+                                       onclick="window.location.href='${ctx}/user/notReadMessages'">查看所有未读消息</a>
                                 </li>
                             </ul>
                         </li>
@@ -202,7 +212,8 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/findMessage'">搜索消息</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadMessages'">未读消息</a>
+                                </li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/allMessages'">所有消息</a></li>
                             </ul>
                         </li>
@@ -214,7 +225,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/webRecentFile'">近期文件</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findWebFile'">搜索文件</a></li>
                             </ul>
                         </li>
                         <!--文件-->
@@ -225,7 +236,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/newFile'">新建文件</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findMyFile'">搜索文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/recentFile'">近期文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/enjoyFile'">共享文件</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/privateFile'">私人文件</a></li>
@@ -238,9 +249,11 @@
                                 <span>文件评论</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a></li>
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/findComment'">搜索评论</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/notReadFileComment'">未读评论</a>
+                                </li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/allFileComment'">所有评论</a>
+                                </li>
                             </ul>
                         </li>
                         <!--日志系统-->
@@ -256,25 +269,26 @@
                         </li>
                         <!--个人信息-->
                         <li class="sub-menu">
-                            <a class="active" href="javascript:;">
+                            <a href="javascript:;">
                                 <i class=" fa fa-bar-chart-o"></i>
                                 <span>个人信息</span>
                             </a>
                             <ul class="sub">
-                                <li class="active"><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a>
+                                </li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
                             </ul>
                         </li>
                         <!--系统信息-->
                         <li class="sub-menu">
-                            <a href="javascript:;">
+                            <a class="active" href="javascript:;">
                                 <i class="fa fa-desktop"></i>
                                 <span>系统信息</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/donate'">捐赠作者</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/EDS'">系统介绍</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/EDSUser'">作者介绍</a></li>
+                                <li class="active"><a href="#"  onclick="window.location.href='${ctx}/user/donate'">捐赠作者</a></li>
                             </ul>
                         </li>
                         <!--设置-->
@@ -284,7 +298,8 @@
                                 <span>设  置</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a></li>
+                                <li><a href="#" onclick="window.location.href='${ctx}/user/changePasswordTwo'">密码修改</a>
+                                </li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/userPicture'">头像修改</a></li>
                                 <li><a href="#" onclick="window.location.href='${ctx}/user/changeUserInfo'">信息修改</a>
                                 </li>
@@ -302,11 +317,27 @@
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper site-min-height">
-                    <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
+                    <h3><i class="fa fa-angle-right"></i> 捐赠作者</h3>
                     <div class="row mt">
-                        <div class="col-lg-12">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-11">
+                            <p class="text-center1">如果您愿意请我喝一杯咖啡的话 , 请用手机扫描二维码，通过以下方式即可直接向我捐款哦。</p>
 
-
+                            <div class="col-sm-4">
+                                <h3 class="active">支付宝扫描捐款二维码：</h3>
+                                <img src="${ctx}/resources/img/donate/Z.png" class="img-responsive" style="width: 200px;margin-left: 20px">
+                            </div>
+                            <div class="col-sm-4">
+                                <h3 class="active">微信扫描捐款二维码：</h3>
+                                <img src="${ctx}/resources/img/donate/W.png" class="img-responsive" style="width: 200px;margin-left: 10px">
+                            </div>
+                            <div class="col-sm-4 " style="margin-bottom:50px ">
+                                <h3 class="active">QQ扫描捐款二维码：</h3>
+                                <img src="${ctx}/resources/img/donate/Q.png" class="img-responsive" style="width: 200px;margin-left: 10px">
+                            </div>
+                            <div>
+                                <p class="text-center1 ">此款项将使用于本系统后期的维护与更新。<br><br>在此非常感谢您的捐赠，我们会努力保证更优质的用户体验哦。</p>
+                            </div>
                         </div>
                     </div>
                 </section>
