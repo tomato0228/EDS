@@ -301,13 +301,150 @@
             <!--main content start-->
             <section id="main-content">
                 <section class="wrapper site-min-height">
-                    <h3><i class="fa fa-angle-right"></i> Blank Page</h3>
+                    <h3><i class="fa fa-angle-right"></i> Write down your information here.</h3>
                     <div class="row mt">
                         <div class="col-lg-12">
 
 
+                            <style>
+                                .net {
+                                    font-family: SansSerif;
+                                    font-size: 16px;
+                                    color: #61686b;
+                                }
+
+                                .size {
+                                    font-size: 15px;
+                                }
+                            </style>
+
+                            <div class="form-horizontal style-form">
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">ID号</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control" id="userId" name="userId" type="text"
+                                               placeholder="" value="${sessionScope.loginUser.userId}"
+
+                                               readonly>
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">用户名</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="userName" name="userName"
+                                               type="text" value="${sessionScope.loginUser.userName}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">真实姓名</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Name" name="Name" type="text"
+                                               value="${sessionScope.loginUser.userRealname}" readonly>
+                                    </div>
+                                    <label class="col-sm-offset-1-1 col-sm-1 control-label"><p class="net">性别</p>
+                                    </label>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.loginUser.userSex==1}">
+                                            <div class="col-sm-5">
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="1" checked  readonly>男</label>
+                                            </div>
+                                        </c:when>
+                                        <c:when test="${sessionScope.loginUser.userSex==0}">
+                                            <div class="col-sm-5">
+                                                <label class="col-sm-2 size"><input type="radio" name="sex"
+                                                                                    value="0" checked readonly>女</label>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="col-sm-5">
+                                                <label class="col-sm-3 size"><input type="radio" name="sex"
+                                                                                    value="2" readonly
+                                                                                    checked>unknown</label>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-2 control-label"><p class="net">邮箱</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Email" name="Email" type="text"
+                                               value="${sessionScope.loginUser.userEmail}" readonly>
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">电话</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Tel" name="Tel" type="text"
+                                               value="${sessionScope.loginUser.userTel}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">单位</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" id="Company" name="Company"
+                                               type="text" value="${sessionScope.loginUser.userCompany}" readonly>
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">生日</p></label>
+                                    <div class="col-sm-5">
+                                        <p>请选择日期：<input type="text" class="input" id="Birthday" name="Birthday"  readonly
+                                                        value="${fn:substring(sessionScope.loginUser.userBirthday,0,10)}"/></p><br/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">密级</p></label>
+                                    <div class="col-sm-5">
+                                        <c:choose>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==1}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="普通"
+                                                       readonly>
+                                            </c:when>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==2}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="内部"
+                                                       readonly>
+                                            </c:when>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==3}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="C"
+                                                       readonly>
+                                            </c:when>
+                                            <c:when test="${sessionScope.loginUser.userSecretLevel==4}">
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="B"
+                                                       readonly>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input class="form-control" id="degree" type="text"
+                                                       placeholder="Disabled input here..." value="A"
+                                                       readonly>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">创建时间</p></label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control round-form" name="" type="text"
+                                               placeholder="${sessionScope.loginUser.userCreateTime}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group container">
+                                    <label class="col-sm-1 col-sm-1 control-label"><p class="net">个人简介</p>
+                                    </label>
+                                    <div class="col-sm-5">
+                                                <textarea class="form-control" rows="6" id="Profile" name="Profile"
+                                                          placeholder="${sessionScope.loginUser.userProfile}"  readonly></textarea>
+                                    </div>
+                                    <div class="buttons col-lg-offset-8" style="margin-top: 50px;">
+                                        <input value="修  改" type="button" onclick="window.location.href='${ctx}/user/changeUserInfo'"
+                                               style="margin-right:20px; margin-top:20px; font-size: 1.5em">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </section>
                 <! --/wrapper -->
             </section>

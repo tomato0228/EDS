@@ -378,7 +378,6 @@
             MAIN CONTENT
             *********************************************************************************************************************************************************** -->
             <!--main content start-->
-
             <section id="main-content">
                 <section class="wrapper site-min-height">
                     <h3><i class="fa fa-angle-right"></i> Write down your information here.</h3>
@@ -479,9 +478,7 @@
                                     </div>
                                     <label class="col-sm-1 col-sm-1 control-label"><p class="net">生日</p></label>
                                     <div class="col-sm-5">
-
                                             <p>请选择日期：<input type="text" class="input" id="Birthday" name="Birthday" value="${fn:substring(sessionScope.loginUser.userBirthday,0,10)}"/></p><br/>
-
                                     </div>
                                 </div>
 
