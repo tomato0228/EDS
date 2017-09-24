@@ -67,7 +67,6 @@
             $.post(url, {
                 fileAbstrcat: fileAbstrcat
             }, function (requestData) {
-                alert("99");
                 window.location.reload();
             });
         }
@@ -623,7 +622,6 @@
         </script>
     </c:otherwise>
 </c:choose>
-
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="${ctx}/resources/js/jquery.js"></script>
