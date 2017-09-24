@@ -160,37 +160,34 @@
             <div class="cl pd-20" style=" background-color:#5bacb6">
                 <img class="avatar avatar-XL l" src="${ctx}/resources/images/logo.png">
                 <dl style="margin-left:80px; color:#fff">
-                    <dt><span class="f-18">EDS管理系统</span> <span class="pl-10 f-12">余额：40</span></dt>
-                    <dd class="pt-10 f-12" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
+                    <dt><span class="f-18">EDS管理系统</span>
+                    <dd class="pt-10 f-12" style="margin-left:0">版本：3.0</dd>
                 </dl>
             </div>
             <div class="pd-20">
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th class="text-r" width="80">性别：</th>
-                        <td>男</td>
+                        <th class="text-r" width="80">作者：</th>
+                        <td>王余阳 石杨 魏煜华</td>
                     </tr>
                     <tr>
                         <th class="text-r">手机：</th>
-                        <td>13000000000</td>
+                        <td>13218090881</td>
                     </tr>
                     <tr>
                         <th class="text-r">邮箱：</th>
-                        <td>admin@mail.com</td>
+                        <td>1036758468@qq.com</td>
                     </tr>
                     <tr>
                         <th class="text-r">地址：</th>
-                        <td>北京市 海淀区</td>
+                        <td>中国 南京市 南京理工大学</td>
                     </tr>
                     <tr>
-                        <th class="text-r">注册时间：</th>
-                        <td>2014.12.20</td>
+                        <th class="text-r">时间：</th>
+                        <td>2017.9.24</td>
                     </tr>
-                    <tr>
-                        <th class="text-r">积分：</th>
-                        <td>330</td>
-                    </tr>
+
                     </tbody>
                 </table>
             </div>

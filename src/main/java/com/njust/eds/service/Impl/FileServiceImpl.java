@@ -103,4 +103,6 @@ public class FileServiceImpl implements FileService {
     public void deletFile(File file){
         fileDao.deletFile(file);
     }
+
+    public void share(int id){fileDao.share(id);}
 }

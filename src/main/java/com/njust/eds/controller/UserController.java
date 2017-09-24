@@ -138,7 +138,7 @@ public class UserController {
                 log.setLogFileId(fileId);
                 log.setLogOptype(3);
                 log.setLogTime(DateUtils.getCurrentDate());
-                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
+                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0, 16));
                 logService.addLog(log);
             }
             FindaFileComments(request, fileId);
@@ -163,10 +163,10 @@ public class UserController {
     @RequestMapping("/updateFileAbstrcat-{fileId}")
     public String updateFileAbstrcat(ModelMap map, HttpServletRequest request, @PathVariable Integer fileId) {
         File file = fileService.getFileById(fileId);
-        System.out.println("111的值是：---"+ 111 + "，当前方法=UserController.updateFileAbstrcat()");
+        System.out.println("111的值是：---" + 111 + "，当前方法=UserController.updateFileAbstrcat()");
         if (file != null && request.getParameter("fileAbstrcat") != null) {
-            System.out.println("222的值是：---"+ 222 + "，当前方法=UserController.updateFileAbstrcat()");
-            if (file.getFileShare() == 0 && file.getFileUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId()){
+            System.out.println("222的值是：---" + 222 + "，当前方法=UserController.updateFileAbstrcat()");
+            if (file.getFileShare() == 0 && file.getFileUserId() == ((User) request.getSession().getAttribute("loginUser")).getUserId()) {
                 file.setFileAbstrcat(request.getParameter("fileAbstrcat"));
                 fileService.updateFile(file);
                 Log log = new Log();
@@ -174,12 +174,11 @@ public class UserController {
                 log.setLogOptype(5);
                 log.setLogFileId(fileId);
                 log.setLogTime(DateUtils.getCurrentDate());
-                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
+                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0, 16));
                 logService.addLog(log);
-            }
-            else if (file.getFileShare() == 1 ) {
+            } else if (file.getFileShare() == 1) {
                 Filelimit filelimit = filelimitService.getFilelimitById(fileId);
-                if (filelimit.getFileWrite()==1 && ((User) request.getSession().getAttribute("loginUser")).getUserSecretLevel() >= file.getFileSecretLevel()){
+                if (filelimit.getFileWrite() == 1 && ((User) request.getSession().getAttribute("loginUser")).getUserSecretLevel() >= file.getFileSecretLevel()) {
                     file.setFileAbstrcat(request.getParameter("fileAbstrcat"));
                     fileService.updateFile(file);
                     Log log = new Log();
@@ -187,11 +186,11 @@ public class UserController {
                     log.setLogFileId(fileId);
                     log.setLogOptype(5);
                     log.setLogTime(DateUtils.getCurrentDate());
-                    log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
+                    log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0, 16));
                     logService.addLog(log);
                 }
             }
-            return viewFileInfo(map,request,fileId);
+            return viewFileInfo(map, request, fileId);
         } else return "error/404";
     }
 
@@ -204,7 +203,7 @@ public class UserController {
             log.setLogFileId(fileId);
             log.setLogOptype(2);
             log.setLogTime(DateUtils.getCurrentDate());
-            log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
+            log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0, 16));
             logService.addLog(log);
             fileService.deletFile(file);
             return index(request);
@@ -395,10 +394,10 @@ public class UserController {
     @RequestMapping("/updateUserPasswordTwo")
     public Map<String, Object> updateUserPasswordTwo(ModelMap map, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        User user = (User)request.getSession().getAttribute("loginUser");
+        User user = (User) request.getSession().getAttribute("loginUser");
         if (user == null) {
             resultMap.put("updatepwd", "no");
-        } else if (!MD5Util.getMD5(request.getParameter("oldpassword")).equals(user.getUserPassword())){
+        } else if (!MD5Util.getMD5(request.getParameter("oldpassword")).equals(user.getUserPassword())) {
             resultMap.put("updatepwd", "not");
         } else {
             String password = MD5Util.getMD5(request.getParameter("password"));
@@ -603,8 +602,9 @@ public class UserController {
                 filelimit.setFileReadTimes(Integer.parseInt((request.getParameter("fileReadTimes") != null &&
                         !("".equals(request.getParameter("fileReadTimes")))) ?
                         request.getParameter("fileReadTimes") : "-1"));
+
                 if (request.getParameter("fileLifeCycle") == null || request.getParameter("fileLifeCycle").equals("")) {
-                    filelimit.setFileLifeCycle(DateUtils.getDateAfter(356));
+                    filelimit.setFileLifeCycle(DateUtils.getDateAfter(365));
                 } else {
                     filelimit.setFileLifeCycle(DateUtils.strToDate(request.getParameter("fileLifeCycle"), "yyyy-MM-dd"));
                 }
@@ -615,7 +615,7 @@ public class UserController {
             log.setLogFileId(newfile.getFileId());
             log.setLogOptype(1);
             log.setLogTime(DateUtils.getCurrentDate());
-            log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
+            log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0, 16));
             logService.addLog(log);
         }
         return "user/newFile";
@@ -645,7 +645,7 @@ public class UserController {
                 log.setLogFileId(fileId);
                 log.setLogOptype(4);
                 log.setLogTime(DateUtils.getCurrentDate());
-                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
+                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0, 16));
                 logService.addLog(log);
                 return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
             }
@@ -842,6 +842,7 @@ public class UserController {
         FindNotReadFileComments(request, true);
         FindPrivateFile(request);
         FindEnjoyFile(request);
+        load();
     }
 
     //removeSession
@@ -1135,20 +1136,20 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/User_edit")
-    public  Map<String,Object> User_edit(HttpServletRequest request) throws Exception{
+    public Map<String, Object> User_edit(HttpServletRequest request) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String Email=request.getParameter("Email");
-        String Tel=request.getParameter("Tel");
-        String Profile=request.getParameter("Profile");
-        String realName=request.getParameter("realName");
-        String company=request.getParameter("company");
-        int sex=Integer.parseInt(request.getParameter("sex"));
-        Date Birthday=DateUtils.strToDate(request.getParameter("Birthday"), "yyyy-MM-dd");
+        String Email = request.getParameter("Email");
+        String Tel = request.getParameter("Tel");
+        String Profile = request.getParameter("Profile");
+        String realName = request.getParameter("realName");
+        String company = request.getParameter("company");
+        int sex = Integer.parseInt(request.getParameter("sex"));
+        Date Birthday = DateUtils.strToDate(request.getParameter("Birthday"), "yyyy-MM-dd");
 
-        User user=userService.getUserById(((User) request.getSession().getAttribute("loginUser")).getUserId());
+        User user = userService.getUserById(((User) request.getSession().getAttribute("loginUser")).getUserId());
         user.setUserEmail(Email);
         user.setUserTel(Tel);
-        if (Profile!=null&&!"".equals(Profile))
+        if (Profile != null && !"".equals(Profile))
             user.setUserProfile(Profile);
         user.setUserRealname(realName);
         user.setUserSex(sex);
@@ -1168,4 +1169,16 @@ public class UserController {
         return resultMap;
     }
 
+    private void load() {
+        Date date = DateUtils.getCurrentDate();
+     List<Filelimit> filelimits=filelimitService.getAll();
+     List<Filelimit> del=new ArrayList<Filelimit>();
+     for(Filelimit filelimit:filelimits){
+         if(DateUtils.isBeforeSpeciDate(filelimit.getFileLifeCycle(),date))
+         {
+            filelimitService.delete(filelimit);
+            fileService.share(filelimit.getFileId());
+         }
+     }
+    }
 }

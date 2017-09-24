@@ -58,4 +58,10 @@ public class FilelimitServiceImpl implements FilelimitService {
     public void updateUser(Filelimit filelimit) {
         filelimitDao.updateFilelimit(filelimit);
     }
+
+    public List<Filelimit> getAll(){return filelimitDao.getAll();}
+
+    public void delete(Filelimit filelimit){
+        filelimitDao.delete(filelimit);
+    }
 }

@@ -78,5 +78,10 @@ public class FileDaoImpl extends BaseDaoImpl implements FileDao {
             getSession().delete(file);
     }
 
-
+    public void share(int id){
+        String hql = "update File set fileShare=0 where fileId=?";
+        Query query = getSession().createQuery(hql);
+        query.setParameter(0, id);
+       query.executeUpdate();
+    }
 }

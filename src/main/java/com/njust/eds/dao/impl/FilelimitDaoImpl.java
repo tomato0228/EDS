@@ -44,4 +44,14 @@ public class FilelimitDaoImpl extends BaseDaoImpl implements FilelimitDao {
     public void updateFilelimit(Filelimit filelimit) {
         getSession().update(filelimit);
     }
+
+    public List<Filelimit> getAll(){
+        String hql = "from Filelimit ";
+        Query query = getSession().createQuery(hql);
+        return query.list();
+    }
+
+    public void delete(Filelimit filelimit){
+        getSession().delete(filelimit);
+    }
 }

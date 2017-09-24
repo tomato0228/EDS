@@ -21,6 +21,7 @@
     <script type="text/javascript" src="${ctx}/resources/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/resources/js/easyform/easyform.js"></script>
     <title>EDS—用户登录</title>
+
     <script type="text/javascript">
         $(document).ready(function () {
             var v = $('#reg-form').easyform();
@@ -78,15 +79,6 @@
         }
     </script>
 
-    <script>
-        function KeyDown() {
-            if (event.keyCode == 13) {
-                event.returnValue = false;
-                event.cancel = true;
-                form.btnsubmit.click();
-            }
-        }
-    </script>
 </head>
 <body class="loading">
 <input type="hidden" id="serverUrl" value="${pageContext.request.contextPath}"/>

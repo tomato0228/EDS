@@ -18,4 +18,8 @@ public interface FilelimitService {
     public List<Filelimit> findFilelimit(Map<String, Object> map);
 
     public void updateUser(Filelimit filelimit);
+
+    public List<Filelimit> getAll();
+
+    public void delete(Filelimit filelimit);
 }

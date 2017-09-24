@@ -17,4 +17,8 @@ public interface FilelimitDao {
     public List<Filelimit> findUser(List<Object> params, String hql);
 
     public void updateFilelimit(Filelimit user);
+
+    public List<Filelimit> getAll();
+
+    public void delete(Filelimit filelimit);
 }

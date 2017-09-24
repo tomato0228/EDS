@@ -2,6 +2,7 @@ package com.njust.eds.controller;
 
 import com.njust.eds.model.*;
 import com.njust.eds.service.*;
+import com.njust.eds.utils.DateUtils;
 import com.njust.eds.utils.MD5Util;
 import com.njust.eds.utils.SearchUtils;
 import org.hibernate.annotations.SourceType;
@@ -20,10 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,8 +49,8 @@ public class AdminController {
     private MessageService messageService;
     @Autowired
     private FiledataService filedataService;
-
-
+    @Autowired
+    private  FilelimitService filelimitService;
 
     @ResponseBody
     @RequestMapping("/checkAdminName")
@@ -67,6 +65,7 @@ public class AdminController {
 
     @RequestMapping("/tologin")
     public String tologin() {
+        load();
         return "admin/login";
     }
 
@@ -552,5 +551,16 @@ public class AdminController {
         messageService.msg_edit(Integer.parseInt(request.getParameter("msgid")),Integer.parseInt(request.getParameter("isread")));
     }
 
-
+    private void load() {
+        Date date = DateUtils.getCurrentDate();
+        List<Filelimit> filelimits=filelimitService.getAll();
+        List<Filelimit> del=new ArrayList<Filelimit>();
+        for(Filelimit filelimit:filelimits){
+            if(DateUtils.isBeforeSpeciDate(filelimit.getFileLifeCycle(),date))
+            {
+                filelimitService.delete(filelimit);
+                fileService.share(filelimit.getFileId());
+            }
+        }
+    }
 }
