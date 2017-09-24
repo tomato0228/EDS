@@ -138,7 +138,7 @@ public class UserController {
                 log.setLogFileId(fileId);
                 log.setLogOptype(3);
                 log.setLogTime(DateUtils.getCurrentDate());
-                log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
                 logService.addLog(log);
             }
             FindaFileComments(request, fileId);
@@ -174,7 +174,7 @@ public class UserController {
                 log.setLogOptype(5);
                 log.setLogFileId(fileId);
                 log.setLogTime(DateUtils.getCurrentDate());
-                log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
                 logService.addLog(log);
             }
             else if (file.getFileShare() == 1 ) {
@@ -187,7 +187,7 @@ public class UserController {
                     log.setLogFileId(fileId);
                     log.setLogOptype(5);
                     log.setLogTime(DateUtils.getCurrentDate());
-                    log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                    log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
                     logService.addLog(log);
                 }
             }
@@ -204,7 +204,7 @@ public class UserController {
             log.setLogFileId(fileId);
             log.setLogOptype(2);
             log.setLogTime(DateUtils.getCurrentDate());
-            log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+            log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
             logService.addLog(log);
             fileService.deletFile(file);
             return index(request);
@@ -615,7 +615,7 @@ public class UserController {
             log.setLogFileId(newfile.getFileId());
             log.setLogOptype(1);
             log.setLogTime(DateUtils.getCurrentDate());
-            log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+            log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
             logService.addLog(log);
         }
         return "user/newFile";
@@ -645,7 +645,7 @@ public class UserController {
                 log.setLogFileId(fileId);
                 log.setLogOptype(4);
                 log.setLogTime(DateUtils.getCurrentDate());
-                log.setLogSignature(MD5Util.getMD5(log.toString()) + file.toString());
+                log.setLogSignature(MD5Util.getMD5(log.toString() + file.toString()).substring(0,16));
                 logService.addLog(log);
                 return new ResponseEntity<byte[]>(UNAESFILE, headers, HttpStatus.CREATED);
             }

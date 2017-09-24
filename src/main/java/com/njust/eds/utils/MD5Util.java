@@ -18,7 +18,6 @@ public class MD5Util {
         return md5;
     }
 
-
     // 二进制转十六进制
     public static String bytesToHex(byte[] bytes) {
         StringBuffer hexStr = new StringBuffer();
