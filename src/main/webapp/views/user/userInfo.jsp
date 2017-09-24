@@ -262,7 +262,6 @@
                             </a>
                             <ul class="sub">
                                 <li class="active"><a href="#"  onclick="window.location.href='${ctx}/user/userInfo'">信息查看</a></li>
-                                <li><a href="#"  onclick="window.location.href='${ctx}/user/userProfile'">个人简介</a></li>
                             </ul>
                         </li>
                         <!--系统信息-->

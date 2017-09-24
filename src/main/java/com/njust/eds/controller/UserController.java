@@ -83,6 +83,16 @@ public class UserController {
         return "user/login";
     }
 
+    @RequestMapping("/EDSUser")
+    public String EDSUser() {
+        return "EDS/EDSUser";
+    }
+
+    @RequestMapping("/EDS")
+    public String EDS() {
+        return "EDS/EDS";
+    }
+
     @RequestMapping("/userPicture")
     public String userPicture() {
         return "user/userPicture";
