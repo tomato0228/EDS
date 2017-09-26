@@ -321,7 +321,7 @@
                     <h3><i class="fa fa-angle-right"></i> ${loginUser.getUserName()}的信息</h3>
                     <div class="row mt">
                         <div class="col-lg-12">
-                            <div class="col-lg-10">
+                            <div class="col-lg-12">
                                 <section class="panel">
                                     <header class="panel-heading">
                                         Log Table

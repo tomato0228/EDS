@@ -921,11 +921,14 @@ public class UserController {
         List<File> Files = fileService.findFileByUserId(id);
         List<Log> loglist = logService.findLogByFileIds(Files);
         List<String> file = new ArrayList<String>();
+        List<String> user=new ArrayList<String>();
         for (Log log : loglist) {
             file.add(fileService.getFileById(log.getLogFileId()).getFileName());
+            user.add(userService.getUserById(log.getLogUserId()).getUserName());
         }
         map.addAttribute("loglist", loglist);
         map.addAttribute("filelist", file);
+        map.addAttribute("userlist",user);
         return "user/myFileLog";
     }
 

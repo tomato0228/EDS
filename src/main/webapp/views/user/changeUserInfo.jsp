@@ -528,7 +528,7 @@
                                                           placeholder="${sessionScope.loginUser.userProfile}"></textarea>
                                             </div>
                                     <div class="buttons col-lg-offset-8" style="margin-top: 50px;">
-                                        <input value="确 定" type="submit" onclick="ajax_demo(1)"
+                                        <input value="确 定" type="submit"  class="btn btn-theme" onclick="ajax_demo(1)"
                                                style="margin-right:20px; margin-top:20px; font-size: 1.5em">
                                     </div>
                                 </div>
