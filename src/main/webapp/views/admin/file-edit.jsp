@@ -20,7 +20,7 @@
 %>
 <form action="/admin/file_edit"  method="get">
     <input type="hidden" name="fileid" value="<%=fileid%>">
-<textarea name="fileAbstrcat" cols="30" rows="3" align="center"></textarea>
+<textarea name="fileAbstrcat" cols="70" rows="8" align="center"></textarea>
     <input type="submit" value="确定">
 </form>
 

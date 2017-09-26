@@ -31,8 +31,7 @@
         <label ><input name="SecretLevel" type="radio" value="4" />B </label>
         <label ><input name="SecretLevel" type="radio" value="5" />A </label>
         <br>
-               <input type="submit" value="确定"/>
-        </br>
+        <p><input type="submit" value="确定"/></p>
     </form>
 <% }
        else if(usersecretlevel==2){
@@ -46,8 +45,7 @@
     <label ><input name="SecretLevel" type="radio" value="4" />B </label>
     <label ><input name="SecretLevel" type="radio" value="5" />A </label>
     <br>
-    <input type="submit" value="确定"/>
-    </br>
+    <p><input type="submit" value="确定"/></p>
 </form>
 <% } else if(usersecretlevel==3){
  %>
@@ -60,8 +58,7 @@
     <label ><input name="SecretLevel" type="radio" value="4" />B </label>
     <label ><input name="SecretLevel" type="radio" value="5" />A </label>
     <br>
-    <input type="submit" value="确定"/>
-    </br>
+    <p><input type="submit" value="确定"/></p>
 </form>
 <% }else if(usersecretlevel==4){
 %>
@@ -74,8 +71,8 @@
     <label ><input name="SecretLevel" type="radio" value="4" disabled="disabled"/>B </label>
     <label ><input name="SecretLevel" type="radio" value="5" />A </label>
     <br>
-    <input type="submit" value="确定"/>
-    </br>
+    <p><input type="submit" value="确定"/></p>
+
 </form>
 <%} else{
     %>
@@ -88,8 +85,8 @@
     <label ><input name="SecretLevel" type="radio" value="4" />B </label>
     <label ><input name="SecretLevel" type="radio" value="5" disabled="disabled"/>A </label>
     <br>
-    <input type="submit" value="确定"/>
-    </br>
+    <p><input type="submit" value="确定"/></p>
+
 </form>
 <% } %>
 

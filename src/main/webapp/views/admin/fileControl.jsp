@@ -281,7 +281,7 @@
                                     <a style="text-decoration:none" onClick="file_download(this,${Fileitem.fileId})"
                                        href="javascript:;" title="认证"><i class="icon-hand-down"></i></a>
                                     <a title="编辑" href="javascript:;"
-                                       onClick="file_edit(${Fileitem.fileId},'550','','编辑','${ctx}/views/admin/file-edit.jsp')"
+                                       onClick="file_edit(${Fileitem.fileId},'550','550','编辑','${ctx}/views/admin/file-edit.jsp')"
                                        class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>
                                     <a title="删除" href="javascript:;"
                                        onClick="file_del(this,${Fileitem.fileId})"
