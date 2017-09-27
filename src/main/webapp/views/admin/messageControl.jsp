@@ -184,8 +184,8 @@
         <%
             if (Power == 1) {
         %>
-        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/SecretLeveControl'"><img
-                src="${ctx}/resources/images/icon_rule_grey.png">密级管理
+        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/LogControl'"><img
+                src="${ctx}/resources/images/icon_rule_grey.png">日志管理
         </div>
         <%
             }
@@ -232,8 +232,8 @@
                     <thead>
                     <tr class="text-c">
                         <th width="25"><input type="checkbox" name="" value=""></th>
-                        <th width="80">消息发送者</th>
-                        <th width="80">消息发送者</th>
+                        <th width="100">消息发送者</th>
+                        <th width="100">消息发送者</th>
                         <th width="80">类型</th>
                         <th width="500">消息内容</th>
                         <th width="40">发送时间</th>
@@ -261,9 +261,9 @@
                             <td>${item.msgData}</td>
                             <td>${item.msgSendtime}</td>
 
-                            <td class="user-status"><span class="label label-success"><c:choose>
-                                <c:when test="${item.isRead==0}">未读</c:when>
-                                <c:when test="${item.isRead==1}">已读</c:when>
+                            <td class="user-status"><c:choose>
+                                <c:when test="${item.isRead==0}"><span class="label label-default">未读</c:when>
+                                <c:when test="${item.isRead==1}"><span class="label label-success">已读</c:when>
                             </c:choose>
                             </span>
                             </td>

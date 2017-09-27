@@ -184,8 +184,8 @@
         <%
             if (Power == 1) {
         %>
-        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/SecretLeveControl'"><img
-                src="${ctx}/resources/images/icon_rule_grey.png">密级管理
+        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/LogControl'"><img
+                src="${ctx}/resources/images/icon_rule_grey.png">日志管理
         </div>
         <%
             }
@@ -275,9 +275,9 @@
                                 </c:choose>
 
                             </td>
-                            <td class="user-status"><span class="label label-success"><c:choose>
-                                <c:when test="${item.userIsAccepted==0}">未认证</c:when>
-                                <c:when test="${item.userIsAccepted==1}">已认证</c:when>
+                            <td class="user-status"><c:choose>
+                                <c:when test="${item.userIsAccepted==0}"><span class="label label-default">未认证</c:when>
+                                <c:when test="${item.userIsAccepted==1}"><span class="label label-success">已认证</c:when>
                             </c:choose>
                             </span>
                             </td>
@@ -299,6 +299,7 @@
                                                                  onClick="user_del(this,${item.userId})"
                                                                  class="ml-5" style="text-decoration:none"><i
                                     class="icon-trash"></i></a></td>
+
                         </tr>
                     </c:forEach>
                     </tbody>

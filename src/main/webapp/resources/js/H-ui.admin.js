@@ -95,7 +95,37 @@ function datadel_file(){
     }
 }
 
+function datadel_log(){
+    var chckBox = document.getElementsByName("chckBox");
+    var num = chckBox.length;
+    var ids =new Array();
+    for(var index =0 ,i=0; index<num ; index++){
+        if(chckBox[index].checked){
+            ids[i]=chckBox[index].value;
+            i++;
+        }
+    }
+    if(ids!=""){
 
+        if(window.confirm("确定删除所选记录？")){
+            $.ajax( {
+                type : "post",
+                traditional: true,
+                url : '/admin/Deletelogs', //要自行删除的action
+                data:{"ids": ids},
+                success:function(data){
+                    window.location.reload();
+                },
+                error : function(data) {
+                    alert("系统错误，删除失败");
+                }
+            });
+
+        }
+    }else{
+        alert("请选择要删除的记录");
+    }
+}
 
 
 
@@ -269,6 +299,34 @@ function layer_show_search_msg(type,name,url) {
     );
 
 }
+
+function layer_show_search_log(type,name,url) {
+
+
+    $.post('/admin/search_log',
+        {
+            name:name,
+            type:type
+        },function (result) {
+
+            $.layer({
+                type: 2,
+                shadeClose: true,
+                title: '搜索结果',
+                maxmin:false,
+                shadeClose: true,
+                closeBtn: [0, true],
+                shade: [0.8, '#000'],
+                border: [0],
+                offset: ['20px',''],
+                area: ['1000px', '1000px'],
+                iframe:{src:url},
+
+            });
+        }
+    );
+
+}
 /*----------用户管理------------------*/
 /*用户-添加*/
 function user_add(w,h,title,url){
@@ -311,7 +369,11 @@ function  search_msg(url) {
     layer_show_search_msg(type,name,url);
 }
 
-
+function  search_log(url) {
+    var name=document.getElementById("name").value;
+    var type=document.getElementById("type").value;
+    layer_show_search_log(type,name,url);
+}
 
 
 
@@ -325,7 +387,7 @@ function  search_msg(url) {
 function user_stop(obj,userid){
     layer.confirm('确认要停用吗？',function(index){
         $(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="停用"><i class="icon-hand-down"></i></a>');
-        $(obj).parents("tr").find(".user-status").html('<span class="label label-success">已停用</span>');
+        $(obj).parents("tr").find(".user-status").html('<span class="label label-default">已停用</span>');
         $(obj).remove();
         layer.msg('已停用!',1);
         $.post('/admin/StopUser',
@@ -385,6 +447,21 @@ function user_del(obj,userid){
 	});
 }
 
+/*日志删除*/
+function log_del(obj,logid){
+    layer.confirm('确认要删除吗？',function(index){
+        $(obj).parents("tr").remove();
+        layer.msg('已删除!',1);
+        $.post('/admin/DeleteLog',
+            {
+                logid:logid
+            },function (requestdata) {
+
+            }
+        );
+
+    });
+}
 
 /*文件摘要编辑*/
 function file_edit(id,w,h,title,url){
@@ -410,7 +487,7 @@ function file_del(obj,fileid){
 function msg_edit(obj,msgisread,msgid){
 if(msgisread==1) {
     $(obj).parents("tr").find(".user-manage").prepend('<a style="text-decoration:none" onClick="" href="javascript:;" title="标记为已读"><i class="icon-hand-down"></i></a>');
-    $(obj).parents("tr").find(".user-status").html('<span class="label label-success">未读</span>');
+    $(obj).parents("tr").find(".user-status").html('<span class="label label-default">未读</span>');
     $(obj).remove();
 }
 else{

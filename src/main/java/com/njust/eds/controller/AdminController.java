@@ -48,6 +48,8 @@ public class AdminController {
     private FiledataService filedataService;
     @Autowired
     private  FilelimitService filelimitService;
+    @Autowired
+    private  LogService logService;
 
     @ResponseBody
     @RequestMapping("/checkAdminName")
@@ -144,7 +146,21 @@ public class AdminController {
     }
 
     @RequestMapping("/LogControl")
-    public String SecretLeveControl() {
+    public String LogControl(ModelMap map) {
+
+        List<Log> loglist = logService.queryLog();
+        List<String> file = new ArrayList<String>();
+        List<String> user=new ArrayList<String>();
+        List<String> fileuser=new ArrayList<String>();
+        for (Log log : loglist) {
+            file.add(fileService.getFileById(log.getLogFileId()).getFileName());
+            user.add(userService.getUserById(log.getLogUserId()).getUserName());
+            fileuser.add(userService.getUserById(fileService.getFileById(log.getLogFileId()).getFileUserId()).getUserName());
+        }
+        map.addAttribute("loglist", loglist);
+        map.addAttribute("filelist", file);
+        map.addAttribute("userlist",user);
+        map.addAttribute("fileuser",fileuser);
         return "admin/LogControl";
     }
 
@@ -153,6 +169,30 @@ public class AdminController {
         List<Admin> list = adminService.getAllAdmin();
         map.addAttribute("AdminList", list);
         return "admin/adminControl";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/DeleteLog")
+    public Map<String,String> DeleteLog(HttpServletRequest request) throws  Exception{
+        logService.deleteLog(logService.getLogById(Integer.parseInt(request.getParameter("logid"))));
+        Map<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("res","logControl");
+        return resultMap;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/Deletelogs")
+    public Map<String,String> Deletelogs(HttpServletRequest request) throws  Exception{
+        String Logs[]=request.getParameterValues("ids");
+        for(int i=0;i<Logs.length;i++)
+        {
+            int log=Integer.parseInt(Logs[i]);
+            System.out.println(log);
+            logService.deleteLog(logService.getLogById(log));
+        }
+        Map<String, String> resultMap = new HashMap<String, String>();
+        resultMap.put("res","logControl");
+        return resultMap;
     }
 
 
@@ -540,6 +580,88 @@ public class AdminController {
         resultMap.put("res","yes");
         return resultMap;
     }
+
+    @ResponseBody
+    @RequestMapping("/search_log")
+    public Map<String,Object> search_log(HttpServletRequest request) throws Exception{
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String name=request.getParameter("name");
+        int type=Integer.parseInt(request.getParameter("type"));
+        System.out.println(name+type);
+        List<Log> list = logService.queryLog();
+        System.out.println(list);
+        List<Log> loglist=new ArrayList<Log>();
+        List<String> file=new ArrayList<String>();
+        List<String> user=new ArrayList<String>();
+        List<String> fileuser=new ArrayList<String>();
+        if(type==0){
+
+            List results = new ArrayList();
+            Pattern pattern = Pattern.compile(name);
+            for(int i=0; i < list.size(); i++){
+                int userid =fileService.getFileById(list.get(i).getLogFileId()).getFileUserId();
+
+                    Matcher matcher = pattern.matcher(userService.findUsernameBuId(userid));
+
+                    if(matcher.find()){
+                        results.add(list.get(i));
+                }
+
+            }
+            loglist=results;
+
+        }
+        else if(type==1){
+            List results = new ArrayList();
+            Pattern pattern = Pattern.compile(name);
+            for(int i=0; i < list.size(); i++){
+
+                Matcher matcher = pattern.matcher(fileService.getFileById(list.get(i).getLogFileId()).getFileName());
+
+                if(matcher.find()){
+                    results.add(list.get(i));
+                }
+
+            }
+            loglist=results;
+        }
+        else {
+            List results = new ArrayList();
+            Pattern pattern = Pattern.compile(name);
+            for(int i=0; i < list.size(); i++){
+
+                Matcher matcher = pattern.matcher(userService.findUsernameBuId(list.get(i).getLogUserId()));
+
+                if(matcher.find()){
+                    results.add(list.get(i));
+                }
+
+            }
+            loglist=results;
+        }
+
+
+        for (Log log:loglist)
+        {
+            file.add(fileService.getFileById(log.getLogFileId()).getFileName());
+            user.add(userService.getUserById(log.getLogUserId()).getUserName());
+            fileuser.add(userService.getUserById(fileService.getFileById(log.getLogFileId()).getFileUserId()).getUserName());
+        }
+
+        System.out.println(loglist);
+        System.out.println(file);
+        System.out.println(user);
+        System.out.println(fileuser);
+        request.getSession().setAttribute("loglist",loglist);
+        request.getSession().setAttribute("filelist",file);
+        request.getSession().setAttribute("userlist",user);
+        request.getSession().setAttribute("fileuser",fileuser);
+
+        resultMap.put("res","yes");
+        return resultMap;
+    }
+
     @ResponseBody
     @RequestMapping(value = "/msg_edit")
     public void msg_edit(HttpServletRequest request) throws  Exception {

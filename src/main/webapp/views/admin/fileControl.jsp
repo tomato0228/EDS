@@ -267,13 +267,13 @@
                                 <td class="text-l">${Fileitem.fileType}</td>
                                 <td>${Fileitem.fileAbstrcat}</td>
                                 <td>${Fileitem.fileLoadTime}</td>
-                                <td class="user-status"><span class="label label-success">
+                                <td class="user-status">
                                 <c:choose>
-                                    <c:when test="${Fileitem.fileSecretLevel==1}">普通</c:when>
-                                    <c:when test="${Fileitem.fileSecretLevel==2}">内部</c:when>
-                                    <c:when test="${Fileitem.fileSecretLevel==3}">C级</c:when>
-                                    <c:when test="${Fileitem.fileSecretLevel==3}">B级</c:when>
-                                    <c:when test="${Fileitem.fileSecretLevel==3}">A级</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==1}"><span class="label label-success">普通</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==2}"><span class="label label-warning">内部</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==3}"><span class="label label-danger">C级</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==3}"><span class="label label-price">B级</c:when>
+                                    <c:when test="${Fileitem.fileSecretLevel==3}"><span class="label label-info">A级</c:when>
                                 </c:choose>
                             </span>
                                 </td>

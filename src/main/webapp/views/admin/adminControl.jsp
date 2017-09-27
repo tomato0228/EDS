@@ -130,8 +130,8 @@
         <%
             if (Power == 1) {
         %>
-        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/SecretLeveControl'"><img
-                src="${ctx}/resources/images/icon_rule_grey.png">密级管理
+        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/LogControl'"><img
+                src="${ctx}/resources/images/icon_rule_grey.png">日志管理
         </div>
         <%
             }
@@ -193,12 +193,12 @@
                             <td>${item.adminTel}</td>
                             <td>${item.adminEmail}</td>
 
-                            <td class="user-status"><span class="label label-success"><c:choose>
+                            <td class="user-status"><c:choose>
 
-                                <c:when test="${item.adminPower==1}">系统管理</c:when>
-                                <c:when test="${item.adminPower==2}">管理员管理</c:when>
-                                <c:when test="${item.adminPower==3}">文件管理</c:when>
-                                <c:when test="${item.adminPower==4}">用户管理</c:when>
+                                <c:when test="${item.adminPower==1}"><span class="label label-info">系统管理</c:when>
+                                <c:when test="${item.adminPower==2}"><span class="label label-warning">管理员管理</c:when>
+                                <c:when test="${item.adminPower==3}"><span class="label label-price">文件管理</c:when>
+                                <c:when test="${item.adminPower==4}"><span class="label label-success">用户管理</c:when>
 
                             </c:choose>
                             </span>
