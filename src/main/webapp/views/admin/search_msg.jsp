@@ -185,9 +185,9 @@
                     <td>${item.msgData}</td>
                     <td>${item.msgSendtime}</td>
 
-                    <td class="user-status"><span class="label label-success"><c:choose>
-                        <c:when test = "${item.isRead==0}">未读</c:when>
-                        <c:when test = "${item.isRead==1}">已读</c:when>
+                    <td class="user-status"><c:choose>
+                        <c:when test="${item.isRead==0}"><span class="label label-default">未读</c:when>
+                            <c:when test="${item.isRead==1}"><span class="label label-success">已读</c:when>
                     </c:choose>
                             </span>
                     </td>

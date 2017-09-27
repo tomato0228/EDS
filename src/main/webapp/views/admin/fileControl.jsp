@@ -220,7 +220,7 @@
                         <option value="1">用户名</option>
                         <option value="3">文件类型</option>
                     </select>
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入文件名 用户名" id="name"
+                    <input type="text" class="input-text" style="width:250px" placeholder="输入文件名、用户名" id="name"
                            name="name">
                     <button type="submit" class="btn btn-success" id="" name=""
                             onclick="search_file('${ctx}/views/admin/search_file.jsp')"><i class="icon-search"></i> 搜文件

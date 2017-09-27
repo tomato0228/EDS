@@ -234,7 +234,7 @@ function layer_show_search_user(type,name,url){
                 shade: [0.8, '#000'],
                 border: [0],
                 offset: ['20px',''],
-                area: ['1000px', '1000px'],
+                area: ['1000px', '750px'],
                 iframe:{src:url},
 
             });
@@ -263,7 +263,7 @@ function layer_show_search_file(type,name,url){
                 shade: [0.8, '#000'],
                 border: [0],
                 offset: ['20px',''],
-                area: ['1000px', '1000px'],
+                area: ['1000px', '750px'],
                 iframe:{src:url},
 
             });
@@ -291,7 +291,7 @@ function layer_show_search_msg(type,name,url) {
                 shade: [0.8, '#000'],
                 border: [0],
                 offset: ['20px',''],
-                area: ['1000px', '1000px'],
+                area: ['1000px', '750px'],
                 iframe:{src:url},
 
             });
@@ -319,7 +319,7 @@ function layer_show_search_log(type,name,url) {
                 shade: [0.8, '#000'],
                 border: [0],
                 offset: ['20px',''],
-                area: ['1000px', '1000px'],
+                area: ['1000px', '750px'],
                 iframe:{src:url},
 
             });

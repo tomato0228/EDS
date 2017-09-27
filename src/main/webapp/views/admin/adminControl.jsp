@@ -160,8 +160,8 @@
                         class="icon-refresh"></i></a></nav>
             <div class="pd-20">
                 <div class="text-c">
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
-                    <button type="submit" class="btn btn-success" id="1" name=""><i class="icon-search"></i> 搜用户
+                    <input type="text" class="input-text" style="width:250px" placeholder="" id="" name="">
+                    <button type="submit" class="btn btn-success" id="1" name=""><i class="icon-search"></i> 搜管理员
                     </button>
 
                 </div>

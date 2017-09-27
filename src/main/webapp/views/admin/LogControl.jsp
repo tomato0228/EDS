@@ -218,7 +218,7 @@
                         <option value="1">文件名</option>
                         <option value="2">操作者</option>
                     </select>
-                    <input type="text" class="input-text" style="width:250px" placeholder="输入用户名 文件名" id="name"
+                    <input type="text" class="input-text" style="width:250px" placeholder="输入用户名、文件名" id="name"
                            name="name">
                     <button type="submit" class="btn btn-success" id="1" name=""
                             onclick="search_log('${ctx}/views/admin/search_log.jsp')"><i class="icon-search"></i> 搜日志

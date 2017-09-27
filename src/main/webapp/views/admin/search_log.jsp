@@ -181,13 +181,13 @@
                     <td>${item.logTime}</td>
                     <td>${userlist[loop.count-1]}</td>
 
-                    <td class="user-status"><span class="label label-success">
+                    <td class="user-status">
                                 <c:choose>
-                                    <c:when test="${item.logOptype==1}">上传</c:when>
-                                     <c:when test="${item.logOptype==2}">删除</c:when>
-                                     <c:when test="${item.logOptype==3}">查看</c:when>
-                                     <c:when test="${item.logOptype==4}">下载</c:when>
-                                     <c:when test="${item.logOptype==5}">修改</c:when>
+                                    <c:when test="${item.logOptype==1}"><span class="label label-success">上传</c:when>
+                                    <c:when test="${item.logOptype==2}"><span class="label label-important">删除</c:when>
+                                        <c:when test="${item.logOptype==3}"><span class="label label-warning">查看</c:when>
+                                            <c:when test="${item.logOptype==4}"><span class="label label-info">下载</c:when>
+                                                <c:when test="${item.logOptype==5}"><span class="label label-danger">修改</c:when>
                                 </c:choose>
                     </td>
                     <td class="f-14 user-manage">

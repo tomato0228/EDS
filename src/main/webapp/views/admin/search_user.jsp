@@ -206,9 +206,9 @@
                                 </c:choose>
 
                             </td>
-                            <td class="user-status"><span class="label label-success"><c:choose>
-                                <c:when test = "${item.userIsAccepted==0}">未认证</c:when>
-                                <c:when test = "${item.userIsAccepted==1}">已认证</c:when>
+                            <td class="user-status"><c:choose>
+                                <c:when test="${item.userIsAccepted==0}"><span class="label label-default">未认证</c:when>
+                                    <c:when test="${item.userIsAccepted==1}"><span class="label label-success">已认证</c:when>
                             </c:choose>
                             </span>
                             </td>
