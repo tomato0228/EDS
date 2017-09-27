@@ -235,7 +235,7 @@
                     <tr class="text-c">
                         <th width="25"><input type="checkbox" name="" value=""></th>
                         <th width="100">文件名</th>
-                        <th width="100">文件上传者</th>
+                        <th width="100">上传者</th>
                         <th width="400">数字密钥</th>
                         <th width="100">时间</th>
                         <th width="100">操作者</th>
