@@ -187,8 +187,8 @@
         <%
             if (Power == 1) {
         %>
-        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/SecretLeveControl'"><img
-                src="${ctx}/resources/images/icon_rule_grey.png">密级管理
+        <div id="mj" class="meun-item" onclick="window.location.href='${ctx}/admin/LogControl'"><img
+                src="${ctx}/resources/images/icon_rule_grey.png">日志管理
         </div>
         <%
             }

@@ -31,4 +31,6 @@ public interface LogDao {
     public void deleteLog(Log log);
 
     public List<Log> findLogByFileIds(List<File> Files);
+
+    public List<Log> queryLog();
 }

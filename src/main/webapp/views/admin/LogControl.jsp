@@ -131,7 +131,7 @@
             if (Power == 1) {
         %>
         <div id="mj" class="meun-item meun-item-active"><img
-                src="${ctx}/resources/images/icon_rule_grey.png">密级管理
+                src="${ctx}/resources/images/icon_rule_grey.png">日志管理
         </div>
         <%
             }
@@ -151,7 +151,7 @@
         </a>
         <!-- Tab panes -->
         <div class="tab-content">
-            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 密级管理
+            <nav class="Hui-breadcrumb"><i class="icon-home"></i> 首页 <span class="c-gray en">&gt;</span> 日志管理
                 <a class="btn btn-success radius r mr-20"
                    style="line-height:1.6em;margin-top:3px"
                    href="javascript:location.replace(location.href);" title="刷新"><i

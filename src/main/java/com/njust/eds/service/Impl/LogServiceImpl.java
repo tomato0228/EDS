@@ -85,8 +85,11 @@ public class LogServiceImpl implements LogService {
     public void deleteLog(Log log){
         logDao.deleteLog(log);
     }
+
     public List<Log> findLogByFileIds(List<File> Files)
     {
        return logDao.findLogByFileIds(Files);
     }
+
+    public List<Log> queryLog(){return logDao.queryLog();}
 }

@@ -113,4 +113,10 @@ public class LogDaoImpl extends BaseDaoImpl implements LogDao {
         }
         return query.list();
     }
+
+    public List<Log> queryLog(){
+        String hql = "from Log order by logTime desc ";
+        Query query=getSession().createQuery(hql);
+        return query.list();
+    }
 }

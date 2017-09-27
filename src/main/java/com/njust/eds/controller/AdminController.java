@@ -5,7 +5,6 @@ import com.njust.eds.service.*;
 import com.njust.eds.utils.DateUtils;
 import com.njust.eds.utils.MD5Util;
 import com.njust.eds.utils.SearchUtils;
-import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,12 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -146,9 +143,9 @@ public class AdminController {
         return "admin/systemInfo";
     }
 
-    @RequestMapping("/SecretLeveControl")
+    @RequestMapping("/LogControl")
     public String SecretLeveControl() {
-        return "admin/secretLeveControl";
+        return "admin/LogControl";
     }
 
     @RequestMapping("/AdminControl")
