@@ -365,7 +365,7 @@ public class UserController {
                         email
                 }, "验证信息-用于注册成功时候的验证", "请点击下面的安全链接,用于验证个人信息<br><a href='" + validateStr + "'>验证信息</a>", "text/html;charset=utf-8");
 
-        return "user/index";
+        return "user/login";
     }
 
     @ResponseBody
